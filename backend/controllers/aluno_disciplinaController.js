@@ -1,23 +1,8 @@
 import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
-import { ModeloUsuario_Disciplina } from "../models/Usuario_Disciplina.js"
+import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 
-class Usuario_DisciplinaController {
-    async criarRelacaoInternamente(usuario_id, disciplina_id) {
-        const relacao = {
-            usuario_id,
-            disciplina_id
-        }
-
-        const relacaoExiste = await ModeloUsuario_Disciplina.findOne(relacao)
-        if (relacaoExiste) {
-            console.log("Relação já existe!")
-            return res.status(400).json({"Erro": "A relação entre o usuário e a disciplina já existe."});
-        }
-
-        await ModeloUsuario_Disciplina.create(relacao)
-    }
-
+class Aluno_DisciplinaController {
     async criarRelacao(req, res) {
         try {
             const { usuario_id, disciplina_id } = req.body
@@ -40,13 +25,13 @@ class Usuario_DisciplinaController {
                 disciplina_id
             }
 
-            const relacaoExiste = await ModeloUsuario_Disciplina.findOne(relacao)
+            const relacaoExiste = await ModeloAlunos_Disciplina.findOne(relacao)
 
             if (relacaoExiste) {
                 return res.status(400).json({"Erro": "A relação entre o usuário e a disciplina já existe."});
             }
 
-            const relacaoCriada = await ModeloUsuario_Disciplina.create(relacao)
+            const relacaoCriada = await ModeloAlunos_Disciplina.create(relacao)
             console.log(relacaoCriada)
 
             return res.status(201).json({"Criado": "nova relacao criada"})
@@ -58,4 +43,4 @@ class Usuario_DisciplinaController {
     }
 }
 
-export default new Usuario_DisciplinaController()
+export default new Aluno_DisciplinaController()

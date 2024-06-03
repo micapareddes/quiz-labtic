@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { Schema, model } from 'mongoose'
 
-const schemaUsuario_Disciplina = new Schema({
-    usuario_id: {
+const schemaAlunos_Disciplina = new Schema({
+    aluno_id: {
         type: ObjectId,
         ref: 'Usuario',
         require: true,
@@ -15,4 +15,4 @@ const schemaUsuario_Disciplina = new Schema({
             
 }, { timestamps: true })
 
-export const ModeloUsuario_Disciplina = model('Usuario_Disciplina', schemaUsuario_Disciplina)
+export const ModeloAlunos_Disciplina = model('Alunos_Disciplina', schemaAlunos_Disciplina)

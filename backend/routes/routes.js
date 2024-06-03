@@ -3,10 +3,10 @@
 import { Router } from "express"
 import routerUsuario from "./usuariosRoute.js"
 import routerDisciplina from "./disciplinasRoute.js"
-import routerUsuarioDisciplina from "./usuarios_disciplinasRoute.js"
+import routerAlunoDisciplina from "./alunos_disciplinasRoute.js"
 
 export const router = Router()
 
 router.use("/usuarios", routerUsuario)
 router.use("/disciplinas", routerDisciplina)
-router.use("/usuarios_disciplinas", routerUsuarioDisciplina)
+router.use("/alunos_disciplinas", routerAlunoDisciplina)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polvo | Aluno</title>
+    <link href="../output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../global.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+</head>
+<body class="bg-indigo-950 grid-container text-stone-900">
+    <header class="bg-indigo-950 h-full col-span-1 box-border flex flex-col">
+            <a href="./" class="cursor-pointer pt-8 pl-5">
+                <img src="../img/logo-light.svg" alt="Logo Polvo Branca">
+            </a>
+            <nav class="flex-1 overflow-y-auto py-10">
+                <ul class="flex flex-col h-full gap-6">
+                    <li>
+                        <a rel="stylesheet" data-active="true" href="" class="group flex items-center gap-2 px-8 border-l-2 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200">
+                        <img src="../img/icones/house.svg" width="24" height="24" alt="Icone de casa branca">
+                        <p class="text-indigo-50 text-base group-hover:font-semibold group-data-[active=true]:font-semibold">Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="mt-auto">
+                        <a rel="stylesheet" href="" class="group flex items-center gap-2 px-8 border-l-2 border-transparent hover:border-l-yellow-200">
+                        <img src="../img/icones/password.svg" width="24" height="24" alt="Icone de casa branca">
+                        <p class="text-indigo-50 text-base group-hover:font-semibold">Trocar senha</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+    </header>
+
+    <main class="bg-neutral-50 h-screen col-span-1 rounded-s-3xl px-9 py-10">
+        <h1 class="text-3xl font-bold mb-2">Dashboard</h1>
+        <h2 class="text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno">aluno!</span></h2>
+        <h3 class="text-lg font-semibold text-stone-700 mt-10 mb-3">Disciplinas</h3>
+        <nav>
+            <ul id="lista-disciplinas">
+                <li><a href="" class="block px-5 py-4 bg-neutral-100 border hover:bg-neutral-200 transition-colors duration-200 border-neutral-200 rounded-xl">Disciplina 1</a></li>
+            </ul>
+        </nav>
+    </main>
+
+    <script src="./js/dashboardBuilder.js"></script>
+</body>
+</html>

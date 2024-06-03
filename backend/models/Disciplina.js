@@ -9,7 +9,6 @@ const schemaDisciplina = new Schema({
     professor_id: {
         type: ObjectId,
         ref: 'Usuario',
-        require: true,
     },
     quizes: [{
         quiz_id: {

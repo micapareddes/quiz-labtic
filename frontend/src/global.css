@@ -1,0 +1,10 @@
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 1fr;
+    height: 100vh;
+}
