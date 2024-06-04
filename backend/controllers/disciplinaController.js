@@ -3,9 +3,26 @@ import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
 
 class DisciplinaController {
+    async consultarDisciplina(req, res) {
+        try {
+            
+            
+        } catch (error) {
+            console.log(error)
+            res.status(500).send()
+        }
+    }
+
     async criarDisciplina(req, res) {
         try {
             const { nome, professor_id } = req.body
+
+            const disciplinaExiste = await ModeloDisciplina.findOne({nome: nome})
+
+            if (disciplinaExiste) {
+                console.log('Disciplina existe!')
+                return res.status(409).json({ 'Erro': 'Já existe uma disciplina com esse nome.' })
+            }
 
             let novaDisciplina
 
@@ -13,7 +30,7 @@ class DisciplinaController {
                 const idInvalido = !mongoose.Types.ObjectId.isValid(professor_id)
                 if (idInvalido) {
                     console.log('ID inválido!')
-                    return res.status(400).json({ error: 'ID do professor inválido.' });
+                    return res.status(400).json({ 'erro': 'ID do professor inválido.' });
                 }
     
                 const professor = await ModeloUsuario.findById(professor_id)

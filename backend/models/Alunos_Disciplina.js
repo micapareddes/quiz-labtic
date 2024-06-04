@@ -12,6 +12,10 @@ const schemaAlunos_Disciplina = new Schema({
         ref: 'Disciplina',
         require: true,
     },
+    disciplina_nome: {
+        type: String,
+        require: true,
+    }
             
 }, { timestamps: true })
 

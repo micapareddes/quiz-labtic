@@ -14,7 +14,7 @@
 </head>
 <body class="bg-indigo-950 grid-container text-stone-900">
     <header class="bg-indigo-950 h-full col-span-1 box-border flex flex-col">
-        <div class="pt-8 pl-5">
+        <div class="pt-12 pl-8">
             <img src="../img/logo-light.svg" alt="Logo Polvo Branca">
         </div>
             <nav class="flex-1 overflow-y-auto py-10">
@@ -35,17 +35,17 @@
             </nav>
     </header>
 
-    <main class="bg-neutral-50 h-screen col-span-1 rounded-s-3xl px-9 py-10">
+    <main class="bg-neutral-50 h-full flex flex-col col-span-1 rounded-s-3xl px-9 py-10 overflow-scroll">
         <h1 class="text-3xl font-bold mb-2">Dashboard</h1>
-        <h2 class="text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno">aluno!</span></h2>
+        <h2 class="text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno"></span>!</h2>
         <h3 class="text-lg font-semibold text-stone-700 mt-10 mb-2">Disciplinas</h3>
         <nav>
             <ul id="lista-disciplinas">
-                <li><a href="" class="block px-5 py-4 bg-neutral-100 border hover:bg-neutral-200 transition-colors duration-200 border-neutral-200 rounded-xl">Disciplina 1</a></li>
+                
             </ul>
         </nav>
     </main>
 
-    <script src="./js/dashboardBuilder.js"></script>
+    <script src="../js/dasboardBuilder.js"></script>
 </body>
 </html>

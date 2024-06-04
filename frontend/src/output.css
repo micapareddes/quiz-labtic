@@ -704,6 +704,10 @@ video {
   background-color: rgb(245 245 245 / var(--tw-bg-opacity));
 }
 
+.fill-red-50 {
+  fill: #fef2f2;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -735,6 +739,18 @@ video {
 
 .pl-5 {
   padding-left: 1.25rem;
+}
+
+.pl-8 {
+  padding-left: 2rem;
+}
+
+.pt-10 {
+  padding-top: 2.5rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
 }
 
 .text-base {
