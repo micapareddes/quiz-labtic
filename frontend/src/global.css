@@ -8,3 +8,15 @@ body {
     grid-template-rows: 1fr;
     height: 100vh;
 }
+
+@media (max-width: 767px) {
+    .grid-container {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grid-container {
+        grid-template-columns: 100px 1fr;
+    }
+}

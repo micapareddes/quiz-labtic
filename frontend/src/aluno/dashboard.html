@@ -12,33 +12,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 </head>
-<body class="bg-indigo-950 grid-container text-stone-900">
-    <header class="bg-indigo-950 h-full col-span-1 box-border flex flex-col">
-        <div class="pt-12 pl-8">
-            <img src="../img/logo-light.svg" alt="Logo Polvo Branca">
+<body class="bg-indigo-950 grid-container text-stone-900 h-screen overflow-y-scroll md:overflow-hidden">
+   
+    <header class="bg-indigo-950 md:h-full col-span-1 box-border flex flex-row items-center lg:items-start md:flex-col">
+        <div class="py-6 md:py-0 md:pt-12 pl-6 md:pl-0 lg:pl-8">
+            <img src="../img/logo-light.svg" alt="Logo de lado Polvo Branca" class="block md:hidden lg:block">
+            <img src="../img/logo-icon.svg" alt="Logo icone Polvo Branca" class="hidden md:block lg:hidden">
         </div>
-            <nav class="flex-1 overflow-y-auto py-10">
-                <ul class="flex flex-col h-full gap-6">
+            <nav class="flex-1 py-10">
+                <ul class="flex md:flex-col h-full gap-6 justify-end pr-6 md:pr-0">
                     <li>
-                        <a rel="stylesheet" data-active="true" href="" class="group flex items-center gap-2 px-8 border-l-2 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200">
-                        <img src="../img/icones/house.svg" width="21" height="21" alt="Icone de casa branca">
-                        <p class="text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Dashboard</p>
+                        <a rel="stylesheet" data-active="true" href="" class="group flex items-center gap-2 py-2 md:py-0 md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
+                            <img src="../img/icones/house.svg" width="21" height="21" alt="Icone de casa branca">
+                            <p class="hidden lg:block text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel="stylesheet" data-active="false" href="" class="group flex items-center gap-2 py-2 md:py-0 md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
+                            <img src="../img/icones/books.svg" width="21" height="21" alt="Icone de casa branca">
+                            <p class="hidden lg:block text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Disciplinas</p>
+                            <button class="ml-0 lg:ml-5"><img src="../img/icones/caret-down.svg" alt="Seta para abixo"></button>
                         </a>
                     </li>
                     <li class="mt-auto">
-                        <a rel="stylesheet" href="" class="group flex items-center gap-2 px-8 border-l-2 border-transparent hover:border-l-yellow-200">
-                        <img src="../img/icones/password.svg" width="21" height="21" alt="Icone de casa branca">
-                        <p class="text-indigo-50 text-sm group-hover:font-semibold">Trocar senha</p>
+                        <a rel="stylesheet" href="" data-active="false" class="group flex items-center gap-2 py-2 md:py-0 md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
+                            <img src="../img/icones/password.svg" width="21" height="21" alt="Icone de casa branca">
+                            <p class="hidden lg:block text-indigo-50 text-sm group-hover:font-semibold">Trocar senha</p>
                         </a>
                     </li>
                 </ul>
             </nav>
     </header>
 
-    <main class="bg-neutral-50 h-full flex flex-col col-span-1 rounded-s-3xl px-9 py-10 overflow-scroll">
-        <h1 class="text-3xl font-bold mb-2">Dashboard</h1>
-        <h2 class="text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno"></span>!</h2>
-        <h3 class="text-lg font-semibold text-stone-700 mt-10 mb-2">Disciplinas</h3>
+    <main class="bg-neutral-50 h-full flex flex-col col-span-1 rounded-t-2xl md:rounded-r-none md:rounded-s-3xl px-6 md:px-9 py-8 md:py-10 md:overflow-y-scroll">
+        <h1 class="md:text-3xl text-2xl font-bold mb-2">Dashboard</h1>
+        <h2 class="text-xl md:text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno"></span>!</h2>
+        <h3 class="text-base md:text-lg font-semibold text-stone-700 mt-10 mb-2">Disciplinas</h3>
         <nav>
             <ul id="lista-disciplinas">
                 
