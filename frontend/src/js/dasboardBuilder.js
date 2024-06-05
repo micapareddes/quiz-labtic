@@ -73,8 +73,11 @@ async function criarDashboardAluno(alunoId) {
     } 
 }
 
-const alunoId = '66609d73ed34024068dea28f'
+const idNeville =  '66609d73ed34024068dea28f' // sem disciplinas
+const idRon = '665e2b9a29318dea7acfd48c'
+const idHarry = '665e2b8e29318dea7acfd489'
+const idHermione = '665e2b7f29318dea7acfd486'
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    criarDashboardAluno(alunoId);
+    criarDashboardAluno(idNeville);
 })
