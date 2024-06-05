@@ -40,14 +40,24 @@ function mostrarNomeAluno(nome) {
 }
 
 function nenhumaDisciplinaCadastradaUi() {
-    const htmlListaDisciplinas = document.getElementById('lista-disciplinas')
+    const htmlMainDashboardAluno = document.getElementById('main-dashboard')
+    const htmlTituloDisciplinas = document.getElementById('titulo-disciplinas')
+
+    htmlTituloDisciplinas.className = 'hidden'
     
-    const span = createHTMLElement('span')
+    const div = createHTMLElement('div')
+    div.className = 'flex h-screen flex-col items-center justify-center'
+    const img = createHTMLElement('img')
+    img.src = '../img/no-data-100.svg'
+    img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
-    span.textContent = 'Você não está cadastrado em nenhuma disciplina.'
-    span.className = 'px-5 py-4 text-stone-500 block'
+    const p = createHTMLElement('p')
+    p.textContent = 'Você não está cadastrado em nenhuma disciplina'
+    p.className = 'px-5 py-4 text-stone-400 text-lg md:text-xl lg:text-2xl block text-center mt-6'
 
-    htmlListaDisciplinas.appendChild(span)
+    div.appendChild(img)
+    div.appendChild(p)
+    htmlMainDashboardAluno.appendChild(div)
 }
 
 async function criarDashboardAluno(alunoId) {
@@ -63,8 +73,11 @@ async function criarDashboardAluno(alunoId) {
     } 
 }
 
-const alunoId = '665e2b7f29318dea7acfd486'
+const idNeville =  '66609d73ed34024068dea28f' // sem disciplinas
+const idRon = '665e2b9a29318dea7acfd48c'
+const idHarry = '665e2b8e29318dea7acfd489'
+const idHermione = '665e2b7f29318dea7acfd486'
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    criarDashboardAluno(alunoId);
+    criarDashboardAluno(idNeville);
 })
