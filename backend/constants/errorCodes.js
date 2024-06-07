@@ -18,8 +18,7 @@ export const USER_ERROR = {
         statusCode: 400,
         errorCode: 1400,
         message: "ID inválido!"
-    },
-    
+    }, 
 }
 
 export const DISCIPLINA_ERROR = {

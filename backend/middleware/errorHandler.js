@@ -5,6 +5,7 @@ export function errorHandler(error, req, res, next) {
     if (error instanceof mongoose.Error.ValidationError){
         console.log('VALIDATION_ERROR', error)
         return res.status(400).send({
+            error: true,
             type: "ValidationError",
             details: error.message
         })
@@ -13,7 +14,9 @@ export function errorHandler(error, req, res, next) {
     if (error instanceof ServidorError) {
         console.log('SERVIDOR_ERROR', error);
         return res.status(error.statusCode).json({
-            errorCode: error.errorCode,
+            error: true,
+            code: error.errorCode,
+            message: error.message,
         })
     }
     console.log('INTERN_ERROR', error)
