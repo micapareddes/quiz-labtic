@@ -1,9 +1,10 @@
 import { Router } from "express"
 import Aluno_DisciplinaController from "../controllers/aluno_disciplinaController.js"
+import { tryCatch } from "../utils/tryCatch.js"
 
 const routerAlunoDisciplina = Router()
 
-routerAlunoDisciplina.get("/relacao_aluno/:aluno_id", Aluno_DisciplinaController.consultarRelacaoPorAluno)
-routerAlunoDisciplina.post("/relacao", Aluno_DisciplinaController.criarRelacao)
+routerAlunoDisciplina.get("/:aluno_id", tryCatch(Aluno_DisciplinaController.consultarRelacaoPorAluno))
+routerAlunoDisciplina.post("/", tryCatch(Aluno_DisciplinaController.criarRelacao))
 
 export default routerAlunoDisciplina
