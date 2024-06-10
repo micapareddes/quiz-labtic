@@ -4,7 +4,9 @@ import cors from "cors"
 import { banco } from "./db/conn.js"
 import { router } from "./routes/routes.js"
 import { errorHandler } from "./middleware/errorHandler.js";
+import { config } from "dotenv"
 
+config()
 const servidor = express() 
 
 servidor.use(cors()) // resolve problema com browser

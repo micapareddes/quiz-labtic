@@ -4,15 +4,18 @@ function createHTMLElement(type) {
 
 async function fetchDisciplinas(alunoId) {
     try {
-        const response = await fetch(`http://localhost:3333/api/alunos_disciplinas/relacao_aluno/${alunoId}`, {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjM4ZWE4ZmFmZTk3MTVjYzg0MTNhZiIsImlhdCI6MTcxODA0MzYwN30.ircpaV5J1XwylKGHcH78OkGM5bk-xH0PFSxApXFImLo"
+
+        const response = await fetch('http://localhost:3333/api/alunos_disciplinas', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
         })
 
         const disciplinas = await response.json()
-        console.log(disciplinas)
+        
         return disciplinas
 
     } catch (error) {

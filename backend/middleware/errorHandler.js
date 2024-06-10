@@ -7,8 +7,17 @@ export function errorHandler(error, req, res, next) {
         return res.status(400).send({
             error: true,
             type: "ValidationError",
-            details: error.message
+            message: error.message
         })
+    }
+
+    if (error.code === 11000) {
+        console.log('DUPLICATE_KEY_ERROR', error);
+        return res.status(400).json({
+            error: true,
+            type: "DuplicateKeyError",
+            message: error.message,
+        });
     }
 
     if (error instanceof ServidorError) {

@@ -5,16 +5,16 @@ import ServidorError from "../ServidorError.js"
 import { DISCIPLINA_ERROR, RELATION_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 class Aluno_DisciplinaController {
     async consultarRelacaoPorAluno(req, res) {
-        const { aluno_id } = req.params
+        const alunoId = req.userId
 
-        const aluno = await ModeloUsuario.findById(aluno_id)
+        const aluno = await ModeloUsuario.findById(alunoId)
         const alunoNaoExiste = !aluno || aluno.papel !== 'aluno'
 
         if (alunoNaoExiste) {
             throw new ServidorError(USER_ERROR.DOESENT_EXIST)
         }
 
-        const disciplinas = await ModeloAlunos_Disciplina.find({aluno_id}, 'disciplina_id disciplina_nome')
+        const disciplinas = await ModeloAlunos_Disciplina.find({alunoId}, 'disciplina_id disciplina_nome')
         const disciplinasDoAluno = { nomeAluno: aluno.nome, disciplinas }
 
         console.log('Nome do aluno e disciplinas enviadas!')

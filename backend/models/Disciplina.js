@@ -5,6 +5,8 @@ const schemaDisciplina = new Schema({
     nome: {
         type: String,
         require: true,
+        trim: true,
+        minlength: [3, 'O nome da disciplina deve ter pelo menos 3 caracteres.']
     },
     professor_id: {
         type: ObjectId,
@@ -19,6 +21,8 @@ const schemaDisciplina = new Schema({
         nome: {
             type: String,
             require: true,
+            trim: true,
+            minlength: [3, 'O nome do quiz deve ter pelo menos 3 caracteres.']
         }
     }],
 }, { timestamps: true })

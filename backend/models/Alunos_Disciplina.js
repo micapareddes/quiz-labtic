@@ -15,6 +15,8 @@ const schemaAlunos_Disciplina = new Schema({
     disciplina_nome: {
         type: String,
         require: true,
+        trim: true,
+        minlength: [3, 'O nome da disciplina deve ter pelo menos 3 caracteres.']
     }
             
 }, { timestamps: true })
