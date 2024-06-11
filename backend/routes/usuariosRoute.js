@@ -9,7 +9,7 @@ routerUsuario.post("/", authenticateToken, tryCatch(UsuarioController.criarUsuar
 routerUsuario.post("/login", tryCatch(UsuarioController.login))
 routerUsuario.delete("/", authenticateToken, tryCatch(UsuarioController.eliminarUsuario))
 routerUsuario.patch("/alterar_senha", authenticateToken, tryCatch(UsuarioController.alterarSenha))
-routerUsuario.patch("/:id", authenticateToken, tryCatch(UsuarioController.editarUsuario))
+routerUsuario.patch("/", authenticateToken, tryCatch(UsuarioController.editarUsuario))
 
 
 export default routerUsuario

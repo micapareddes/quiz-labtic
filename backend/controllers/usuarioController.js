@@ -11,8 +11,8 @@ class UsuarioController {
         if (!email && !matricula || !senha) throw new ServidorError(USER_ERROR.MISSING_REQUIRED_FIELDS)
 
         const user = await ModeloUsuario.findOne({$or: [
-            { email: email },
-            { matricula: matricula }
+            { matricula: matricula },
+            { email: email ?? " " }
         ]})
 
         if (!user) {
