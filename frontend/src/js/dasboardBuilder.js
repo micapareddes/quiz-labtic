@@ -1,16 +1,11 @@
-function createHTMLElement(type) {
-    return document.createElement(type)
-}
-
-async function fetchDisciplinas(alunoId) {
+async function fetchDisciplinas(accessToken) {
     try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjM4ZWE4ZmFmZTk3MTVjYzg0MTNhZiIsImlhdCI6MTcxODA0MzYwN30.ircpaV5J1XwylKGHcH78OkGM5bk-xH0PFSxApXFImLo"
 
         const response = await fetch('http://localhost:3333/api/alunos_disciplinas', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${accessToken}`
             },
         })
 
@@ -51,7 +46,7 @@ function nenhumaDisciplinaCadastradaUi() {
     const div = createHTMLElement('div')
     div.className = 'flex h-screen flex-col items-center justify-center'
     const img = createHTMLElement('img')
-    img.src = '../img/no-data-100.svg'
+    img.src = 'img/no-data-100.svg'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
     const p = createHTMLElement('p')
@@ -76,11 +71,11 @@ async function criarDashboardAluno(alunoId) {
     } 
 }
 
-const idNeville =  '66609d73ed34024068dea28f' // sem disciplinas
-const idRon = '665e2b9a29318dea7acfd48c'
-const idHarry = '665e2b8e29318dea7acfd489'
-const idHermione = '665e2b7f29318dea7acfd486'
-
 document.addEventListener('DOMContentLoaded', (event) => {
-    criarDashboardAluno(idNeville);
+    const accessToken = getAccessTokenFromLocalStorage()
+    if (accessToken) {
+        criarDashboardAluno(accessToken);
+    } else {
+        window.location.href = 'http://localhost:5500/frontend/src/login.html'
+    }
 })
