@@ -1,9 +1,12 @@
 import { Router } from "express"
 import Aluno_DisciplinaController from "../controllers/aluno_disciplinaController.js"
+import { tryCatch } from "../utils/tryCatch.js"
+import { authenticateToken } from "../middleware/authenticateToken.js"
+
 
 const routerAlunoDisciplina = Router()
 
-routerAlunoDisciplina.get("/relacao_aluno/:aluno_id", Aluno_DisciplinaController.consultarRelacaoPorAluno)
-routerAlunoDisciplina.post("/relacao", Aluno_DisciplinaController.criarRelacao)
+routerAlunoDisciplina.get("/", authenticateToken, tryCatch(Aluno_DisciplinaController.consultarRelacaoPorAluno))
+routerAlunoDisciplina.post("/", tryCatch(Aluno_DisciplinaController.criarRelacao))
 
 export default routerAlunoDisciplina
