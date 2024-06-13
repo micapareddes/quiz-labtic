@@ -1,8 +1,9 @@
 import { TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 import { ModeloUsuario } from "../models/Usuario.js"
+import { generateAccessToken } from "../utils/generateToken.js"
 import ServidorError from "../ServidorError.js"
+
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
 
 class UsuarioController {
     async login(req, res) {
@@ -27,7 +28,8 @@ class UsuarioController {
             throw new ServidorError(USER_ERROR.INVALID_LOGIN)
         }
 
-        var accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = generateAccessToken(user)
+
         console.log(user.nome, 'logado!')
         res.status(200).json({ accessToken }) 
     }
