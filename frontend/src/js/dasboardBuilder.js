@@ -46,7 +46,7 @@ function nenhumaDisciplinaCadastradaUi() {
     const div = createHTMLElement('div')
     div.className = 'flex h-screen flex-col items-center justify-center'
     const img = createHTMLElement('img')
-    img.src = 'img/no-data-100.svg'
+    img.src = '../img/no-data-100.svg'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
     const p = createHTMLElement('p')
@@ -76,6 +76,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     if (accessToken) {
         criarDashboardAluno(accessToken);
     } else {
-        window.location.href = 'http://localhost:5500/frontend/src/login.html'
+        window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
     }
 })

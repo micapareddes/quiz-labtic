@@ -137,7 +137,8 @@ formulario.addEventListener("submit", async (event) => {
     const emptyInputs = checkEmptyInputs(userData)
     if (!emptyInputs) {
         if (await reqLogin(userData)) {
-            window.location.href = 'http://localhost:5500/frontend/src/dashboard.html'
+            console.log('entrou');
+            window.location.href = 'http://localhost:5500/frontend/src/pages/dashboard.html'
         }
        
     }
