@@ -14,13 +14,13 @@
 </head>
 <body>
     <main class="bg-indigo-50 bg-geometrical bg-cover bg-no-repeat h-screen flex flex-col items-center justify-center">
-        <img src="../img/logo-dark.svg" alt="Logo polvo escuro" class="absolute left-6 top-6">
-        <div class="flex flex-col items-center justify-center bg-neutral-50 rounded-3xl border border-neutral-200 p-24 shadow-xl">
-            <h1 class="text-4xl pb-4 border-b border-b-neutral-300 mb-12">Faça Login</h1>
+        <img src="../img/logo-dark.svg" alt="Logo polvo escuro" class="w-20 md:w-24 lg:w-28 absolute left-4 top-4 md:left-6 md:top-6">
+        <div class="flex flex-col items-center justify-center bg-neutral-50 rounded-3xl border border-neutral-200 py-14 px-5 md:py-24 md:px-24 lg:px-16 shadow-xl">
+            <h1 class="text-3xl md:text-4xl font-semibold pb-4 border-b border-b-neutral-300 mb-12">Faça Login</h1>
             <form id="login-form">
                 <div>
                     <label for="user" class="block">Matricula ou Email</label>
-                    <input type="text" name="user" placeholder="usuario@email.com" id="user" class="block w-full px-2 py-3 rounded-md bg-neutral-100 border border-neutral-200 mt-3 mb-9">
+                    <input type="text" name="user" placeholder="usuario@email.com" id="user" class="block w-full px-2 py-3 rounded-md bg-neutral-100 border border-neutral-200 mt-3 mb-9 lg:min-w-[415px]">
                 </div>
                 <div id="container-senha">
                     <label for="senha" class="block">Senha</label>
@@ -32,7 +32,7 @@
                         </button>
                     </div>
                 </div>
-                <a href="" class="block my-10 text-base text-indigo-900 cursor-pointer hover:underline">Esqueceu a senha ou deseja trocar?</a>
+                <a href="" class="block my-10 text-base text-indigo-900 cursor-pointer hover:underline text-center">Esqueceu a senha ou deseja trocar?</a>
                 <button id="submit-button" class="py-3 bg-indigo-500 hover:bg-indigo-400 rounded-md text-neutral-50 text-lg font-semibold block w-full disabled:opacity-50 disabled:cursor-not-allowed">Entrar</button>
             </form>
         </div>
