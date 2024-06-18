@@ -1,20 +1,24 @@
+function setLoginAsSuccess() {
+    localStorage.setItem('success', true)
+}
+
 async function fetchDisciplinas(accessToken) {
     try {
+        const url = 'http://localhost:3333/api/alunos_disciplinas'
 
-        const response = await fetch('http://localhost:3333/api/alunos_disciplinas', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
-            },
-        })
+        const disciplinas = await makeRequest({ url, method: 'GET', token: accessToken })
 
-        const disciplinas = await response.json()
-        
+        setLoginAsSuccess()
+
         return disciplinas
 
     } catch (error) {
-        console.log('Erro no fetching disciplinas: ', error)
+        if (error.status === 401) {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
+        } else {
+            console.log('Erro no fetching disciplinas: ', error)
+            alert('Algo deu errado...')
+        }
     }
 }
 
@@ -72,10 +76,6 @@ async function criarDashboardAluno(alunoId) {
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    const accessToken = getAccessTokenFromLocalStorage()
-    if (accessToken) {
-        criarDashboardAluno(accessToken);
-    } else {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
-    }
+    const accessToken = getFromLocalStorage('accessToken')
+    criarDashboardAluno(accessToken);
 })

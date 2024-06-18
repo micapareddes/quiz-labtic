@@ -8,72 +8,53 @@ const inputSenhaContainer = document.querySelector("#input-senha-container");
 const eyeIcon = document.querySelector("#eye-icon");
 const eyeSlashIcon = document.querySelector("#eye-slash-icon");
 
-async function reqLogin(userData) {
-    try {
-        const response = await fetch('http://localhost:3333/api/usuarios/login', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData)
-        })
-
-        if (!response.ok) {
-            const erro = await response.json()
-            if (erro.code == 1401) {
-                inputUser.classList.add('border-red-500')
-                inputSenhaContainer.classList.add('border-red-500')
-
-                if (!document.querySelector("#error-message")) {
-                    const errorMessageSpan = createHTMLElement('span')
-                    errorMessageSpan.id = 'error-message'
-                    errorMessageSpan.textContent = 'Senha ou usuario inválidos!'
-                    errorMessageSpan.className = 'text-sm text-red-500'
-                    containerSenha.appendChild(errorMessageSpan)
-                }
-
-                return false
-            } else {
-                inputSenha.value = ''
-                inputUser.value = ''
-                alert('Algo deu errado, por favor tente novamente.')
-                return false
-            }
-        }
-
-        const { accessToken } = await response.json()
-
-        console.log(accessToken)
-
-        localStorage.setItem('accessToken', accessToken)
-
-        return true
-
-    } catch (error) {
-        console.log('Erro:', error)
-        return false
+function createErrorMessage(message) {
+    const errorMessage = document.querySelector("#error-message");
+    
+    if (errorMessage) {
+        errorMessage.textContent = message
+    } else {
+        const errorMessageSpan = createHTMLElement('span')
+        errorMessageSpan.id = 'error-message'
+        errorMessageSpan.textContent = message
+        errorMessageSpan.className = 'text-sm text-red-500'
+        containerSenha.appendChild(errorMessageSpan)
     }
 }
 
-function checkFillInputs() {
-    const fillInputs = inputSenha.value.trim() !== '' && inputUser.value.trim() !== ''
+function removeErrorMessage() {
+    const errorMessage = document.querySelector("#error-message");
 
-    if (fillInputs) {
-        const errorMessage = document.querySelector("#error-message");
-        if (errorMessage) {
-            errorMessage.remove()
-        }
+    if (errorMessage) {
+        errorMessage.remove()
+    }
 
-        inputUser.classList.remove('border-red-500')
-        inputSenhaContainer.classList.remove('border-red-500')
+    inputUser.classList.remove('border-red-500')
+    inputSenhaContainer.classList.remove('border-red-500')
+}
 
+function highlightInputBorderWithRed() {
+    inputUser.classList.add('border-red-500')
+    inputSenhaContainer.classList.add('border-red-500')
+}
+
+function emptyLoginInputs() {
+    inputSenha.value = ''
+    inputUser.value = ''
+}
+
+function checkFilledInputs() {
+    let inputsFilled = inputSenha.value.trim() !== '' && inputUser.value.trim() !== ''
+
+    if (inputsFilled) {
+        removeErrorMessage()
         submitButton.disabled = false
     }
 }
 
 function checkEmptyInputs(userData) {
     let emptyInputs
-
+    
     if (userData.email) {
         emptyInputs = userData.email.trim() === '' || userData.senha.trim() === ''
     } else {
@@ -81,16 +62,8 @@ function checkEmptyInputs(userData) {
     }
 
     if (emptyInputs) {
-        console.log('input vazio!')
-        inputUser.classList.add('border-red-500')
-        inputSenhaContainer.classList.add('border-red-500')
-
-        const errorMessageSpan = createHTMLElement('span')
-        errorMessageSpan.id = 'error-message'
-        errorMessageSpan.textContent = 'Todos os campos devem ser preenchidos!'
-        errorMessageSpan.className = 'text-sm text-red-500'
-
-        containerSenha.appendChild(errorMessageSpan)
+        highlightInputBorderWithRed()
+        createErrorMessage('Todos os campos devem ser preenchidos!')
 
         submitButton.disabled = true
         return true
@@ -112,10 +85,38 @@ function togglePasswordView(event) {
     }
 }
 
+async function reqLogin(userData) {
+    try {
+        const url = 'http://localhost:3333/api/usuarios/login'
+        const { accessToken } = await makeRequest({ url, method: 'POST', data: userData })
+
+        localStorage.setItem('accessToken', accessToken)
+
+        return true
+
+    } catch (error) {
+        console.log('erro!', error);
+        if (error.status === 401) {
+            highlightInputBorderWithRed()
+            const errorMessage = document.querySelector("#error-message")
+            if (!errorMessage) {
+                createErrorMessage('Senha ou usuario inválidos!')
+            } else {
+                errorMessage.textContent = 'Senha ou usuario inválidos!'
+            }
+        } else {
+            emptyLoginInputs()
+            alert('Algo deu errado, por favor tente novamente.')
+        }
+
+        return false
+    }
+}
+
 eyeButton.addEventListener("click", (event) => togglePasswordView(event))
 
-inputSenha.addEventListener("input", checkFillInputs)
-inputUser.addEventListener("input", checkFillInputs)
+inputSenha.addEventListener("input", checkFilledInputs)
+inputUser.addEventListener("input", checkFilledInputs)
 
 formulario.addEventListener("submit", async (event) => {
     event.preventDefault()
@@ -135,9 +136,10 @@ formulario.addEventListener("submit", async (event) => {
     }
     
     const emptyInputs = checkEmptyInputs(userData)
+    
     if (!emptyInputs) {
-        if (await reqLogin(userData)) {
-            console.log('entrou');
+        const success = await reqLogin(userData)
+        if (success) {
             window.location.href = 'http://localhost:5500/frontend/src/pages/dashboard.html'
         }
        
@@ -145,8 +147,8 @@ formulario.addEventListener("submit", async (event) => {
 })
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    const accessToken = getAccessTokenFromLocalStorage()
-    if (accessToken) {
+    const success = getFromLocalStorage('success')
+    if (success) {
         window.location.href = 'http://localhost:5500/frontend/src/pages/dashboard.html'
     }
 })
