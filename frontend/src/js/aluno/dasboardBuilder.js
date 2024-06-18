@@ -1,20 +1,24 @@
+const buttonEncerrarSessao = document.getElementById('encerrar-sessao-button')
+const buttonCancelarDialogEncerrarSessao = document.getElementById('cancelar-button-encerrar-sessao-dialog')
+const buttonConfirmarDialogEncerrarSessao = document.getElementById('confirmar-button-encerrar-sessao-dialog')
+
 async function fetchDisciplinas(accessToken) {
     try {
+        const url = 'http://localhost:3333/api/alunos_disciplinas'
 
-        const response = await fetch('http://localhost:3333/api/alunos_disciplinas', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
-            },
-        })
+        const disciplinas = await makeRequest({ url, method: 'GET', token: accessToken })
 
-        const disciplinas = await response.json()
-        
         return disciplinas
 
     } catch (error) {
-        console.log('Erro no fetching disciplinas: ', error)
+        if (error.status === 403 || error.status === 401) {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/login.html' 
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('type')
+        } else {
+            alert('Algo deu errado :(')
+            console.log('ERROR! ', error);
+        }
     }
 }
 
@@ -46,7 +50,8 @@ function nenhumaDisciplinaCadastradaUi() {
     const div = createHTMLElement('div')
     div.className = 'flex h-screen flex-col items-center justify-center'
     const img = createHTMLElement('img')
-    img.src = 'img/no-data-100.svg'
+    img.src = '../../img/no-data-100.svg'
+    img.alt = 'Duas pranchetas sobrepostas com clipes lilas.'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
     const p = createHTMLElement('p')
@@ -71,11 +76,28 @@ async function criarDashboardAluno(alunoId) {
     } 
 }
 
+function signOut() {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('type')
+    window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
-    const accessToken = getAccessTokenFromLocalStorage()
-    if (accessToken) {
-        criarDashboardAluno(accessToken);
-    } else {
-        window.location.href = 'http://localhost:5500/frontend/src/login.html'
-    }
+    const accessToken = getFromLocalStorage('accessToken')
+
+
+    verifyUserAccess('aluno')
+    criarDashboardAluno(accessToken)
+})
+
+buttonEncerrarSessao.addEventListener('click', (event) => {
+    openDialog('dialog-encerrar-sessao')
+})
+
+buttonCancelarDialogEncerrarSessao.addEventListener('click', (event) => {
+    closeDialog('dialog-encerrar-sessao')
+})
+
+buttonConfirmarDialogEncerrarSessao.addEventListener('click', (event) => {
+    signOut()
 })

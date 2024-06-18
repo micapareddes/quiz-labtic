@@ -1,8 +1,9 @@
 import { TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 import { ModeloUsuario } from "../models/Usuario.js"
+import { generateAccessToken } from "../utils/generateToken.js"
 import ServidorError from "../ServidorError.js"
+
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
 
 class UsuarioController {
     async login(req, res) {
@@ -27,9 +28,19 @@ class UsuarioController {
             throw new ServidorError(USER_ERROR.INVALID_LOGIN)
         }
 
-        var accessToken = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = generateAccessToken(user)
+
         console.log(user.nome, 'logado!')
-        res.status(200).json({ accessToken }) 
+        res.status(200).json({ accessToken, userType: user.papel }) 
+    }
+
+    async tipoDoUsuario(req, res) {
+        const reqUserId = req.userId
+        const userData = await ModeloUsuario.findById(reqUserId)
+
+        if (!userData) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+
+        return res.status(200).json({ userType: userData.papel })
     }
  
     async consultarUsuario(req, res) {
@@ -37,9 +48,9 @@ class UsuarioController {
     }
 
     async criarUsuario(req, res ) {
-        const reqUserId = req.userId
-        const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        // const reqUserId = req.userId
+        // const reqUser = await ModeloUsuario.findById(reqUserId)
+        // if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const { matricula, nome, papel, email } = req.body
 
