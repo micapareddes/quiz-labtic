@@ -18,11 +18,15 @@ function navigateTo(url) {
     window.location.href = url
 }
 
+function redirectTo404() {
+    window.location.href = 'http://localhost:5500/frontend/src/pages/404.html'
+}
+
 function verificarPermissoesPagina(tipo) {
     const userType = getFromLocalStorage('type')
 
     if (userType !== tipo) {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/404.html'
+        redirectTo404()
     }
 }
 

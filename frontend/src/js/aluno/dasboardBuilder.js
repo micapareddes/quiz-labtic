@@ -11,7 +11,13 @@ async function fetchDisciplinas(accessToken) {
         return disciplinas
 
     } catch (error) {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/login.html' 
+        if (error.status === 403) {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/login.html' 
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('type')
+        }
+        alert('Algo deu errado :(')
+        console.log('ERROR! ', error);
     }
 }
 
@@ -44,6 +50,7 @@ function nenhumaDisciplinaCadastradaUi() {
     div.className = 'flex h-screen flex-col items-center justify-center'
     const img = createHTMLElement('img')
     img.src = '../../img/no-data-100.svg'
+    img.alt = 'Duas pranchetas sobrepostas com clipes lilas.'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
     const p = createHTMLElement('p')
