@@ -140,25 +140,11 @@ formulario.addEventListener("submit", async (event) => {
     
     if (!emptyInputs) {
         const userType = await reqLogin(userData)
-        console.log(userType);
-        if (userType === 'aluno') {
-            window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
-        } else if (userType === 'professor') {
-            window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
-        } else if (userType === 'admin') {
-            window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
-        }
-       
+        redirectToUserDashboard(userType)
     }
 })
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const userType = getFromLocalStorage('type')
-    if (userType === 'aluno') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
-    } else if (userType === 'professor') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
-    } else if (userType === 'admin') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
-    }
+    redirectToUserDashboard(userType)
 })

@@ -18,6 +18,24 @@ function navigateTo(url) {
     window.location.href = url
 }
 
+function verificarPermissoesPagina(tipo) {
+    const userType = getFromLocalStorage('type')
+
+    if (userType !== tipo) {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/404.html'
+    }
+}
+
+function redirectToUserDashboard(userType) {
+    if (userType === 'aluno') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
+    } else if (userType === 'professor') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
+    } else if (userType === 'admin') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
+    }
+}
+
 async function makeRequest({ url, method, token = null, data = null } ) {
     const options = {
         method: method,

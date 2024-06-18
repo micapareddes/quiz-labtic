@@ -76,7 +76,9 @@ function signOut() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const accessToken = getFromLocalStorage('accessToken')
-    criarDashboardAluno(accessToken);
+
+    verificarPermissoesPagina('aluno')
+    criarDashboardAluno(accessToken)
 })
 
 buttonEncerrarSessao.addEventListener('click', (event) => {
