@@ -1,3 +1,7 @@
+const buttonEncerrarSessao = document.getElementById('encerrar-sessao-button')
+const buttonCancelarDialogEncerrarSessao = document.getElementById('cancelar-button-encerrar-sessao-dialog')
+const buttonConfirmarDialogEncerrarSessao = document.getElementById('confirmar-button-encerrar-sessao-dialog')
+
 function setLoginAsSuccess() {
     localStorage.setItem('success', true)
 }
@@ -13,12 +17,7 @@ async function fetchDisciplinas(accessToken) {
         return disciplinas
 
     } catch (error) {
-        if (error.status === 401) {
-            window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
-        } else {
-            console.log('Erro no fetching disciplinas: ', error)
-            alert('Algo deu errado...')
-        }
+        window.location.href = 'http://localhost:5500/frontend/src/pages/login.html' 
     }
 }
 
@@ -75,7 +74,25 @@ async function criarDashboardAluno(alunoId) {
     } 
 }
 
+function signOut() {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('success')
+    window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const accessToken = getFromLocalStorage('accessToken')
     criarDashboardAluno(accessToken);
+})
+
+buttonEncerrarSessao.addEventListener('click', (event) => {
+    openDialog('dialog-encerrar-sessao')
+})
+
+buttonCancelarDialogEncerrarSessao.addEventListener('click', (event) => {
+    closeDialog('dialog-encerrar-sessao')
+})
+
+buttonConfirmarDialogEncerrarSessao.addEventListener('click', (event) => {
+    signOut()
 })

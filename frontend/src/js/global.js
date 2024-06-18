@@ -2,6 +2,18 @@ function createHTMLElement(type) {
     return document.createElement(type)
 }
 
+function openDialog(id) {
+    const dialog = document.getElementById(id)
+    dialog.classList.add('flex')
+    dialog.classList.remove('hidden')
+}
+
+function closeDialog(id) {
+    const dialog = document.getElementById(id)
+    dialog.classList.remove('flex')
+    dialog.classList.add('hidden')
+}
+
 function navigateTo(url) {
     window.location.href = url
 }
