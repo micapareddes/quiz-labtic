@@ -31,7 +31,7 @@ class UsuarioController {
         const accessToken = generateAccessToken(user)
 
         console.log(user.nome, 'logado!')
-        res.status(200).json({ accessToken }) 
+        res.status(200).json({ accessToken, userType: user.papel }) 
     }
  
     async consultarUsuario(req, res) {
@@ -39,9 +39,9 @@ class UsuarioController {
     }
 
     async criarUsuario(req, res ) {
-        const reqUserId = req.userId
-        const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        // const reqUserId = req.userId
+        // const reqUser = await ModeloUsuario.findById(reqUserId)
+        // if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const { matricula, nome, papel, email } = req.body
 

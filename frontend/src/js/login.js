@@ -88,11 +88,12 @@ function togglePasswordView(event) {
 async function reqLogin(userData) {
     try {
         const url = 'http://localhost:3333/api/usuarios/login'
-        const { accessToken } = await makeRequest({ url, method: 'POST', data: userData })
+        const { accessToken, userType } = await makeRequest({ url, method: 'POST', data: userData })
 
         localStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('type', userType)
 
-        return true
+        return userType
 
     } catch (error) {
         console.log('erro!', error);
@@ -138,17 +139,26 @@ formulario.addEventListener("submit", async (event) => {
     const emptyInputs = checkEmptyInputs(userData)
     
     if (!emptyInputs) {
-        const success = await reqLogin(userData)
-        if (success) {
-            window.location.href = 'http://localhost:5500/frontend/src/pages/dashboard.html'
+        const userType = await reqLogin(userData)
+        console.log(userType);
+        if (userType === 'aluno') {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
+        } else if (userType === 'professor') {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
+        } else if (userType === 'admin') {
+            window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
         }
        
     }
 })
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    const success = getFromLocalStorage('success')
-    if (success) {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/dashboard.html'
+    const userType = getFromLocalStorage('type')
+    if (userType === 'aluno') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
+    } else if (userType === 'professor') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
+    } else if (userType === 'admin') {
+        window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
     }
 })
