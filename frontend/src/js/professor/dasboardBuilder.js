@@ -85,7 +85,7 @@ function signOut() {
 document.addEventListener('DOMContentLoaded', (event) => {
     const accessToken = getFromLocalStorage('accessToken')
 
-    verificarPermissoesPagina('professor')
+    verifyUserAccess('professor')
     criarDashboardAluno(accessToken)
 })
 

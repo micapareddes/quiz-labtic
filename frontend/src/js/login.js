@@ -88,12 +88,11 @@ function togglePasswordView(event) {
 async function reqLogin(userData) {
     try {
         const url = 'http://localhost:3333/api/usuarios/login'
-        const { accessToken, userType } = await makeRequest({ url, method: 'POST', data: userData })
+        const { accessToken } = await makeRequest({ url, method: 'POST', data: userData })
 
         localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('type', userType)
 
-        return userType
+        return true
 
     } catch (error) {
         console.log('erro!', error);
@@ -139,12 +138,16 @@ formulario.addEventListener("submit", async (event) => {
     const emptyInputs = checkEmptyInputs(userData)
     
     if (!emptyInputs) {
-        const userType = await reqLogin(userData)
-        redirectToUserDashboard(userType)
+        const success = await reqLogin(userData)
+
+        if (success) {
+            const { userType } = await reqUserType()
+            redirectToUserDashboard(userType)
+        }
     }
 })
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    const userType = getFromLocalStorage('type')
+document.addEventListener('DOMContentLoaded', async (event) => {
+    const { userType } = await reqUserType()
     redirectToUserDashboard(userType)
 })

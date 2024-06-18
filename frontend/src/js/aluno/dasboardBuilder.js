@@ -11,13 +11,14 @@ async function fetchDisciplinas(accessToken) {
         return disciplinas
 
     } catch (error) {
-        if (error.status === 403) {
+        if (error.status === 403 || error.status === 401) {
             window.location.href = 'http://localhost:5500/frontend/src/pages/login.html' 
             localStorage.removeItem('accessToken')
             localStorage.removeItem('type')
+        } else {
+            alert('Algo deu errado :(')
+            console.log('ERROR! ', error);
         }
-        alert('Algo deu errado :(')
-        console.log('ERROR! ', error);
     }
 }
 
@@ -84,7 +85,8 @@ function signOut() {
 document.addEventListener('DOMContentLoaded', (event) => {
     const accessToken = getFromLocalStorage('accessToken')
 
-    verificarPermissoesPagina('aluno')
+
+    verifyUserAccess('aluno')
     criarDashboardAluno(accessToken)
 })
 

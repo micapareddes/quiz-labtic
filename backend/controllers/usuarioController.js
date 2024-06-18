@@ -33,6 +33,15 @@ class UsuarioController {
         console.log(user.nome, 'logado!')
         res.status(200).json({ accessToken, userType: user.papel }) 
     }
+
+    async tipoDoUsuario(req, res) {
+        const reqUserId = req.userId
+        const userData = await ModeloUsuario.findById(reqUserId)
+
+        if (!userData) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+
+        return res.status(200).json({ userType: userData.papel })
+    }
  
     async consultarUsuario(req, res) {
 
