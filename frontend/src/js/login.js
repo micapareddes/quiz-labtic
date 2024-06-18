@@ -148,6 +148,9 @@ formulario.addEventListener("submit", async (event) => {
 })
 
 document.addEventListener('DOMContentLoaded', async (event) => {
-    const { userType } = await reqUserType()
-    redirectToUserDashboard(userType)
+    const accessToken = getFromLocalStorage('accessToken')
+    if (accessToken) {
+        const { userType } = await reqUserType()
+        redirectToUserDashboard(userType)
+    }
 })
