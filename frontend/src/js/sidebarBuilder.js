@@ -4,7 +4,7 @@ function criarUlDisciplinasSidebar() {
 
     const ul = createHTMLElement('ul')
     ul.id = 'ul-disciplinas'
-    ul.className = 'flex-col items-start justify-center absolute lg:relative top-10 md:top-28 lg:top-0 right-0 md:left-24 lg:left-0 w-52 lg:w-full mt-5 lg:mt-0 px-6 pt-4 lg:pt-6 bg-neutral-50 lg:bg-transparent border border-neutral-200 lg:border-none rounded-2xl shadow-md lg:shadow-none hidden'
+    ul.className = 'flex-col items-start justify-center absolute lg:relative top-10 md:top-32 lg:top-0 right-0 md:left-24 lg:left-0 w-52 lg:w-full mt-5 lg:mt-0 px-6 pt-4 lg:pt-6 bg-neutral-50 lg:bg-transparent border border-neutral-200 lg:border-none rounded-2xl shadow-md lg:shadow-none hidden'
 
     htmlLiDisciplinas.appendChild(ul)
 }
