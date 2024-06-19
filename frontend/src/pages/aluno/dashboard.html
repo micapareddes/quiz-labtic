@@ -14,10 +14,10 @@
 </head>
 <body class="bg-indigo-950 grid-container text-stone-900 h-screen overflow-y-scroll md:overflow-hidden">
    
-    <header class="bg-indigo-950 p-6 md:p-0 md:h-full w- col-span-1 box-border flex flex-row items-center lg:items-start md:flex-col">
+    <header class="bg-indigo-950 p-6 md:p-0 w md:h-full col-span-1 box-border flex flex-row items-center lg:items-start md:flex-col">
         <div class=" md:pt-12 lg:pl-8">
-            <img src="../../img/logo-light.svg" alt="Logo de lado Polvo Branca" class="block md:hidden lg:block">
-            <img src="../../img/logo-icon.svg" alt="Logo icone Polvo Branca" class="hidden md:block lg:hidden">
+            <img src="../../img/logo-light.svg" alt="Logo de lado Polvo Branca" class="hidden lg:block">
+            <img src="../../img/logo-icon.svg" alt="Logo icone Polvo Branca" class="lg:hidden">
         </div>
             <nav class="flex-1 md:py-10">
                 <ul class="flex items-center md:items-start md:flex-col h-full gap-6 justify-end">
@@ -28,10 +28,10 @@
                         </a>
                     </li>
                     <li id="disciplinas-li">
-                        <button rel="stylesheet" data-active="false" href="" id="disciplinas-button" class="group flex items-center gap-2 py-1 md:py-0  md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
+                        <button rel="stylesheet" data-active="false" href="" id="accordion-disciplinas" class="group flex items-center gap-2 py-1 md:py-0  md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
                             <img src="../../img/icones/books.svg" alt="Icone de casa branca" class="w-4 h-4 md:w-5 md:h-5">
                             <p id="p-disciplinas-button" class="hidden lg:block text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Disciplinas</p>
-                            <img src="../../img/icones/caret-down.svg" alt="Seta para abixo" id="seta-disciplinas-button" class="transition-all duration-200 group-data-[active=true]:rotate-0 group-data-[active=false]:group-hover:rotate-0 group-data-[active=true]:group-hover:-rotate-90 -rotate-90 ml-0 lg:ml-5 hidden lg:block">
+                            <img src="../../img/icones/caret-down.svg" alt="Seta para abixo" id="seta-disciplinas-button" class="transition-all duration-200 group-data-[active=true]:rotate-0 enabled:group-data-[active=false]:group-hover:rotate-0 enabled:group-data-[active=true]:group-hover:-rotate-90 -rotate-90 ml-0 lg:ml-5 hidden lg:block">
                         </button>
                     </li>
                     <li class="mt-auto">
@@ -50,9 +50,9 @@
             </nav>
     </header>
 
-    <main id="main-dashboard" class="bg-neutral-50 h-full flex flex-col col-span-1 rounded-t-2xl md:rounded-r-none md:rounded-s-3xl p-6 md:p-10 md:py-10 md:overflow-y-scroll">
+    <main id="main" class="bg-neutral-50 h-full flex flex-col col-span-1 rounded-t-2xl md:rounded-r-none md:rounded-s-3xl p-6 md:p-10 md:py-10 md:overflow-y-scroll">
         <h1 class="text-2xl md:text-3xl font-bold mb-2">Dashboard</h1>
-        <h2 class="text-xl md:text-2xl text-stone-700">Bem-vindo, <span id="nome-aluno"></span>!</h2>
+        <h2 class="text-xl md:text-2xl text-stone-700">Bem-vindo, <span id="nome-user"></span>!</h2>
         <h3 id="titulo-disciplinas" class="text-base md:text-lg font-semibold text-stone-700 mt-10 mb-2">Disciplinas</h3>
         <nav>
             <ul id="lista-disciplinas">
@@ -69,8 +69,10 @@
             </div>
         </span>
     </main>
-
     <script src="../../js/global.js"></script>
-    <script src="../../js/aluno/dasboardBuilder.js"></script>
+    <script src="../../js/sidebarBuilder.js"></script>
+    <script src="../../js/singOut.js"></script>
+    <script src="../../js/dashboardBuilder.js"></script>
+    <script src="../../js/aluno/dashboard.js"></script>
 </body>
 </html>

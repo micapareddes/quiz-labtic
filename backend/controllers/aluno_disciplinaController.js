@@ -16,7 +16,7 @@ class Aluno_DisciplinaController {
         }
 
         const disciplinas = await ModeloAlunos_Disciplina.find({aluno_id: alunoId}, 'disciplina_id disciplina_nome')
-        const disciplinasDoAluno = { nomeAluno: aluno.nome, disciplinas }
+        const disciplinasDoAluno = { nome: aluno.nome, disciplinas }
 
         return res.status(200).json(disciplinasDoAluno)
     }
