@@ -6,6 +6,23 @@ import { DISCIPLINA_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 
 
 class DisciplinaController {
+    async consultarDisciplinasPorProfessor(req, res) {
+        const profId = req.userId
+
+        const professor = await ModeloUsuario.findById(profId)
+        const profNaoExiste = !professor || professor.papel !== 'professor'
+
+        if (profNaoExiste) {
+            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+        }
+
+        const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id disciplina_nome')
+        const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
+        console.log(disciplinasDoProfessor);
+
+        return res.status(200).json(disciplinasDoProfessor)
+    }
+
     async consultarDisciplina(req, res) {
     }
 

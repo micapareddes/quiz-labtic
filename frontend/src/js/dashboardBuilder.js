@@ -1,11 +1,5 @@
-const buttonEncerrarSessao = document.getElementById('encerrar-sessao-button')
-const buttonCancelarDialogEncerrarSessao = document.getElementById('cancelar-button-encerrar-sessao-dialog')
-const buttonConfirmarDialogEncerrarSessao = document.getElementById('confirmar-button-encerrar-sessao-dialog')
-
-async function fetchDisciplinas(accessToken) {
+async function fetchDisciplinas(accessToken, url) {
     try {
-        const url = 'http://localhost:3333/api/alunos_disciplinas'
-
         const disciplinas = await makeRequest({ url, method: 'GET', token: accessToken })
 
         return disciplinas
@@ -16,10 +10,16 @@ async function fetchDisciplinas(accessToken) {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('type')
         } else {
-            alert('Algo deu errado :(')
+            alert('Algo deu errado...')
             console.log('ERROR! ', error);
         }
     }
+}
+
+// elementos do dashboard -------------------
+function mostrarNomeUsuario(nome) {
+    const htmlSpanNome = document.getElementById('nome-user')
+    htmlSpanNome.textContent = nome
 }
 
 function criarUiDisciplina(disciplina) {
@@ -36,13 +36,8 @@ function criarUiDisciplina(disciplina) {
     htmlListaDisciplinas.appendChild(li)
 }
 
-function mostrarNomeAluno(nome) {
-    const htmlSpanNome = document.getElementById('nome-aluno')
-    htmlSpanNome.textContent = nome
-}
-
 function nenhumaDisciplinaCadastradaUi() {
-    const htmlMainDashboardAluno = document.getElementById('main-dashboard')
+    const main = document.getElementById('main')
     const htmlTituloDisciplinas = document.getElementById('titulo-disciplinas')
 
     htmlTituloDisciplinas.className = 'hidden'
@@ -60,44 +55,22 @@ function nenhumaDisciplinaCadastradaUi() {
 
     div.appendChild(img)
     div.appendChild(p)
-    htmlMainDashboardAluno.appendChild(div)
+    main.appendChild(div)
 }
 
-async function criarDashboardAluno(alunoId) {
-    const { disciplinas, nomeAluno } = await fetchDisciplinas(alunoId)
-    mostrarNomeAluno(nomeAluno)
+async function criarUiDashboard(token, url) {
+    const {disciplinas, nome} = await fetchDisciplinas(token, url)
+    
+    mostrarNomeUsuario(nome)
 
     if (disciplinas.length > 0) {
+        criarUlDisciplinasSidebar()
         disciplinas.forEach(disciplina => {
             criarUiDisciplina(disciplina)
+            criarLiDisciplinasSidebar(disciplina.disciplina_nome)
         })
     } else {
         nenhumaDisciplinaCadastradaUi()
+        inabilitarAccordionDisciplinas()
     } 
 }
-
-function signOut() {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('type')
-    window.location.href = 'http://localhost:5500/frontend/src/pages/login.html'
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    const accessToken = getFromLocalStorage('accessToken')
-
-
-    verifyUserAccess('aluno')
-    criarDashboardAluno(accessToken)
-})
-
-buttonEncerrarSessao.addEventListener('click', (event) => {
-    openDialog('dialog-encerrar-sessao')
-})
-
-buttonCancelarDialogEncerrarSessao.addEventListener('click', (event) => {
-    closeDialog('dialog-encerrar-sessao')
-})
-
-buttonConfirmarDialogEncerrarSessao.addEventListener('click', (event) => {
-    signOut()
-})
