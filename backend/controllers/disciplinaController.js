@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
 import ServidorError from "../ServidorError.js"
-import { DISCIPLINA_ERROR, USER_ERROR } from "../constants/errorCodes.js"
+import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 
 
 class DisciplinaController {
@@ -29,10 +29,11 @@ class DisciplinaController {
         const admin = await ModeloUsuario.findById(adminId)
         const adminInvalido = !admin || admin.papel !== 'admin'
 
-        if (adminInvalido) throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
 
+        console.log(disciplinasCadastradas);
         return res.status(200).json({ disciplinasCadastradas })
     }
 
@@ -42,9 +43,11 @@ class DisciplinaController {
         const admin = await ModeloUsuario.findById(adminId)
         const adminInvalido = !admin || admin.papel !== 'admin'
 
-        if (adminInvalido) throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const { nome, professor_id } = req.body
+
+        if (nome.length < 3) throw new ServidorError(DISCIPLINA_ERROR.INVALID_NAME)
 
         const disciplinaExiste = await ModeloDisciplina.findOne({nome: nome})
 
