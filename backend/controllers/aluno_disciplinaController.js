@@ -17,12 +17,15 @@ class Aluno_DisciplinaController {
 
         const disciplinas = await ModeloAlunos_Disciplina.find({aluno_id: alunoId}, 'disciplina_id disciplina_nome')
         const disciplinasDoAluno = { nome: aluno.nome, disciplinas }
-
+        console.log(disciplinasDoAluno);
         return res.status(200).json(disciplinasDoAluno)
     }
 
     async criarRelacao(req, res) {
-        
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
         const { aluno_id, disciplina_id, disciplina_nome } = req.body
 
         const alunoExiste = await ModeloUsuario.findById(aluno_id)
@@ -54,7 +57,7 @@ class Aluno_DisciplinaController {
 
         await ModeloAlunos_Disciplina.create(relacao)
 
-        return res.status(201).send()
+        return res.status(204).send()
     }
 }
 
