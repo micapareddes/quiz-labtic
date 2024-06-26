@@ -19,7 +19,9 @@ async function makeRequest({ url, method, token = null, data = null } ) {
         console.log('response not ok');
         throw { status: response.status, message: 'HTTP error!' };
     }
-
+    
+    if (response.status === 204) return 
+    
     return response.json()
 }
 
@@ -73,4 +75,9 @@ function redirectToUserDashboard(userType) {
 
 function getFromLocalStorage(item) {
     return localStorage.getItem(item)
+}
+
+function mostrarNomeUsuario(nome) {
+    const htmlSpanNome = document.getElementById('nome-user')
+    htmlSpanNome.textContent = nome
 }

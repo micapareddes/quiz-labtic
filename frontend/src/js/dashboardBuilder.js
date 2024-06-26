@@ -1,7 +1,6 @@
 async function fetchDisciplinas(accessToken, url) {
     try {
         const disciplinas = await makeRequest({ url, method: 'GET', token: accessToken })
-
         return disciplinas
 
     } catch (error) {
@@ -17,11 +16,6 @@ async function fetchDisciplinas(accessToken, url) {
 }
 
 // elementos do dashboard -------------------
-function mostrarNomeUsuario(nome) {
-    const htmlSpanNome = document.getElementById('nome-user')
-    htmlSpanNome.textContent = nome
-}
-
 function criarUiDisciplina(disciplina) {
     const htmlListaDisciplinas = document.getElementById('lista-disciplinas')
 
@@ -29,7 +23,7 @@ function criarUiDisciplina(disciplina) {
     const a = createHTMLElement('a')
 
     a.className = "block px-5 py-4 bg-neutral-100 border hover:bg-neutral-200 transition-colors duration-200 border-neutral-200 rounded-xl cursor-pointer mb-2"
-    a.textContent = disciplina.disciplina_nome
+    a.textContent = disciplina.nome
 
     li.appendChild(a)
 
