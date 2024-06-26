@@ -38,7 +38,7 @@ class UsuarioController {
         const reqUserId = req.userId
         const userData = await ModeloUsuario.findById(reqUserId)
 
-        if (!userData) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+        if (!userData) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
         return res.status(200).json({ userType: userData.papel })
     }
@@ -91,7 +91,7 @@ class UsuarioController {
         const resposta = await ModeloUsuario.deleteOne({"matricula": matricula})
 
         if (resposta.n === 0) {
-            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
         console.log('Usuario deletado! ', matricula)
@@ -113,7 +113,7 @@ class UsuarioController {
         const usuario = await ModeloUsuario.findByIdAndUpdate(id, atualizacoes, { new: true })
 
         if (!usuario) {
-            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
         console.log("Usuario editado!", usuario)
@@ -129,11 +129,11 @@ class UsuarioController {
         
         const { senhaAtual, novaSenha } = req.body
         
-        if (!reqUser) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+        if (!reqUser) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
         const senhaAtualCorreta = await bcrypt.compare(senhaAtual, reqUser.senha)
 
-        if (!senhaAtualCorreta) throw new ServidorError(USER_ERROR.ICONRRECT_CURRENT_PASSWORD)
+        if (!senhaAtualCorreta) throw new ServidorError(USER_ERROR.INCORRECT_CURRENT_PASSWORD)
     
         const novaSenhaEncriptada = await bcrypt.hash(novaSenha, 8)
         await ModeloUsuario.findByIdAndUpdate(id, {senha: novaSenhaEncriptada})
@@ -145,7 +145,7 @@ class UsuarioController {
     async consultarNome(req, res) {
         const reqUserId = req.userId
         const userData = await ModeloUsuario.findById(reqUserId)
-        if (!userData) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+        if (!userData) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
         return res.status(200).json({ name: userData.nome })
     }

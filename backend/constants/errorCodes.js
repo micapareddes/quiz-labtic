@@ -4,7 +4,7 @@ export const USER_ERROR = {
         errorCode: 1409,
         message: "Usuário já existe!"
     },
-    DOESENT_EXIST: {
+    DOESNT_EXIST: {
         statusCode: 404,
         errorCode: 1404,
         message: "Usuário não existe!"
@@ -12,7 +12,7 @@ export const USER_ERROR = {
     FORBIDDEN_EDIT: {
         statusCode: 403,
         errorCode: 1403,
-        message: "Não é permitido editar a matrícula e/ou senha!"
+        message: "Ação não permitida!"
     },
     INVALID_ID: {
         statusCode: 400,
@@ -24,7 +24,7 @@ export const USER_ERROR = {
         errorCode: 1405,
         message: "Todos os campos obrigatórios devem ser fornecidos!"
     },
-    ICONRRECT_CURRENT_PASSWORD: {
+    INCORRECT_CURRENT_PASSWORD: { 
         statusCode: 403,
         errorCode: 1406,
         message: "Senha atual inserida errada!"
@@ -32,7 +32,7 @@ export const USER_ERROR = {
     INVALID_LOGIN: {
         statusCode: 401,
         errorCode: 1401,
-        message: "Senha ou usuario inválidos!"
+        message: "Credenciais inválidas"
     }
 }
 
@@ -42,14 +42,20 @@ export const DISCIPLINA_ERROR = {
         errorCode: 2409,
         message: "Já existe uma disciplina com esse nome!"
     },
-    DOESENT_EXIST: {
+    DOESNT_EXIST: { // corregir ortografia - doesnt
         statusCode: 404,
+        errorCode: 2404,
         message: "Disciplina não existe!"        
     },
     NAME_CONFLICT: {
         statusCode: 400,
         errorCode: 2400,
         message: "O nome informado é diferente do que consta no banco!"
+    },
+    INVALID_NAME: {
+        statusCode: 422,
+        errorCode: 2422,
+        message: "Nome inválido. O nome deve ter no mínimo 3 caracteres!"
     }
 }
 
@@ -57,7 +63,7 @@ export const RELATION_ERROR = {
     ALREADY_EXIST: {
         statusCode: 400,
         errorCode: 3400,
-        message: 'A relação entre o aluno e a disciplina já existe!',
+        message: 'Relação já existe!',
     },
 };
 

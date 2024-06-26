@@ -13,7 +13,7 @@ class DisciplinaController {
         const profNaoExiste = !professor || professor.papel !== 'professor'
 
         if (profNaoExiste) {
-            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
         const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
@@ -64,7 +64,7 @@ class DisciplinaController {
             
             if (professorNaoExiste) {
                 console.log('Professor não existe!')
-                throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+                throw new ServidorError(USER_ERROR.DOESNT_EXIST)
             }
 
             novaDisciplina = {

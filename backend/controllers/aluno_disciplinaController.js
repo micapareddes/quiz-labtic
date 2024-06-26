@@ -12,7 +12,7 @@ class Aluno_DisciplinaController {
         const alunoNaoExiste = !aluno || aluno.papel !== 'aluno'
 
         if (alunoNaoExiste) {
-            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
         const disciplinas = await ModeloAlunos_Disciplina.find({aluno_id: alunoId}, 'disciplina_id disciplina_nome')
@@ -34,10 +34,10 @@ class Aluno_DisciplinaController {
         const disciplinaNaoExiste = !disciplinaExiste
 
         if (alunoNaoExiste) {
-            throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
         if (disciplinaNaoExiste) {
-            throw new ServidorError(DISCIPLINA_ERROR.DOESENT_EXIST)
+            throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
         }
         if (disciplina_nome !== disciplinaExiste.nome) {
             throw new ServidorError(DISCIPLINA_ERROR.NAME_CONFLICT)
