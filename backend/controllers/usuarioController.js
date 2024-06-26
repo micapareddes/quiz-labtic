@@ -31,7 +31,7 @@ class UsuarioController {
         const accessToken = generateAccessToken(user)
 
         console.log(user.nome, 'logado!')
-        res.status(200).json({ accessToken, userType: user.papel }) 
+        res.status(200).json({ accessToken }) 
     }
 
     async tipoDoUsuario(req, res) {
@@ -78,7 +78,7 @@ class UsuarioController {
         const usuarioCriado = await ModeloUsuario.create(novoUsuario)
         console.log("Novo usuario criado!", usuarioCriado)
 
-        return res.status(201).send()
+        return res.status(204).send()
     }
 
     async eliminarUsuario(req, res) {
@@ -86,15 +86,15 @@ class UsuarioController {
         const reqUser = await ModeloUsuario.findById(reqUserId)
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
-        const userMatricula = req.body.matricula
+        const matricula = req.body.matricula
 
-        const resposta = await ModeloUsuario.deleteOne({"matricula": userMatricula})
+        const resposta = await ModeloUsuario.deleteOne({"matricula": matricula})
 
         if (resposta.n === 0) {
             throw new ServidorError(USER_ERROR.DOESENT_EXIST)
         }
 
-        console.log('Usuario deletado! ', userMatricula)
+        console.log('Usuario deletado! ', matricula)
         return res.status(204).send()
     }
 
@@ -106,7 +106,7 @@ class UsuarioController {
         const id = req.params.id
         const atualizacoes = req.body
 
-        if ('matricula' in atualizacoes || 'senha' in atualizacoes) {
+        if ('matricula' in atualizacoes || 'senha' in atualizacoes || 'papel' in atualizacoes) {
             throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
         }
 
