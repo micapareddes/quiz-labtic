@@ -48,9 +48,9 @@ class UsuarioController {
     }
 
     async criarUsuario(req, res ) {
-        // const reqUserId = req.userId
-        // const reqUser = await ModeloUsuario.findById(reqUserId)
-        // if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const { matricula, nome, papel, email } = req.body
 
@@ -84,7 +84,7 @@ class UsuarioController {
     async eliminarUsuario(req, res) {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
         const userMatricula = req.body.matricula
 
@@ -101,7 +101,7 @@ class UsuarioController {
     async editarUsuario(req, res) {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'adm') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const id = req.params.id
         const atualizacoes = req.body
@@ -123,7 +123,7 @@ class UsuarioController {
     async alterarSenha(req, res) {
         const id = req.userId
         const reqUser = await ModeloUsuario.findById(id)
-        if (reqUser.papel === 'adm') {
+        if (reqUser.papel === 'admin') {
             console.log('Adm não permitido!');
             throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)}
         
@@ -140,6 +140,25 @@ class UsuarioController {
 
         console.log('Senha alterada!');
         return res.status(204).send()
+    }
+
+    async consultarNome(req, res) {
+        const reqUserId = req.userId
+        const userData = await ModeloUsuario.findById(reqUserId)
+        if (!userData) throw new ServidorError(USER_ERROR.DOESENT_EXIST)
+
+        return res.status(200).json({ name: userData.nome })
+    }
+
+    async listarTodosPorfessores(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const professoresCadastrados = await ModeloUsuario.find({papel: 'professor'}, 'nome _id')
+
+
+        return res.status(200).json({ professoresCadastrados })
     }
 }
 

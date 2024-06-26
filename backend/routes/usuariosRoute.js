@@ -6,6 +6,8 @@ import { authenticateToken } from "../middleware/authenticateToken.js"
 const routerUsuario = Router()
 
 routerUsuario.get("/me", authenticateToken, tryCatch(UsuarioController.tipoDoUsuario))
+routerUsuario.get("/name", authenticateToken, tryCatch(UsuarioController.consultarNome))
+routerUsuario.get("/professores", authenticateToken, tryCatch(UsuarioController.listarTodosPorfessores))
 routerUsuario.post("/", authenticateToken, tryCatch(UsuarioController.criarUsuario))
 routerUsuario.post("/login", tryCatch(UsuarioController.login))
 routerUsuario.delete("/", authenticateToken, tryCatch(UsuarioController.eliminarUsuario))
