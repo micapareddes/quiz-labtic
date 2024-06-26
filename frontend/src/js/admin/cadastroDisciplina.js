@@ -13,9 +13,13 @@ async function getProfessores() {
 }
 
 async function cadastrar(data) {
-    const accessToken = getFromLocalStorage('accessToken')
-    const url = 'http://localhost:3333/api/disciplinas'
-    await makeRequest({ url, method: 'POST', token: accessToken, data })
+    try {
+        const accessToken = getFromLocalStorage('accessToken')
+        const url = 'http://localhost:3333/api/disciplinas'
+        await makeRequest({ url, method: 'POST', token: accessToken, data })
+    } catch (error) {
+    }
+    
 }
 
 function listarProfessoresNoSelect(listaProfessores) {
@@ -72,7 +76,6 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     }
 
     const response = await cadastrar(data)
-    console.log(response);
 })
 
 disciplinaInput.addEventListener('input', () => {
