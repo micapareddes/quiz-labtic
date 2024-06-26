@@ -14,6 +14,12 @@ body {
     height: 100vh;
 }
 
+.border-spacing-table {
+    --tw-border-spacing-x: 0px;
+    --tw-border-spacing-y: 0.5rem;
+    border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+}
+
 @media (max-width: 767px) {
     .grid-container {
         display: block;
