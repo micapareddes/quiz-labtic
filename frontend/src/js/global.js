@@ -16,8 +16,9 @@ async function makeRequest({ url, method, token = null, data = null } ) {
     const response = await fetch(url, options)
 
     if (!response.ok) {
-        console.log('response not ok');
-        throw { status: response.status, message: 'HTTP error!' };
+        const json = await response.json()
+        console.log(json);
+        throw { status: json.code, message: json.message };
     }
     
     if (response.status === 204) return 
