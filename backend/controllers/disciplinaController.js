@@ -16,37 +16,49 @@ class DisciplinaController {
             throw new ServidorError(USER_ERROR.DOESENT_EXIST)
         }
 
-        const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id disciplina_nome')
+        const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
         const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
         console.log(disciplinasDoProfessor);
 
         return res.status(200).json(disciplinasDoProfessor)
     }
 
-    async consultarDisciplina(req, res) {
+    async listarDisciplinasCadastradas(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
+
+        const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
+
+        return res.status(200).json({ disciplinasCadastradas })
     }
 
     async criarDisciplina(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
+
         const { nome, professor_id } = req.body
 
         const disciplinaExiste = await ModeloDisciplina.findOne({nome: nome})
 
-        if (disciplinaExiste) {
-            console.log('Disciplina existe!')
-            throw new ServidorError(DISCIPLINA_ERROR.ALREADY_EXIST)
-        }
+        if (disciplinaExiste) throw new ServidorError(DISCIPLINA_ERROR.ALREADY_EXIST)
 
-        let novaDisciplina
+        let novaDisciplina = { nome }
 
         if (professor_id) {
             const idInvalido = !mongoose.Types.ObjectId.isValid(professor_id)
-            if (idInvalido) {
-                console.log('ID inválido!')
-                throw new ServidorError(USER_ERROR.INVALID_ID)
-            }
+            if (idInvalido) throw new ServidorError(USER_ERROR.INVALID_ID)
     
             const professor = await ModeloUsuario.findById(professor_id)
             const professorNaoExiste = !professor || professor.papel !== 'professor'
+            
             if (professorNaoExiste) {
                 console.log('Professor não existe!')
                 throw new ServidorError(USER_ERROR.DOESENT_EXIST)
@@ -54,15 +66,13 @@ class DisciplinaController {
 
             novaDisciplina = {
                 nome,
-                professor_id
+                professor_id,
             }
         }
 
-        novaDisciplina = { nome }
-            
         await ModeloDisciplina.create(novaDisciplina)
         console.log('Nova disciplina criada!')
-        return res.status(201).send()
+        return res.status(204).send()
     }
 
     async editarDisciplina(req, res) {
