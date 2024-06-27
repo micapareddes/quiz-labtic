@@ -6,7 +6,7 @@ import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCod
 
 
 class DisciplinaController {
-    async consultarDisciplinasPorProfessor(req, res) {
+    async mostrarDisciplinasDoProfessor(req, res) {
         const profId = req.userId
 
         const professor = await ModeloUsuario.findById(profId)

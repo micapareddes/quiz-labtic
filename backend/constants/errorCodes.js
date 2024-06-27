@@ -42,7 +42,7 @@ export const DISCIPLINA_ERROR = {
         errorCode: 2409,
         message: "Já existe uma disciplina com esse nome!"
     },
-    DOESNT_EXIST: { // corregir ortografia - doesnt
+    DOESNT_EXIST: { 
         statusCode: 404,
         errorCode: 2404,
         message: "Disciplina não existe!"        
