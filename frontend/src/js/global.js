@@ -21,7 +21,7 @@ async function makeRequest({ url, method, token = null, data = null } ) {
         throw { status: json.code, message: json.message };
     }
     
-    if (response.status === 204) return 
+    if (response.status === 204) return response
     
     return response.json()
 }
