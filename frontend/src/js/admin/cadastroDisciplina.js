@@ -4,6 +4,9 @@ const disciplinaInput = document.getElementById('disciplina')
 const disciplinaContainer = document.getElementById('disciplina-container')
 const dialogAlteracoesCancelarButton = document.getElementById('cancelar-dialog-button')
 const dialogAlteracoesVoltarButton = document.getElementById('voltar-dialog-button')
+const toaster = document.getElementById('toaster')
+const closeToaster = document.getElementById('close-toaster')
+const main = document.getElementById('main')
 
 async function getProfessores() {
     const accessToken = getFromLocalStorage('accessToken')
@@ -16,8 +19,23 @@ async function cadastrar(data) {
     try {
         const accessToken = getFromLocalStorage('accessToken')
         const url = 'http://localhost:3333/api/disciplinas'
-        await makeRequest({ url, method: 'POST', token: accessToken, data })
+        const response = await makeRequest({ url, method: 'POST', token: accessToken, data })
+        return response
     } catch (error) {
+        if (error.status === 2409) {
+            const errorMessage = document.getElementById('error-message')
+            if (!errorMessage) {
+                const message = createHTMLElement('span')
+                message.textContent = 'Já existe uma disciplina com esse nome'
+                message.id = 'error-message'
+                message.className = 'text-red-500 text-sm'
+
+                disciplinaInput.classList.add('border-red-500')
+                disciplinaContainer.appendChild(message)
+            }
+        } else {
+            alert('Algo deu errado...')
+        }
     }
     
 }
@@ -76,6 +94,20 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     }
 
     const response = await cadastrar(data)
+    if (response.status === 204) {
+        cadastroDisciplinaForm.reset()
+
+        // cria toaster de sucesso
+        const toaster = successToaster('Disciplina cadastrada com sucesso!', '../../img/icones/check-circle.svg')
+        main.appendChild(toaster)
+
+        // remove toaster após 10 segundos
+        const toasterId = document.getElementById('toaster')
+        setTimeout(() => {
+            toasterId.remove()
+        }, 5000);
+
+    }
 })
 
 disciplinaInput.addEventListener('input', () => {
@@ -98,3 +130,5 @@ goBackButton.addEventListener('click', () => {
 dialogAlteracoesCancelarButton.addEventListener('click', () => {
     closeDialog('dialog-alteracoes')
 })
+
+closeToaster.addEventListener('click', () => toaster.classList.add('hidden'))
