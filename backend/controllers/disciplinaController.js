@@ -6,37 +6,6 @@ import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCod
 
 
 class DisciplinaController {
-    async mostrarDisciplinasDoProfessor(req, res) {
-        const profId = req.userId
-
-        const professor = await ModeloUsuario.findById(profId)
-        const profNaoExiste = !professor || professor.papel !== 'professor'
-
-        if (profNaoExiste) {
-            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
-        }
-
-        const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
-        const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
-        console.log(disciplinasDoProfessor);
-
-        return res.status(200).json(disciplinasDoProfessor)
-    }
-
-    async listarDisciplinasCadastradas(req, res) {
-        const adminId = req.userId
-
-        const admin = await ModeloUsuario.findById(adminId)
-        const adminInvalido = !admin || admin.papel !== 'admin'
-
-        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
-
-        const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
-
-        console.log(disciplinasCadastradas);
-        return res.status(200).json({ disciplinasCadastradas })
-    }
-
     async criarDisciplina(req, res) {
         const adminId = req.userId
 
@@ -79,10 +48,62 @@ class DisciplinaController {
     }
 
     async editarDisciplina(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        
+        const { id, nome, professor_id } = req.body
 
+        if (!id) throw new ServidorError(DISCIPLINA_ERROR.ID_REQUIRED)
+
+        if (!nome && !professor_id) throw new ServidorError(DISCIPLINA_ERROR.MISSING_FIELDS)
+
+        const updateData = professor_id ? { nome, professor_id } : { nome }
+
+        if (nome && nome.length < 3) throw new ServidorError(DISCIPLINA_ERROR.INVALID_NAME)
+
+        const disciplina = await ModeloDisciplina.findByIdAndUpdate(id, updateData)
+
+        if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+
+        res.status(204).send()
     }
 
     async eliminarDisciplina(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+    }
+
+    async mostrarDisciplinasDoProfessor(req, res) {
+        const profId = req.userId
+
+        const professor = await ModeloUsuario.findById(profId)
+        const profNaoExiste = !professor || professor.papel !== 'professor'
+
+        if (profNaoExiste) {
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        }
+
+        const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
+        const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
+        console.log(disciplinasDoProfessor);
+
+        return res.status(200).json(disciplinasDoProfessor)
+    }
+
+    async listarDisciplinasCadastradas(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
+
+        console.log(disciplinasCadastradas);
+        return res.status(200).json({ disciplinasCadastradas })
     }
 }
 

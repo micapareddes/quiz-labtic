@@ -51,6 +51,16 @@ export const DISCIPLINA_ERROR = {
         statusCode: 400,
         errorCode: 2400,
         message: "O nome informado é diferente do que consta no banco!"
+    }, 
+    ID_REQUIRED: {
+        statusCode: 400,
+        errorCode: 2401,
+        message: "É necessário o ID da disciplina!"
+    },
+    MISSING_FIELDS: {
+        statusCode: 400,
+        errorCode: 2402,
+        message: "É necessário enviar o nome ou professor ID para editar a disciplina!"
     },
     INVALID_NAME: {
         statusCode: 422,
