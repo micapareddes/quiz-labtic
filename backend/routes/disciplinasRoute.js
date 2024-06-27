@@ -9,5 +9,6 @@ routerDisciplina.get("/", authenticateToken, tryCatch(DisciplinaController.mostr
 routerDisciplina.get("/cadastradas", authenticateToken, tryCatch(DisciplinaController.listarDisciplinasCadastradas))
 routerDisciplina.post("/", authenticateToken, tryCatch(DisciplinaController.criarDisciplina))
 routerDisciplina.patch("/", authenticateToken, tryCatch(DisciplinaController.editarDisciplina))
+routerDisciplina.delete("/", authenticateToken, tryCatch(DisciplinaController.eliminarDisciplina))
 
 export default routerDisciplina

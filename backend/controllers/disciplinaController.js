@@ -73,6 +73,14 @@ class DisciplinaController {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+
+        const disciplina = await ModeloDisciplina.findByIdAndDelete(id)
+
+        if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+        
+        res.status(204).send()
     }
 
     async mostrarDisciplinasDoProfessor(req, res) {
