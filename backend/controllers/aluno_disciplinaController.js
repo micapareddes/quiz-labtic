@@ -59,6 +59,21 @@ class Aluno_DisciplinaController {
 
         return res.status(204).send()
     }
+
+    // lança um erro quando a relação nao existe? 
+    async eliminarRelacaoPorDisciplinaId(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+
+        const relacao = ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
+
+        if ((await relacao).deletedCount === 0) throw new ServidorError(RELATION_ERROR.DOESENT_EXIST)
+        
+        res.status(204).send()
+    }
 }
 
 export default new Aluno_DisciplinaController()
