@@ -68,9 +68,9 @@ class Aluno_DisciplinaController {
 
         const id = req.body.id
 
-        const relacao = ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
+        const relacao = await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
 
-        if ((await relacao).deletedCount === 0) throw new ServidorError(RELATION_ERROR.DOESENT_EXIST)
+        if (relacao.deletedCount === 0) throw new ServidorError(RELATION_ERROR.DOESENT_EXIST)
         
         res.status(204).send()
     }
