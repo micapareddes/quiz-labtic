@@ -1,6 +1,6 @@
 const button = document.getElementById('toaster-button')
 
-function baseToaster(color, title, message, iconSrc, iconId) {
+function baseToaster(color, title, message, iconSrc, iconAlt) {
     const span = createHTMLElement('span')
     const divTitle = createHTMLElement('div')
     const divContent = createHTMLElement('div')
@@ -28,7 +28,7 @@ function baseToaster(color, title, message, iconSrc, iconId) {
     closeImg.className = 'opacity-50'
 
     iconImg.src = iconSrc
-    iconImg.id = iconId
+    iconImg.alt = iconAlt
 
     divTitle.append(iconImg, h4)
     divContent.append(divTitle, p)
@@ -38,8 +38,8 @@ function baseToaster(color, title, message, iconSrc, iconId) {
     return span
 }
 
-function successToaster(message, iconHref) {
-    const successToaster = baseToaster('emerald', 'Success!', message, iconHref)
+function successToaster(message, iconSrc) {
+    const successToaster = baseToaster('emerald', 'Success!', message, iconSrc, 'Icone de check circular verde')
 
     return successToaster
 }
