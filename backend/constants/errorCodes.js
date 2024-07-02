@@ -75,11 +75,6 @@ export const RELATION_ERROR = {
         errorCode: 3400,
         message: 'Relação já existe!',
     },
-    DOESENT_EXIST: {
-        statusCode: 404,
-        errorCode: 3404,
-        message: "Não existe uma relação com esse ID!"
-    }
 };
 
 export const TOKEN_ERROR = {
