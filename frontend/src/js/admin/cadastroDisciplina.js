@@ -5,15 +5,7 @@ const disciplinaContainer = document.getElementById('disciplina-container')
 const dialogAlteracoesCancelarButton = document.getElementById('cancelar-dialog-button')
 const dialogAlteracoesVoltarButton = document.getElementById('voltar-dialog-button')
 const toaster = document.getElementById('toaster')
-const closeToaster = document.getElementById('close-toaster')
 const main = document.getElementById('main')
-
-async function getProfessores() {
-    const accessToken = getFromLocalStorage('accessToken')
-    const professoresCadastrados = await makeRequest( { url: 'http://localhost:3333/api/usuarios/professores', method:'GET', token: accessToken})
-    console.log(professoresCadastrados);
-    return professoresCadastrados;
-}
 
 async function cadastrar(data) {
     try {
@@ -38,17 +30,6 @@ async function cadastrar(data) {
         }
     }
     
-}
-
-function listarProfessoresNoSelect(listaProfessores) {
-    const select = document.getElementById('select')
-
-    listaProfessores.forEach((professor) => {
-        const option = createHTMLElement('option')
-        option.value = professor._id
-        option.textContent = professor.nome
-        select.appendChild(option)
-    })
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -97,15 +78,12 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     if (response.status === 204) {
         cadastroDisciplinaForm.reset()
 
-        // cria toaster de sucesso
-        const toaster = successToaster('Disciplina cadastrada com sucesso!', '../../img/icones/check-circle.svg')
+        const toaster = successToaster({
+            message: 'Disciplina cadastrada com sucesso!',
+            iconSrc: '../../img/icones/check-circle.svg'
+        })
         main.appendChild(toaster)
-
-        // remove toaster após 10 segundos
-        const toasterId = document.getElementById('toaster')
-        setTimeout(() => {
-            toasterId.remove()
-        }, 5000);
+        closeToaster()
 
     }
 })
@@ -130,5 +108,3 @@ goBackButton.addEventListener('click', () => {
 dialogAlteracoesCancelarButton.addEventListener('click', () => {
     closeDialog('dialog-alteracoes')
 })
-
-closeToaster.addEventListener('click', () => toaster.classList.add('hidden'))
