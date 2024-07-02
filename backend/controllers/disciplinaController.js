@@ -52,7 +52,8 @@ class DisciplinaController {
         const reqUser = await ModeloUsuario.findById(reqUserId)
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
-        const { id, nome, professor_id } = req.body
+        const id = req.params.id
+        const { nome, professor_id } = req.body
 
         if (!id) throw new ServidorError(DISCIPLINA_ERROR.ID_REQUIRED)
 
@@ -112,6 +113,23 @@ class DisciplinaController {
 
         console.log(disciplinasCadastradas);
         return res.status(200).json({ disciplinasCadastradas })
+    }
+
+    async listarInformaçõesPorId(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        
+        const disciplina = await ModeloDisciplina.findOne({_id: id})
+
+        if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+
+        res.status(200).json({ disciplina })
     }
 }
 
