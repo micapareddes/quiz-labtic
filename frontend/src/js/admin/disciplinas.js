@@ -7,8 +7,6 @@ async function removerRelacaoDaDisciplina(id) {
 
     } catch (error) {
         console.log(error.status);
-
-        if ( error.status === 3404 ) return
     }
 }
 
