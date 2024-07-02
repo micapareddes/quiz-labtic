@@ -1,22 +1,3 @@
-async function getDisciplinas() {
-    try {
-        const accessToken = getFromLocalStorage('accessToken')
-        const disciplinasCadastradas = await makeRequest( { url: 'http://localhost:3333/api/disciplinas/cadastradas', method:'GET', token: accessToken})
-
-        return disciplinasCadastradas; 
-
-    } catch(error) {
-        console.log(error);
-
-        if (error.status === 403) {
-            alert('Acesso Proibido')
-        } else {
-            alert('Algo deu errado...')
-        }
-    }
-}
-
-// rodar sempre que remover disciplina ou verificar se há alunos cadastrados primeiro?
 async function removerRelacaoDaDisciplina(id) {
     try {
         const accessToken = getFromLocalStorage('accessToken')
@@ -31,11 +12,31 @@ async function removerRelacaoDaDisciplina(id) {
     }
 }
 
+async function getDisciplinas() {
+    try {
+        const accessToken = getFromLocalStorage('accessToken')
+        const disciplinasCadastradas = await makeRequest( { url: 'http://localhost:3333/api/disciplinas/cadastradas', method:'GET', token: accessToken})
+
+        return disciplinasCadastradas; 
+
+    } catch(error) {
+        console.log(error);
+
+        if (error.status === 403) {
+            alert('Acesso Proibido')
+            redirectTo404()
+        } else {
+            alert('Algo deu errado...')
+        }
+    }
+}
+
+
 async function removerDisciplinaDoBanco(id) {
     try {
         const accessToken = getFromLocalStorage('accessToken')
         const data = {"id": id}
-        const disciplinasCadastradas = await makeRequest( { url: 'http://localhost:3333/api/disciplinas', method:'DELETE', token: accessToken, data})
+        await makeRequest( { url: 'http://localhost:3333/api/disciplinas', method:'DELETE', token: accessToken, data})
 
         console.log('deletado!');
         return  
@@ -89,18 +90,16 @@ function totalDeDisciplinas(){
     return Number(quantidade.textContent)
 }
 
-function mostrarToasterSuccess() {
+function toasterSuccess() {
     const main = document.getElementById('main')
 
-    // cria toaster de sucesso
-    const toaster = successToaster('Disciplina removida com sucesso!', '../../img/icones/check-circle.svg')
+    const toaster = successToaster({
+        message: 'Disciplina removida com sucesso!', 
+        iconSrc: '../../img/icones/check-circle.svg'
+    })
     main.appendChild(toaster)
 
-    // remove toaster após 10 segundos
-    const toasterId = document.getElementById('toaster')
-    setTimeout(() => {
-        toasterId.remove()
-    }, 5000);
+    closeToaster()
 }
 
 function createNameRow(name) {
@@ -151,14 +150,16 @@ function createQuizCell(array) {
     return quizCell
 }
 
-function createActionsCell({ onRemove }) {
+function createActionsCell({ onEdit, onRemove }) {
     const actionsCell = createHTMLElement('td')
     actionsCell.className = 'px-5 py-4 rounded-r-xl'
 
     const editarButton = createHTMLElement('a')
     editarButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
     editarButton.textContent = 'Editar'
-    editarButton.href = 'http://localhost:5500/frontend/src/pages/adm/editar.html'
+    editarButton.addEventListener('click', () => {
+        onEdit()
+    })
 
     const removerButton = createHTMLElement('button')
     removerButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
@@ -171,6 +172,11 @@ function createActionsCell({ onRemove }) {
     actionsCell.append(editarButton, removerButton)
     
     return actionsCell
+}
+
+function openEditarDisciplinaPage(id) {
+    const url = `http://localhost:5500/frontend/src/pages/adm/editar.html?id=${id}`
+    navigateTo(url)
 }
 
 // Aqui se encontra a lógica de deletar a disciplina e relação na função do dialog
@@ -192,11 +198,14 @@ async function createTableRow({ nome, professor, quizzes, disciplinaId }) {
             countDown()
             const total = totalDeDisciplinas()
             if (total === 0) nenhumCadastro()
-            mostrarToasterSuccess() 
+            toasterSuccess() 
         }
     })
 
     const actionsCell = createActionsCell({
+        onEdit: () => {
+            openEditarDisciplinaPage(disciplinaId)
+        },
         onRemove: () => {
             openDialog({ dialog, rootId: 'root' })
         }
@@ -230,7 +239,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (quantidadeCadastros === 0) {
         nenhumCadastro()
+        
     } else {
         createTable(disciplinas)
+        if (getFromLocalStorage('disciplinaAlterada')) {
+            const root = document.getElementById('root')
+            const toaster = successToaster({
+                message: 'Alterações salvas!',
+                iconSrc: '../../img/icones/check-circle.svg'
+            })
+            root.appendChild(toaster)
+            closeToaster()
+            localStorage.removeItem('disciplinaAlterada')
     }
-})
+}})

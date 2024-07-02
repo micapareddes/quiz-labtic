@@ -1,6 +1,4 @@
-const button = document.getElementById('toaster-button')
-
-function baseToaster(color, title, message, iconSrc, iconAlt) {
+function baseToaster({ color, title, message, iconSrc, iconAlt }) {
     const span = createHTMLElement('span')
     const divTitle = createHTMLElement('div')
     const divContent = createHTMLElement('div')
@@ -13,7 +11,7 @@ function baseToaster(color, title, message, iconSrc, iconAlt) {
     span.id = 'toaster'
     span.className = `px-5 py-3 rounded-md border-l-4 shadow-md absolute right-4 bottom-6 bg-${color}-100 border-l-${color}-400 flex items-start gap-12`
 
-    divTitle.className = 'flex gap-2'
+    divTitle.className = 'flex items-center gap-2'
 
     h4.className = 'font-semibold text-base'
     h4.textContent = title
@@ -25,10 +23,14 @@ function baseToaster(color, title, message, iconSrc, iconAlt) {
 
     closeImg.src = '../../img/icones/x.svg'
     closeImg.alt = 'Icone de X'
-    closeImg.className = 'opacity-50'
+    closeImg.style.height = '21px'
+    closeImg.style.width = '21px'
+    closeImg.className = 'opacity-50 hover:opacity-70'
 
     iconImg.src = iconSrc
     iconImg.alt = iconAlt
+    iconImg.style.height = '21px'
+    iconImg.style.width = '21px'
 
     divTitle.append(iconImg, h4)
     divContent.append(divTitle, p)
@@ -38,13 +40,38 @@ function baseToaster(color, title, message, iconSrc, iconAlt) {
     return span
 }
 
-function successToaster(message, iconSrc) {
-    const successToaster = baseToaster('emerald', 'Success!', message, iconSrc, 'Icone de check circular verde')
+function successToaster({ message, iconSrc }) {
+    const successToaster = baseToaster({
+        color: 'emerald', 
+        title: 'Sucesso!', 
+        message, 
+        iconSrc, 
+        iconAlt: 'Icone de check circular verde'
+    })
 
     return successToaster
 }
 
-if (button) addEventListener.button('click', () => {
-    const toaster = document.getElementById('toaster')
-    toaster.remove()
-})
+function infoToaster({ message, iconSrc }) {
+    return baseToaster({ 
+        color: 'indigo', 
+        title: 'Info', 
+        message, 
+        iconSrc, 
+        iconAlt: 'Icone de informação roxo'
+    })
+}
+
+function closeToaster() {
+    const toasterButton = document.getElementById('toaster-button')
+    const toasterId = document.getElementById('toaster')
+
+    toasterButton.addEventListener('click', () => {
+        const toaster = document.getElementById('toaster')
+        toaster.remove()
+    })
+
+    setTimeout(() => {
+        toasterId.remove()
+    }, 5000)
+}
