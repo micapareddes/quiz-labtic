@@ -4,33 +4,32 @@ const disciplinaInput = document.getElementById('disciplina')
 const disciplinaContainer = document.getElementById('disciplina-container')
 const dialogAlteracoesCancelarButton = document.getElementById('cancelar-dialog-button')
 const dialogAlteracoesVoltarButton = document.getElementById('voltar-dialog-button')
-
-async function getProfessores() {
-    const accessToken = getFromLocalStorage('accessToken')
-    const professoresCadastrados = await makeRequest( { url: 'http://localhost:3333/api/usuarios/professores', method:'GET', token: accessToken})
-    console.log(professoresCadastrados);
-    return professoresCadastrados;
-}
+const toaster = document.getElementById('toaster')
+const main = document.getElementById('main')
 
 async function cadastrar(data) {
     try {
         const accessToken = getFromLocalStorage('accessToken')
         const url = 'http://localhost:3333/api/disciplinas'
-        await makeRequest({ url, method: 'POST', token: accessToken, data })
+        const response = await makeRequest({ url, method: 'POST', token: accessToken, data })
+        return response
     } catch (error) {
+        if (error.status === 2409) {
+            const errorMessage = document.getElementById('error-message')
+            if (!errorMessage) {
+                const message = createHTMLElement('span')
+                message.textContent = 'Já existe uma disciplina com esse nome'
+                message.id = 'error-message'
+                message.className = 'text-red-500 text-sm'
+
+                disciplinaInput.classList.add('border-red-500')
+                disciplinaContainer.appendChild(message)
+            }
+        } else {
+            alert('Algo deu errado...')
+        }
     }
     
-}
-
-function listarProfessoresNoSelect(listaProfessores) {
-    const select = document.getElementById('select')
-
-    listaProfessores.forEach((professor) => {
-        const option = createHTMLElement('option')
-        option.value = professor._id
-        option.textContent = professor.nome
-        select.appendChild(option)
-    })
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -76,6 +75,17 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     }
 
     const response = await cadastrar(data)
+    if (response.status === 204) {
+        cadastroDisciplinaForm.reset()
+
+        const toaster = successToaster({
+            message: 'Disciplina cadastrada com sucesso!',
+            iconSrc: '../../img/icones/check-circle.svg'
+        })
+        main.appendChild(toaster)
+        closeToaster()
+
+    }
 })
 
 disciplinaInput.addEventListener('input', () => {

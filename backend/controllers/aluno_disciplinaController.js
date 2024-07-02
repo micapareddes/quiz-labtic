@@ -59,6 +59,18 @@ class Aluno_DisciplinaController {
 
         return res.status(204).send()
     }
+
+    async eliminarRelacaoPorDisciplinaId(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+
+        await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
+        
+        res.status(204).send()
+    }
 }
 
 export default new Aluno_DisciplinaController()

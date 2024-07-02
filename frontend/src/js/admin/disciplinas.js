@@ -1,9 +1,45 @@
+async function removerRelacaoDaDisciplina(id) {
+    try {
+        const accessToken = getFromLocalStorage('accessToken')
+        await makeRequest( { url: 'http://localhost:3333/api/alunos_disciplinas', method:'DELETE', data: { id }, token: accessToken})
+
+        return
+
+    } catch (error) {
+        console.log(error.status);
+
+        if ( error.status === 3404 ) return
+    }
+}
+
 async function getDisciplinas() {
     try {
         const accessToken = getFromLocalStorage('accessToken')
         const disciplinasCadastradas = await makeRequest( { url: 'http://localhost:3333/api/disciplinas/cadastradas', method:'GET', token: accessToken})
 
         return disciplinasCadastradas; 
+
+    } catch(error) {
+        console.log(error);
+
+        if (error.status === 403) {
+            alert('Acesso Proibido')
+            redirectTo404()
+        } else {
+            alert('Algo deu errado...')
+        }
+    }
+}
+
+
+async function removerDisciplinaDoBanco(id) {
+    try {
+        const accessToken = getFromLocalStorage('accessToken')
+        const data = {"id": id}
+        await makeRequest( { url: 'http://localhost:3333/api/disciplinas', method:'DELETE', token: accessToken, data})
+
+        console.log('deletado!');
+        return  
 
     } catch(error) {
         console.log(error);
@@ -44,86 +80,176 @@ function mostrarQuantidadeCadastros(total) {
     quantidadeCadastros.textContent = total
 }
 
-function createLine(tr, nome, professor, quizzes) {
-    const nomeCol = createHTMLElement('td')
-    nomeCol.className = 'px-5 py-4 rounded-l-xl'
-    nomeCol.textContent = nome
+function countDown(){
+    const quantidade = document.getElementById('quantidade-cadastros')
+    quantidade.textContent = Number(quantidade.textContent) - 1
+}
 
-    const professorCol = createHTMLElement('td')
-    professorCol.textContent = professor
+function totalDeDisciplinas(){
+    const quantidade = document.getElementById('quantidade-cadastros')
+    return Number(quantidade.textContent)
+}
 
-    if (professor === 'Nenhum Professor') {
-        professorCol.className = 'text-stone-400'
-    }
+function toasterSuccess() {
+    const main = document.getElementById('main')
 
-    const quizCol = createHTMLElement('td')
-    quizCol.className = 'pl-6 md:pl-1'
+    const toaster = successToaster({
+        message: 'Disciplina removida com sucesso!', 
+        iconSrc: '../../img/icones/check-circle.svg'
+    })
+    main.appendChild(toaster)
 
-    const span = createHTMLElement('span')
-    span.className = 'px-2 py-1 rounded-md'
-    span.textContent = quizzes.length
+    closeToaster()
+}
 
-    if (quizzes.length !== 0) span.classList.add('cursor-pointer', 'hover:bg-neutral-200', 'group')
+function createNameRow(name) {
+    const nameRow = createHTMLElement('td')
+    nameRow.className = 'px-5 py-4 rounded-l-xl'
+    nameRow.textContent = name
 
-    const ul = createHTMLElement('ul')
-    ul.className = 'hidden group-hover:block absolute mt-1 px-4 py-2 rounded-2xl border border-neutral-200 bg-neutral-50'
+    return nameRow
+}
 
-    quizzes.forEach((quiz) => {
-        const li = createHTMLElement('li')
-        li.textContent = quiz.nome
-        li.className = 'p-2 cursor-none'
+function createProfessorRow(name) {
+    const professorRow = createHTMLElement('td')
+    professorRow.textContent = name
+    if (name === 'Nenhum Professor') professorRow.className = 'text-stone-400'
 
-        ul.appendChild(li)
+    return professorRow
+}
+
+function createTooltip(items) {
+    const tooltip = createHTMLElement('ul')
+    tooltip.className = 'hidden group-hover:block absolute mt-1 px-4 py-2 rounded-2xl border border-neutral-200 bg-neutral-50'
+
+    items.forEach((item) => {
+        const name = createHTMLElement('li')
+        name.textContent = item.name
+        name.className = 'p-2 cursor-none'
+        tooltip.appendChild(name)
     })
 
-    span.appendChild(ul)
-    quizCol.appendChild(span)
+    return tooltip
+}
 
-    const actions = createHTMLElement('td')
-    actions.className = 'px-5 py-4 rounded-r-xl'
+function createQuizCell(array) {
+    const quizCell = createHTMLElement('td')
+    quizCell.className = 'pl-6 md:pl-1'
 
-    const editarAction = createHTMLElement('a')
-    editarAction.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
-    editarAction.textContent = 'Editar'
-    editarAction.href = 'http://localhost:5500/frontend/src/pages/adm/editar.html'
+    const quantity = createHTMLElement('span')
+    quantity.className = 'px-2 py-1 rounded-md text-stone-400'
+    quantity.textContent = array.length
 
-    const removerAction = createHTMLElement('button')
-    removerAction.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
-    removerAction.textContent = 'Remover'
+    if (array.length !== 0) quantity.classList.add('cursor-pointer', 'hover:bg-neutral-200', 'group', 'text-stone-900')
 
-    actions.append(editarAction, removerAction)
+    const tooltip = createTooltip(array)
+
+    quantity.appendChild(tooltip)
+    quizCell.appendChild(quantity)
+
+    return quizCell
+}
+
+function createActionsCell({ onEdit, onRemove }) {
+    const actionsCell = createHTMLElement('td')
+    actionsCell.className = 'px-5 py-4 rounded-r-xl'
+
+    const editarButton = createHTMLElement('a')
+    editarButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
+    editarButton.textContent = 'Editar'
+    editarButton.addEventListener('click', () => {
+        onEdit()
+    })
+
+    const removerButton = createHTMLElement('button')
+    removerButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
+    removerButton.textContent = 'Remover'
+
+    removerButton.addEventListener('click', () => {
+        onRemove()
+    })
+
+    actionsCell.append(editarButton, removerButton)
     
-    tr.append(nomeCol, professorCol, quizCol, actions)
+    return actionsCell
+}
+
+function openEditarDisciplinaPage(id) {
+    const url = `http://localhost:5500/frontend/src/pages/adm/editar.html?id=${id}`
+    navigateTo(url)
+}
+
+// Aqui se encontra a lógica de deletar a disciplina e relação na função do dialog
+async function createTableRow({ nome, professor, quizzes, disciplinaId }) {
+    const row = createHTMLElement('tr')
+    row.className = 'bg-neutral-100 shadow-sm rounded-xl'
+    
+    const nameCell = createNameRow(nome)
+    const professorCell = createProfessorRow(professor)
+    const quizCell = createQuizCell(quizzes)
+
+    const dialog = createAlertDialog({
+        message: `Você irá remover a disciplina "${nome}".Esta ação não pode ser desfeita.`, 
+        confirmarButtonName: 'Remover', 
+        onConfirm: async () => { 
+            await removerDisciplinaDoBanco(disciplinaId)
+            await removerRelacaoDaDisciplina(disciplinaId)
+            row.remove()
+            countDown()
+            const total = totalDeDisciplinas()
+            if (total === 0) nenhumCadastro()
+            toasterSuccess() 
+        }
+    })
+
+    const actionsCell = createActionsCell({
+        onEdit: () => {
+            openEditarDisciplinaPage(disciplinaId)
+        },
+        onRemove: () => {
+            openDialog({ dialog, rootId: 'root' })
+        }
+    })
+
+    row.append(nameCell, professorCell, quizCell, actionsCell)
+
+    return row
 }
 
 function createTable(cadastros) {
     const tableBody = document.getElementById('tbody')
 
-    cadastros.forEach((cadastro) => {
-        const tr = createHTMLElement('tr')
-        tr.className = 'bg-neutral-100 shadow-sm rounded-xl'
-        console.log();
-        let professor = 'Nenhum Professor'
-        if (cadastro.professor_id) {
-            professor = cadastro.professor_id.nome
-        }
+    cadastros.forEach(async (cadastro) => {
+        const nome = cadastro.nome
+        const professor = cadastro.professor_id ? cadastro.professor_id.nome : 'Nenhum Professor'
+        const quizzes = cadastro.quizes
+        const disciplinaId = cadastro._id
 
-        createLine(tr, cadastro.nome, professor, cadastro.quizes)
-        tableBody.appendChild(tr)
+        const tableRow = await createTableRow({ nome, professor, quizzes, disciplinaId })
+        tableBody.appendChild(tableRow)
     })
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const disciplinasCadastradas = await getDisciplinas()
-    const disciplinas = disciplinasCadastradas.disciplinasCadastradas
+    const response = await getDisciplinas()
+    const disciplinas = response.disciplinasCadastradas
 
     const quantidadeCadastros = disciplinas.length
-
     mostrarQuantidadeCadastros(quantidadeCadastros)
     
     if (quantidadeCadastros === 0) {
         nenhumCadastro()
+        
     } else {
         createTable(disciplinas)
+        if (getFromLocalStorage('disciplinaAlterada')) {
+            const root = document.getElementById('root')
+            const toaster = successToaster({
+                message: 'Alterações salvas!',
+                iconSrc: '../../img/icones/check-circle.svg'
+            })
+            root.appendChild(toaster)
+            closeToaster()
+            localStorage.removeItem('disciplinaAlterada')
     }
-})
+}})

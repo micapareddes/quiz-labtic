@@ -1,6 +1,7 @@
 async function fetchDisciplinas(accessToken, url) {
     try {
         const disciplinas = await makeRequest({ url, method: 'GET', token: accessToken })
+        console.log(disciplinas);
         return disciplinas
 
     } catch (error) {
@@ -16,18 +17,16 @@ async function fetchDisciplinas(accessToken, url) {
 }
 
 // elementos do dashboard -------------------
-function criarUiDisciplina(disciplina) {
-    const htmlListaDisciplinas = document.getElementById('lista-disciplinas')
-
+function criarUiDisciplina(nomeDisciplina) {
     const li = createHTMLElement('li')
     const a = createHTMLElement('a')
 
     a.className = "block px-5 py-4 bg-neutral-100 border hover:bg-neutral-200 transition-colors duration-200 border-neutral-200 rounded-xl cursor-pointer mb-2"
-    a.textContent = disciplina.nome
+    a.textContent = nomeDisciplina
 
     li.appendChild(a)
 
-    htmlListaDisciplinas.appendChild(li)
+    return li
 }
 
 function nenhumaDisciplinaCadastradaUi() {
@@ -53,6 +52,7 @@ function nenhumaDisciplinaCadastradaUi() {
 }
 
 async function criarUiDashboard(token, url) {
+    const htmlListaDisciplinas = document.getElementById('lista-disciplinas')
     const {disciplinas, nome} = await fetchDisciplinas(token, url)
     
     mostrarNomeUsuario(nome)
@@ -60,8 +60,10 @@ async function criarUiDashboard(token, url) {
     if (disciplinas.length > 0) {
         criarUlDisciplinasSidebar()
         disciplinas.forEach(disciplina => {
-            criarUiDisciplina(disciplina)
-            criarLiDisciplinasSidebar(disciplina.disciplina_nome)
+            const nomeDisciplina = disciplina.disciplina_nome ?? disciplina.nome
+            const uiDiscplina = criarUiDisciplina(nomeDisciplina)
+            htmlListaDisciplinas.appendChild(uiDiscplina)
+            criarLiDisciplinasSidebar(nomeDisciplina)
         })
     } else {
         nenhumaDisciplinaCadastradaUi()

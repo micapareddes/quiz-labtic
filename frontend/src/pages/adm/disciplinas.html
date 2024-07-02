@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 </head>
-<body class="bg-indigo-950 grid-container text-stone-900 h-screen overflow-y-scroll md:overflow-hidden">
+<body id="root" class="bg-indigo-950 grid-container text-stone-900 h-screen overflow-y-scroll md:overflow-hidden">
    
     <header class="bg-indigo-950 p-6 md:p-0 w md:h-full col-span-1 box-border flex flex-row items-center lg:items-start md:flex-col">
         <div class=" md:pt-12 lg:pl-8">
@@ -25,12 +25,12 @@
             <nav class="flex-1 md:py-10">
                 <ul class="flex items-center md:items-start md:flex-col h-full gap-6 justify-end">
                     <li>
-                        <a rel="stylesheet" data-active="false" href="" class="group flex items-center gap-2 py-1 md:py-0  md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
+                        <a rel="stylesheet" data-active="false" href="dashboard.html" class="group flex items-center gap-2 py-1 md:py-0  md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
                             <img src="../../img/icones/house.svg" alt="Icone de casa branca" class="w-4 h-4 md:w-5 md:h-5">
                             <p class="hidden lg:block text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Dashboard</p>
                         </a>
                     </li>
-                    <li id="disciplinas-li">
+                    <!-- <li id="disciplinas-li">
                         <button rel="stylesheet" data-active="true" href="" id="accordion-disciplinas" class="group flex items-center gap-2 py-1 md:py-0  md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
                             <img src="../../img/icones/books.svg" alt="Icone de casa branca" class="w-4 h-4 md:w-5 md:h-5">
                             <p id="p-disciplinas-button" class="hidden lg:block text-sm text-indigo-50 group-hover:font-semibold group-data-[active=true]:font-semibold">Painel</p>
@@ -41,7 +41,7 @@
                             <li><a href="" class="block cursor-pointer mb-4 text-stone-900 lg:text-indigo-50 text-sm hover:text-yellow-500 lg:hover:text-yellow-200">Professores</a></li>
                             <li><a href="disciplinas.html" class="block cursor-pointer mb-4 text-yellow-500 lg:text-yellow-200 text-sm hover:text-yellow-500 lg:hover:text-yellow-200">Disciplinas</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="mt-auto">
                         <a rel="stylesheet" href="" data-active="false" class="group flex items-center gap-2 py-1 md:py-0 md:px-8 border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200">
                             <img src="../../img/icones/password.svg" width="21" height="21" alt="Icone de casa branca" class="w-4 h-4 md:w-5 md:h-5">
@@ -104,6 +104,8 @@
     <script src="../../js/global.js"></script>
     <script src="../../js/singOut.js"></script>
     <script src="../../js/toggleAccordion.js"></script>
+    <script src="../../js/components/toaster.js"></script>
+    <script src="../../js/components/dialog.js"></script>
     <script src="../../js/admin/disciplinas.js"></script>
 </body>
 </html>
