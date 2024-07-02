@@ -60,7 +60,6 @@ class Aluno_DisciplinaController {
         return res.status(204).send()
     }
 
-    // lança um erro quando a relação nao existe? 
     async eliminarRelacaoPorDisciplinaId(req, res) {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
@@ -68,9 +67,7 @@ class Aluno_DisciplinaController {
 
         const id = req.body.id
 
-        const relacao = await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
-
-        if (relacao.deletedCount === 0) throw new ServidorError(RELATION_ERROR.DOESENT_EXIST)
+        await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
         
         res.status(204).send()
     }
