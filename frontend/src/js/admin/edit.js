@@ -93,12 +93,29 @@ form.addEventListener('submit', async (e) => {
     const firstData = obtainValuesFromStorage()
     deleteValuesFromStorage()
 
-    const newData = {
+    let newData = {
         nome: e.target.disciplina.value.trim(),
         professor_id: e.target.professor.value.trim(),
     }
 
+    if (newData.nome.length < 3) {
+        const errorMessage = document.getElementById('error-message')
+        if (!errorMessage) {
+            const message = createHTMLElement('span')
+            message.textContent = 'Insira um nome válido'
+            message.id = 'error-message'
+            message.className = 'text-red-500 text-sm'
+
+            disciplinaInput.classList.add('border-red-500')
+            disciplinaContainer.appendChild(message)
+        }
+
+        return
+    }
+
     const formMudou = firstData.nome !== newData.nome  || firstData.professor_id !== newData.professor_id
+
+    console.log(newData);
 
     if (formMudou) {
         await alterarDisciplinaNoBanco(newData)

@@ -53,13 +53,15 @@ class DisciplinaController {
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
         const id = req.params.id
-        const { nome, professor_id } = req.body
+        let { nome, professor_id } = req.body
 
         if (!id) throw new ServidorError(DISCIPLINA_ERROR.ID_REQUIRED)
 
         if (!nome && !professor_id) throw new ServidorError(DISCIPLINA_ERROR.MISSING_FIELDS)
 
-        const updateData = professor_id ? { nome, professor_id } : { nome }
+        if (professor_id === '') professor_id = null
+
+        const updateData = { nome, professor_id }
 
         if (nome && nome.length < 3) throw new ServidorError(DISCIPLINA_ERROR.INVALID_NAME)
 
@@ -96,7 +98,6 @@ class DisciplinaController {
 
         const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
         const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
-        console.log(disciplinasDoProfessor);
 
         return res.status(200).json(disciplinasDoProfessor)
     }
@@ -111,7 +112,6 @@ class DisciplinaController {
 
         const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
 
-        console.log(disciplinasCadastradas);
         return res.status(200).json({ disciplinasCadastradas })
     }
 
