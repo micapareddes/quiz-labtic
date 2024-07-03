@@ -69,6 +69,9 @@ function deleteValuesFromStorage() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    if (!getUrlParam('id')) {
+        navigateTo('../../pages/adm/disciplinas.html')
+    }
     const disciplinaResponse = await getDisciplina()
     const disciplina = disciplinaResponse.disciplina
 
@@ -93,9 +96,27 @@ form.addEventListener('submit', async (e) => {
     const firstData = obtainValuesFromStorage()
     deleteValuesFromStorage()
 
-    const newData = {
+
+    let newData = {
         nome: e.target.disciplina.value.trim(),
-        professor_id: e.target.professor.value.trim(),
+        professor_id: !e.target.professor.value.trim() ? 'null' : e.target.professor.value.trim()
+    }
+
+    if (newData.nome.length <= 3) {
+        const errorMessage = document.getElementById('error-message')
+        const inputNome = document.getElementById('disciplina')
+        const containerInput = document.getElementById('disciplina-container')
+        if (!errorMessage) {
+            const message = createHTMLElement('span')
+            message.textContent = 'O nome deve ter no mínimo 3 caracteres!'
+            message.id = 'error-message'
+            message.className = 'text-red-500 text-sm'
+
+            inputNome.classList.add('border-red-500')
+            containerInput.appendChild(message)
+        }
+
+        return
     }
 
     const formMudou = firstData.nome !== newData.nome  || firstData.professor_id !== newData.professor_id
@@ -103,8 +124,7 @@ form.addEventListener('submit', async (e) => {
     if (formMudou) {
         await alterarDisciplinaNoBanco(newData)
         localStorage.setItem('disciplinaAlterada', true)
-        navigateTo('disciplinas.html')
-        
+        navigateTo('disciplinas.html')   
     } else {
         const toaster = infoToaster({
             message: 'Não foi feita nenhuma alteração para salvar.',
