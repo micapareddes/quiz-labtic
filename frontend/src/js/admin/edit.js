@@ -102,8 +102,6 @@ form.addEventListener('submit', async (e) => {
         professor_id: !e.target.professor.value.trim() ? 'null' : e.target.professor.value.trim()
     }
 
-    console.log(newData.nome.length);
-
     if (newData.nome.length <= 3) {
         const errorMessage = document.getElementById('error-message')
         const inputNome = document.getElementById('disciplina')

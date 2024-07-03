@@ -122,7 +122,7 @@ function createTooltip(items) {
 
     items.forEach((item) => {
         const name = createHTMLElement('li')
-        name.textContent = item.name
+        name.textContent = item.nome
         name.className = 'p-2 cursor-none'
         tooltip.appendChild(name)
     })
@@ -250,4 +250,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             closeToaster()
             localStorage.removeItem('disciplinaAlterada')
     }
+
+    // Remove valores salvos da edição de cadastro
+    localStorage.removeItem('1')
+    localStorage.removeItem('2')
 }})
