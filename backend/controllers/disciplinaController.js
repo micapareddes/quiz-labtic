@@ -59,7 +59,7 @@ class DisciplinaController {
 
         if (!nome && !professor_id) throw new ServidorError(DISCIPLINA_ERROR.MISSING_FIELDS)
 
-        if (professor_id === '') professor_id = null
+        if (professor_id === 'null') professor_id = null
 
         const updateData = { nome, professor_id }
 
