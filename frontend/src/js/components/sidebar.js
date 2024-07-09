@@ -1,4 +1,4 @@
-function sidebarItem({ img, imgAlt, title, href, active=false }) {
+function sidebarLinkItem({ img, imgAlt, title, href, active=false }) {
     const li = createHTMLElement('li')
     const a = createHTMLElement('a')
     const image = createHTMLElement('img')
@@ -23,16 +23,23 @@ function sidebarItem({ img, imgAlt, title, href, active=false }) {
     return li
 }
 
+function sidebarButtonItem({}) {}
+
 function sidebarAccordion({}) {
 
 }
 
-function sidebar() {
+function sidebar({}) {
     const sidebar = createHTMLElement('header')
     const logoContainer = createHTMLElement('div')
     const logoLadoImg = createHTMLElement('img')
     const logoIconImg = createHTMLElement('img')
     const nav = createHTMLElement('nav')
     const itemsList = createHTMLElement('ul')
+
+    sidebar
+}
+
+function openEncerrarSessao() {
 
 }
