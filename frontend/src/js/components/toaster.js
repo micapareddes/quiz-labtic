@@ -1,4 +1,4 @@
-function baseToaster({ color, title, message, iconSrc, iconAlt }) {
+function constructorToaster({ color, title, message, iconSrc, iconAlt }) {
     const span = createHTMLElement('span')
     const divTitle = createHTMLElement('div')
     const divContent = createHTMLElement('div')
@@ -40,8 +40,9 @@ function baseToaster({ color, title, message, iconSrc, iconAlt }) {
     return span
 }
 
-function successToaster({ message }) {
-    const successToaster = baseToaster({
+// Tipos de Toaster
+function SuccessToaster({ message }) {
+    const successToaster = constructorToaster({
         color: 'emerald', 
         title: 'Sucesso!', 
         message, 
@@ -52,14 +53,20 @@ function successToaster({ message }) {
     return successToaster
 }
 
-function infoToaster({ message }) {
-    return baseToaster({ 
+function InfoToaster({ message }) {
+    return constructorToaster({ 
         color: 'indigo', 
         title: 'Info', 
         message, 
         iconSrc: '/frontend/src/img/icones/info.svg', 
         iconAlt: 'Icone de informação roxo'
     })
+}
+
+// Métodos
+function openToaster({ toaster, rootId }) {
+    const root = document.getElementById(rootId)
+    root.appendChild(toaster)
 }
 
 function closeToaster() {
