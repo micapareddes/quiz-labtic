@@ -7,6 +7,12 @@ body {
     color: '#1C1917',
 }
 
+.grid-heading {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: repeat(2, auto);
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: 240px 1fr;
