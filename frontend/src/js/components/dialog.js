@@ -1,4 +1,4 @@
-function baseDialog({ title, message, confirmarButtonName = 'Confirmar', onConfirm, color='neutral' }) {
+function constructorDialog({ title, message, confirmarButtonName = 'Confirmar', onConfirm, color='neutral' }) {
     const container = createHTMLElement('dialog')
     const div = createHTMLElement('div')
     const buttonsContainer = createHTMLElement('div')
@@ -46,20 +46,27 @@ function baseDialog({ title, message, confirmarButtonName = 'Confirmar', onConfi
     return container
 }
 
-function createAlertDialog({ message, confirmarButtonName, onConfirm }) {
-    const alertDialog = baseDialog({ title: 'Tem certeza?', message, confirmarButtonName, onConfirm, color: 'red' })
-
-    return alertDialog
+function AlertDialog({ message, confirmarButtonName, onConfirm }) {
+    return constructorDialog({ 
+        title: 'Tem certeza?', 
+        message, 
+        confirmarButtonName, 
+        onConfirm, 
+        color: 'red' 
+    })
 }
 
-function confirmActionDialog({ title, message, confirmarButtonName }) {
-    const dialog = baseDialog({ title, message, confirmarButtonName, onConfirm, color: 'indigo' })
-
-    return dialog
+function ActionDialog({ title, message, confirmarButtonName }) {
+    return constructorDialog({ 
+        title, 
+        message, 
+        confirmarButtonName, 
+        onConfirm, 
+        color: 'indigo' 
+    })
 }
 
 function openDialog({ dialog, rootId }) {
     const root = document.getElementById(rootId)
-
     root.appendChild(dialog)
 }
