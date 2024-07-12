@@ -80,7 +80,6 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
 
         const toaster = successToaster({
             message: 'Disciplina cadastrada com sucesso!',
-            iconSrc: '../../img/icones/check-circle.svg'
         })
         main.appendChild(toaster)
         closeToaster()

@@ -244,7 +244,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const root = document.getElementById('root')
             const toaster = successToaster({
                 message: 'Alterações salvas!',
-                iconSrc: '../../img/icones/check-circle.svg'
             })
             root.appendChild(toaster)
             closeToaster()

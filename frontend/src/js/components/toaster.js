@@ -21,7 +21,7 @@ function baseToaster({ color, title, message, iconSrc, iconAlt }) {
 
     button.id = 'toaster-button'
 
-    closeImg.src = '../../img/icones/x.svg'
+    closeImg.src = '/frontend/src/img/icones/x.svg'
     closeImg.alt = 'Icone de X'
     closeImg.style.height = '21px'
     closeImg.style.width = '21px'
@@ -40,24 +40,24 @@ function baseToaster({ color, title, message, iconSrc, iconAlt }) {
     return span
 }
 
-function successToaster({ message, iconSrc }) {
+function successToaster({ message }) {
     const successToaster = baseToaster({
         color: 'emerald', 
         title: 'Sucesso!', 
         message, 
-        iconSrc, 
+        iconSrc: '/frontend/src/img/icones/check-circle.svg', 
         iconAlt: 'Icone de check circular verde'
     })
 
     return successToaster
 }
 
-function infoToaster({ message, iconSrc }) {
+function infoToaster({ message }) {
     return baseToaster({ 
         color: 'indigo', 
         title: 'Info', 
         message, 
-        iconSrc, 
+        iconSrc: '/frontend/src/img/icones/info.svg', 
         iconAlt: 'Icone de informação roxo'
     })
 }

@@ -128,7 +128,6 @@ form.addEventListener('submit', async (e) => {
     } else {
         const toaster = infoToaster({
             message: 'Não foi feita nenhuma alteração para salvar.',
-            iconSrc: '../../img/icones/info.svg'
         })
         root.appendChild(toaster)
         closeToaster()
