@@ -89,14 +89,11 @@ function totalDeDisciplinas(){
 }
 
 function toasterSuccess() {
-    const main = document.getElementById('main')
-
-    const toaster = successToaster({
+    const toaster = SuccessToaster({
         message: 'Disciplina removida com sucesso!', 
         iconSrc: '../../img/icones/check-circle.svg'
     })
-    main.appendChild(toaster)
-
+    openToaster({ toaster, rootId: 'main' })
     closeToaster()
 }
 
@@ -186,7 +183,7 @@ async function createTableRow({ nome, professor, quizzes, disciplinaId }) {
     const professorCell = createProfessorRow(professor)
     const quizCell = createQuizCell(quizzes)
 
-    const dialog = createAlertDialog({
+    const dialog = AlertDialog({
         message: `Você irá remover a disciplina "${nome}".Esta ação não pode ser desfeita.`, 
         confirmarButtonName: 'Remover', 
         onConfirm: async () => { 
@@ -241,11 +238,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         createTable(disciplinas)
         if (getFromLocalStorage('disciplinaAlterada')) {
-            const root = document.getElementById('root')
-            const toaster = successToaster({
+            const toaster = SuccessToaster({
                 message: 'Alterações salvas!',
             })
-            root.appendChild(toaster)
+            openToaster({ toaster, rootId: 'root' })
             closeToaster()
             localStorage.removeItem('disciplinaAlterada')
     }

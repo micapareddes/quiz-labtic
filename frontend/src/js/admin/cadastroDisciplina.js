@@ -78,10 +78,10 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     if (response.status === 204) {
         cadastroDisciplinaForm.reset()
 
-        const toaster = successToaster({
+        const toaster = SuccessToaster({
             message: 'Disciplina cadastrada com sucesso!',
         })
-        main.appendChild(toaster)
+        openToaster({ toaster, rootId: 'main' })
         closeToaster()
 
     }

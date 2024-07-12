@@ -126,10 +126,10 @@ form.addEventListener('submit', async (e) => {
         localStorage.setItem('disciplinaAlterada', true)
         navigateTo('disciplinas.html')   
     } else {
-        const toaster = infoToaster({
+        const toaster = InfoToaster({
             message: 'Não foi feita nenhuma alteração para salvar.',
         })
-        root.appendChild(toaster)
+        openToaster({ toaster, rootId: 'root' })
         closeToaster()
     }
 })
