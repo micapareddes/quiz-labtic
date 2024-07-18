@@ -46,7 +46,7 @@ function constructorDialog({ title, message, confirmarButtonName = 'Confirmar', 
     return container
 }
 
-function AlertDialog({ message, confirmarButtonName, onConfirm }) {
+export function AlertDialog({ message, confirmarButtonName, onConfirm }) {
     return constructorDialog({ 
         title: 'Tem certeza?', 
         message, 
@@ -56,7 +56,7 @@ function AlertDialog({ message, confirmarButtonName, onConfirm }) {
     })
 }
 
-function ActionDialog({ title, message, confirmarButtonName }) {
+export function ActionDialog({ title, message, confirmarButtonName }) {
     return constructorDialog({ 
         title, 
         message, 
@@ -66,7 +66,7 @@ function ActionDialog({ title, message, confirmarButtonName }) {
     })
 }
 
-function openDialog({ dialog, rootId }) {
+export function openDialog({ dialog, rootId }) {
     const root = document.getElementById(rootId)
     root.appendChild(dialog)
 }
