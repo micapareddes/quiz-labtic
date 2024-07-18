@@ -1,4 +1,9 @@
-function Heading({ title='Titulo', subtitle='', goBack=false, onGoBack=null }) {
+function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack=false, onGoBack=null }) {
+    const size = {
+        'lg': 'text-lg',
+        'xl': 'text-2xl'
+    }
+
     const heading = createHTMLElement('div')
     const eTitle = createHTMLElement('h1')
     const eSubtitle = createHTMLElement('h2')
@@ -9,7 +14,7 @@ function Heading({ title='Titulo', subtitle='', goBack=false, onGoBack=null }) {
     eTitle.className = 'text-3xl font-bold text-stone-900'
 
     eSubtitle.textContent = subtitle
-    eSubtitle.className = 'text-lg text-stone-700 mt-2'
+    eSubtitle.className = `text-stone-700 mt-2 ${size[subtitleSize]}`
 
     heading.append(eTitle, eSubtitle)
 
