@@ -1,4 +1,4 @@
-function Button( 
+export function Button( 
     { variant='primary', size='md', title='Button', destructive=false, icon=false, disabled=false, type='button', onClick, link=null }
 ) {
     const isGhost = variant === 'ghost'
