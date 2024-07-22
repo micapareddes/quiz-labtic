@@ -118,7 +118,9 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
     
     smallLogo.src = '/frontend/src/img/logo-icon.svg'
     smallLogo.alt = 'Logo icone Polvo Branca'
-    smallLogo.className = 'md:pt-12'
+    smallLogo.className = 'ml-9 md:pt-12'
+    smallLogo.height = 21
+    smallLogo.width = 21
 
     nav.className = 'flex-1 w-full md:py-10'
     navList.className = 'flex md:flex-col h-full gap-6'
