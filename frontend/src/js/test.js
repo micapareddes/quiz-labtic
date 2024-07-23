@@ -7,6 +7,7 @@ import { TooltipInfo } from './components/tooltip-info.js'
 import { 
     ListItemBox, ListItemBoxWithTitle, QuizListItem, EditQuizListItem, RegisterListItem, StudentGradeListItem 
 } from './components/list.js'
+import { TextInput } from './components/text-input.js'
 
 // Botões
 const primary = document.getElementById('button-primary')
@@ -220,6 +221,14 @@ list.append(
     EditQuizListItem({}),
     RegisterListItem({ name: 'Professor' }),
     StudentGradeListItem({})
+)
+
+// Inputs
+const input = document.getElementById('input')
+input.append(
+    TextInput({id: 'tooltip', labelName: 'label', tooltip: true,}),
+    TextInput({id: 'label', labelName: 'label'}),
+    TextInput({id: 'sem-label'}),
 )
 
 // Others
