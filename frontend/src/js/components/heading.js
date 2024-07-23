@@ -25,7 +25,7 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
 
         leftArrow.src = '/frontend/src/img/icones/caret-left.svg'
 
-        goBackButton.className = 'row-span-2 mt-1 mr-4'
+        goBackButton.className = 'row-span-2 mt-1 mr-4 hover:bg-neutral-200 rounded-md'
         goBackButton.appendChild(leftArrow)
 
         heading.prepend(goBackButton)
