@@ -58,7 +58,7 @@ export function AlertDialog({ message, confirmarButtonName, onConfirm }) {
     })
 }
 
-export function ActionDialog({ title, message, confirmarButtonName }) {
+export function ActionDialog({ title, message, confirmarButtonName, onConfirm }) {
     return constructorDialog({ 
         title, 
         message, 
