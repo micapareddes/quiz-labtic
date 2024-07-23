@@ -26,7 +26,7 @@ export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold'
     return titulo
 }
 
-export function Text({ text='Texto', size='base', tone='500', bold=false, as='p' }) {
+export function Text({ text='Texto', size='base', tone='s-500', bold=false, as='p' }) {
     const font = {
         'sm': 'text-sm',
         'md': 'text-base',
@@ -44,6 +44,6 @@ export function Text({ text='Texto', size='base', tone='500', bold=false, as='p'
 
     const texto = createHTMLElement(as)
     texto.textContent = text
-    texto.className = `text-sm ${font[size], color[tone], bold && 'font-semibold'}`
+    texto.className = `${font[size]} ${color[tone]} ${bold && 'font-semibold'}`
     return texto
 }
