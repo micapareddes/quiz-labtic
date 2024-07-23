@@ -1,21 +1,20 @@
-function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack=false, onGoBack=null }) {
-    const size = {
-        'lg': 'text-lg',
-        'xl': 'text-2xl'
-    }
+import { Title } from "./fonts.js"
 
+export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack=false, onGoBack=null }) {
     const heading = createHTMLElement('div')
-    const eTitle = createHTMLElement('h1')
-    const eSubtitle = createHTMLElement('h2')
+    const eTitle = Title({ 
+        title,
+        size: '3xl',
+        tone: 's-900',
+    })
+    const eSubtitle = Title({ 
+        subtitle,
+        size: subtitleSize,
+        tone: 's-700',
+        bold: 'regular'
+    })
 
     heading.className = 'grid'
-
-    eTitle.textContent = title
-    eTitle.className = 'text-3xl font-bold text-stone-900'
-
-    eSubtitle.textContent = subtitle
-    eSubtitle.className = `text-stone-700 mt-2 ${size[subtitleSize]}`
-
     heading.append(eTitle, eSubtitle)
 
     if (goBack) {
