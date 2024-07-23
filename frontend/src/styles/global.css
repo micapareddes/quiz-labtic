@@ -20,6 +20,11 @@ body {
     height: 100vh;
 }
 
+.grid-list-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+}
+
 .border-spacing-table {
     --tw-border-spacing-x: 0px;
     --tw-border-spacing-y: 0.5rem;
