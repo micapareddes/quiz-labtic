@@ -41,7 +41,7 @@ function constructorToaster({ color, title, message, iconSrc, iconAlt }) {
 }
 
 // Tipos de Toaster
-function SuccessToaster({ message }) {
+export function SuccessToaster({ message }) {
     const successToaster = constructorToaster({
         color: 'emerald', 
         title: 'Sucesso!', 
@@ -53,7 +53,7 @@ function SuccessToaster({ message }) {
     return successToaster
 }
 
-function InfoToaster({ message }) {
+export function InfoToaster({ message }) {
     return constructorToaster({ 
         color: 'indigo', 
         title: 'Info', 
@@ -64,12 +64,12 @@ function InfoToaster({ message }) {
 }
 
 // Métodos
-function openToaster({ toaster, rootId }) {
+export function openToaster({ toaster, rootId }) {
     const root = document.getElementById(rootId)
     root.appendChild(toaster)
 }
 
-function closeToaster() {
+export function closeToaster() {
     const toasterButton = document.getElementById('toaster-button')
     const toasterId = document.getElementById('toaster')
 
