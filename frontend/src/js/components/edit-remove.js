@@ -10,7 +10,7 @@ export function EditRemoveActionButtons({ onEdit, onRemove }) {
     const removeButton = Button({
         variant: 'ghost',
         title: 'Remover',
-        link: onRemove,
+        onClick: onRemove,
     })
 
     container.className = 'flex flex-row gap-8'
