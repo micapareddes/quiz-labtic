@@ -1,20 +1,24 @@
-import { Text } from "./fonts.js"
+import { Text, Title } from "./fonts.js"
 import { Tag } from "./tag.js"
 import { EditRemoveActionButtons } from "./edit-remove.js"
 import { Button } from "./button.js"
 
 export function ListItemBox({ content }) {
-    const container = createHTMLElement('div')
-    container.className = 'bg-neutral-100 shadow-base border border-neutral-200 rounded-xl px-5 py-4 w-full justify-start items-center'
+    const container = createHTMLElement('li')
+    container.className = 'list-none bg-neutral-100 shadow-base border border-neutral-200 rounded-xl px-5 py-4 w-full justify-start items-center'
     if (content) container.appendChild(content)
 
     return container
 }
 
 export function ListItemBoxWithTitle({ title='Título', content=null }) {
-    const titulo = createHTMLElement('p')
-    titulo.textContent = title
-    titulo.className = 'text-stone-900 text-base'
+    const titulo = Title({
+        as: 'h4',
+        size: 'md',
+        title,
+        tone: 's-900',
+        bold: 'regular',
+    })
 
     if (content) content.prepend(titulo)
 
