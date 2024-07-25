@@ -8,6 +8,7 @@ import {
     ListItemBox, ListItemBoxWithTitle, QuizListItem, EditQuizListItem, RegisterListItem, StudentGradeListItem 
 } from './components/list.js'
 import { TextInput } from './components/text-input.js'
+import { RegisterDisciplinasTable, CadastrosTableRow } from './components/table.js'
 
 // Botões
 const primary = document.getElementById('button-primary')
@@ -229,6 +230,56 @@ input.append(
     TextInput({id: 'tooltip', labelName: 'label', tooltip: true,}),
     TextInput({id: 'label', labelName: 'label'}),
     TextInput({id: 'sem-label'}),
+)
+
+// Table
+const table = document.getElementById('table')
+
+const mockDisciplinas = {
+    disciplinas: [
+        {
+            _id: '123',
+            nome: 'Adivinhação',
+            professor_id: {
+                _id: '111',
+                nome: 'professor'
+            },
+            quizes: []
+        }
+    ]
+}
+
+const mockAlunos = {
+    alunos: [
+        {
+            _id: '123',
+            nome: 'aluno',
+            matricula: '111',
+            disciplinas: []
+        }
+    ]
+}
+
+function parseDisciplinas(disciplinasBack) {
+    return disciplinasBack.map((disciplina) => {
+        const deleteUrl = `api/disciplinas/${disciplina._id}`
+        const editUrl = `localhost/${disciplina._id}`
+        return {
+            id: disciplina._id, 
+            type: 'disciplina', 
+            name: disciplina.nome, 
+            matriculaOuProfessor: disciplina.professor_id.nome, 
+            array: disciplina.quizes, 
+            toEdit: editUrl, 
+            toRemove: deleteUrl,
+        }
+    })
+}
+
+const disciplinasFormatadas = parseDisciplinas(mockDisciplinas.disciplinas)
+table.append(
+    RegisterDisciplinasTable(disciplinasFormatadas),
+    CadastrosTableRow({})
 )
 
 // Others
