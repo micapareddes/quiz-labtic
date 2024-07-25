@@ -860,8 +860,40 @@ video {
   cursor: pointer;
 }
 
+.cursor-wait {
+  cursor: wait;
+}
+
+.cursor-cell {
+  cursor: cell;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.cursor-default {
+  cursor: default;
+}
+
 .list-none {
   list-style-type: none;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
 .flex-row {
@@ -1089,6 +1121,16 @@ video {
 
 .bg-transparent {
   background-color: transparent;
+}
+
+.bg-neutral-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 229 229 / var(--tw-bg-opacity));
+}
+
+.bg-red-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1484,6 +1526,16 @@ video {
 .before\:content-\[attr\(data-description\)\]::before {
   --tw-content: attr(data-description);
   content: var(--tw-content);
+}
+
+.first\:rounded-l-xl:first-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.last\:rounded-r-xl:last-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
 }
 
 .hover\:border-l-yellow-200:hover {
