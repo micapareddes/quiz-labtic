@@ -112,7 +112,7 @@ export function SuccessDialog({
     return container
 }
 
-export function openDialog({ dialog, rootId }) {
-    const root = document.getElementById(rootId)
+export function openDialog(dialog) {
+    const root = document.getElementById('root')
     root.appendChild(dialog)
 }

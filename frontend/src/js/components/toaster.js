@@ -64,8 +64,8 @@ export function InfoToaster({ message }) {
 }
 
 // Métodos
-export function openToaster({ toaster, rootId }) {
-    const root = document.getElementById(rootId)
+export function openToaster(toaster) {
+    const root = document.getElementById('root')
     root.appendChild(toaster)
 }
 
