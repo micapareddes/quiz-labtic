@@ -1,7 +1,7 @@
 import { TooltipInfo } from "./tooltip-info.js"
 
 export function TextInput({ 
-    labelName, placeholder='Placeholder', id, size='regular', tooltip=false, tooltipMessage 
+    type='text', labelName, placeholder='Placeholder', id, size='regular', fill=false, tooltip=false, tooltipMessage, className 
 }) {
     const text = {
         'regular': 'text-base',
@@ -15,11 +15,11 @@ export function TextInput({
 
     container.className = 'space-y-3'
 
-    input.type = 'text'
+    input.type = type
     input.name = id
     input.id = id
     input.placeholder = placeholder
-    input.className = `px-2 py-3 rounded-md border border-neutral-300 bg-transparent ${text[size]} text-stone-900 w-full`
+    input.className = `px-2 py-3 rounded-md border ${fill ? 'border-neutral-200' : 'border-neutral-300'} ${fill ? 'bg-neutral-100' : 'bg-transparent'} ${text[size]} text-stone-900 w-full ${className}`
 
     label.textContent = labelName
     label.htmlFor = id
