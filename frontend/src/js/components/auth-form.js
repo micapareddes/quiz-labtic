@@ -1,5 +1,5 @@
 import { Button } from "./button.js";
-import { Card } from "./card.js";
+import { Box } from "./box.js";
 import { Text, Title } from "./fonts.js";
 
 export function AuthForm({ 
@@ -26,6 +26,7 @@ export function AuthForm({
         disabled: buttonDisabled,
         size: buttonSize,
     })
+    container.id = 'auth-form'
     container.className = 'flex flex-col justify-center items-center space-y-8 w-full'
     heading.className = 'flex flex-col items-center pb-5 px-7 border-b border-neutral-300 mb-12 space-y-5'
     heading.appendChild(titulo)
@@ -33,5 +34,5 @@ export function AuthForm({
     if (subtitle) heading.appendChild(subtitulo)
 
     container.append(heading, cardContent, button)
-    return Card({ content: container })
+    return Box({ content: container })
 }
