@@ -1,5 +1,5 @@
 export function Button( 
-    { variant='primary', size='md', title='Button', destructive=false, icon=false, disabled=false, type='button', onClick, link=null }
+    { variant='primary', size='md', title='Button', destructive=false, icon=false, disabled=false, type='button', onClick, link=null, id='button-id' }
 ) {
     const isGhost = variant === 'ghost'
     const sizeStyle = {
@@ -17,6 +17,7 @@ export function Button(
     }
 
     const button = link ? createHTMLElement('a') : createHTMLElement('button')
+    button.id = id
     button.dataset.destructive = destructive
     if (!link) button.type = type
     button.textContent = title
