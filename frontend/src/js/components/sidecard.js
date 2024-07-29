@@ -1,4 +1,5 @@
 import { Button } from './button.js'
+import { Card } from './card.js'
 
 export function QuestionItem(
     { question='Bold', answer='Regular', color='neutral' }
@@ -50,16 +51,6 @@ export function AttemptItem({ attemptNumber, grade, answerLink, disabledButton=f
     return container
 }
 
-export function SidecardBox({ content }) {
-    const container = createHTMLElement('div')
-
-    container.className = 'flex flex-col items-center h-[600px] py-10 w-80 bg-neutral-100 rounded-3xl'
-
-    container.append(content)
-
-    return container
-}
-
 export function SidecardBoxWithTitle({ title, titleBold, content }) {
     const titulo = createHTMLElement('h5')
 
@@ -68,7 +59,7 @@ export function SidecardBoxWithTitle({ title, titleBold, content }) {
 
     content.prepend(titulo)
 
-    return SidecardBox({ content })
+    return Card({ size: 'lg', content })
 }
 
 export function QuestionSidecard({ 
