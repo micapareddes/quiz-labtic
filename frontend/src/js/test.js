@@ -8,7 +8,12 @@ import {
     ListItemBox, ListItemBoxWithTitle, QuizListItem, EditQuizListItem, RegisterListItem, StudentGradeListItem 
 } from './components/list.js'
 import { TextInput } from './components/text-input.js'
-import { RegisterDisciplinasTable, CadastrosTableRow } from './components/table.js'
+import { RegisterDisciplinasTable, RegisterUsersTable } from './components/table.js'
+import { EditRemoveActionButtons } from './components/edit-remove.js'
+import {parseUsers, parseDisciplinas} from './functions/parseData.js'
+
+const root = document.getElementById('root')
+
 
 // Botões
 const primary = document.getElementById('button-primary')
@@ -240,11 +245,15 @@ const mockDisciplinas = {
         {
             _id: '123',
             nome: 'Adivinhação',
-            professor_id: {
-                _id: '111',
-                nome: 'professor'
-            },
             quizes: []
+        },
+        {
+            _id: '234',
+            nome: 'Defesa Contra as Artes das Trevas',
+            professor_id: {
+                nome: 'Severus Snape'
+            },
+            quizes: [{nome: 'Prova de Fetiços Básicos'}]
         }
     ]
 }
@@ -253,40 +262,46 @@ const mockAlunos = {
     alunos: [
         {
             _id: '123',
-            nome: 'aluno',
-            matricula: '111',
+            nome: 'Harry Potter',
+            matricula: '123456',
+            disciplinas: [{nome: 'Adivinhação'}]
+        },        
+        {
+            _id: '234',
+            nome: 'Hermione Granger',
+            matricula: '234567',
+            disciplinas: [{nome: 'Adivinhação'}, {nome: 'Poções'}]
+        },
+        {
+            _id: '345',
+            nome: 'Ron Weasley',
+            matricula: '123123',
             disciplinas: []
-        }
+        },
     ]
 }
 
-function parseDisciplinas(disciplinasBack) {
-    return disciplinasBack.map((disciplina) => {
-        const deleteUrl = `api/disciplinas/${disciplina._id}`
-        const editUrl = `localhost/${disciplina._id}`
-        return {
-            id: disciplina._id, 
-            type: 'disciplina', 
-            name: disciplina.nome, 
-            matriculaOuProfessor: disciplina.professor_id.nome, 
-            array: disciplina.quizes, 
-            toEdit: editUrl, 
-            toRemove: deleteUrl,
-        }
-    })
-}
-
 const disciplinasFormatadas = parseDisciplinas(mockDisciplinas.disciplinas)
+const alunosFormatados = parseUsers(mockAlunos.alunos)
 table.append(
     RegisterDisciplinasTable(disciplinasFormatadas),
-    CadastrosTableRow({})
+    RegisterUsersTable({
+        type: 'aluno',
+        rows: alunosFormatados,
+    })
 )
+
+root.append(EditRemoveActionButtons({}))
 
 // Others
 const others = document.getElementById('others')
+
 others.append(
     Tag({}),
-    Heading({ goBack: true, subtitle: 'Subtitle' }),
-    Heading({ subtitle: 'Subtitle' }),
-    TooltipInfo({}),
+    Heading({ 
+        goBack: true, 
+        title: 'Trato de Criaturas Mágicas', 
+        subtitle: 'Quizzes' 
+    }),
+    TooltipInfo({})
 )
