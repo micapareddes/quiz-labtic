@@ -11,6 +11,8 @@ import { TextInput } from './components/text-input.js'
 import { RegisterDisciplinasTable, RegisterUsersTable } from './components/table.js'
 import { EditRemoveActionButtons } from './components/edit-remove.js'
 import {parseUsers, parseDisciplinas} from './functions/parseData.js'
+import {PasswordInput} from './components/password-input.js'
+import { AuthForm } from './components/auth-form.js'
 
 const root = document.getElementById('root')
 
@@ -235,6 +237,10 @@ input.append(
     TextInput({id: 'tooltip', labelName: 'label', tooltip: true,}),
     TextInput({id: 'label', labelName: 'label'}),
     TextInput({id: 'sem-label'}),
+    TextInput({id: 'fill', fill: true}),
+    PasswordInput({}),
+    AuthForm({})
+
 )
 
 // Table
@@ -303,5 +309,5 @@ others.append(
         title: 'Trato de Criaturas Mágicas', 
         subtitle: 'Quizzes' 
     }),
-    TooltipInfo({})
+    TooltipInfo({}),
 )
