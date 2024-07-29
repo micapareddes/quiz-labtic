@@ -13,7 +13,7 @@ export function EditRemoveActionButtons({ onEdit, onRemove }) {
         onClick: onRemove,
     })
 
-    container.className = 'flex flex-row gap-8'
+    container.className = 'space-x-8 flex nowrap'
     container.append(editButton, removeButton)
 
     return container
