@@ -5,14 +5,14 @@ import { Text, Title } from "./fonts.js"
 import { TooltipItems } from "./tooltip-items.js"
 import { EditRemoveActionButtons } from "./edit-remove.js"
 
-export function TableRow({ cells=[] }) {
+export function TableRow({ cells=[{ content: 'empty', className: '' }] }) {
     const row = createHTMLElement('tr')
-    row.className = `bg-neutral-100 shadow-sm rounded-xl grid grid-cols-${cells.length} items-center`
+    row.className = `bg-neutral-100 shadow-sm rounded-xl`
 
     cells.forEach((cell) => {
         const cellTd = createHTMLElement('td')
-        cellTd.className = `px-5 py-4 first:rounded-l-xl last:rounded-r-xl`
-        cellTd.appendChild(cell)
+        cellTd.className = `px-5 py-4 first:rounded-l-xl last:rounded-r-xl ${cell.className}`
+        cellTd.appendChild(cell.content)
         row.appendChild(cellTd)
     })
 
@@ -67,23 +67,39 @@ export function CadastrosTableRow({
     acoesCol.classList.add('justify-end')
 
     const row = TableRow({ 
-        cells: [ nomeCol, matriculaOuProfessorCol, arrayCol, acoesCol] 
+        cells: [ 
+            { 
+                content: nomeCol, 
+                className: 'w-auto',
+            }, 
+            {
+                content: matriculaOuProfessorCol,
+                className: 'w-auto',
+            }, 
+            {
+                content: arrayCol,
+            }, 
+            {
+                content: acoesCol,
+                className: 'w-1/100',
+            }
+        ] 
     })
 
     return row
 }
 
-export function TableHead(cells=[]) {
+export function TableHead(cells=[{ content: 'empty', className: '' }]) {
     const thead = createHTMLElement('thead')
     const headRow = createHTMLElement('tr')
-    cells.forEach((value) => {
+    cells.forEach((cell) => {
         const headCol = createHTMLElement('th')
         const content = Text({
             size: 'sm',
-            text: value,
+            text: cell.content,
             bold: 'regular',
             tone: 's-500',
-            className: 'text-start bg-red-50'
+            className: `text-start ${cell.className}`
         })
         headCol.appendChild(content)
         headRow.appendChild(headCol)
@@ -96,10 +112,20 @@ export function TableHead(cells=[]) {
 
 export function RegisterDisciplinasTable(rows) {
     const headerContent = [
-        'Nome',
-        'Professor',
-        'Quiz',
-        'Ações'
+        {
+            content: 'Nome',
+        },
+        {
+            content: 'Professor',
+            className: 'pl-4'
+        },
+        {
+            content: 'Quiz',
+            className: 'pl-4'
+        },
+        {
+            content: 'Ações',
+        },
     ]
 
     const table = createHTMLElement('table')
@@ -116,7 +142,7 @@ export function RegisterDisciplinasTable(rows) {
                 matriculaOuProfessor: row.professor ? row.professor : 'Nenhum Professor',
                 name: row.name,
                 type: 'disciplina',
-                array: row.quiz,
+                array: row.quizzes,
                 toEdit: row.toEdit,
                 toRemove: row.toRemove,
             })
@@ -130,10 +156,19 @@ export function RegisterDisciplinasTable(rows) {
 
 export function RegisterUsersTable({ type, rows }) {
     const headerContent = [
-        'Nome',
-        'Matricula',
-        'Disciplinas',
-        'Ações'
+        {
+            content: 'Nome',
+        },
+        {
+            content: 'Matricula',
+            className: 'pl-4'
+        },
+        {
+            content: 'Disciplinas',
+        },
+        {
+            content: 'Ações',
+        },
     ]
 
     const table = createHTMLElement('table')
