@@ -6,6 +6,9 @@ module.exports = {
       backgroundImage: {
         'geometrical': "url('../img/bg.svg')"
       },
+      width: {
+        '1/100': '1%',
+      },
     }
   },
   plugins: [],
