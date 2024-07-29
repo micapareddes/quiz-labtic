@@ -1,4 +1,4 @@
-export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold', as='h1' }) {
+export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold', as='h1', className }) {
     const font = {
         'md': 'text-base',
         'lg': 'text-lg',
@@ -21,7 +21,7 @@ export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold'
 
     const titulo = createHTMLElement(as)
     titulo.textContent = title
-    titulo.className = `${font[size]} ${color[tone]} ${weight[bold]}`  
+    titulo.className = `${font[size]} ${color[tone]} ${weight[bold]} ${className}`  
 
     return titulo
 }
