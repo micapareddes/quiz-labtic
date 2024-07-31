@@ -10,9 +10,9 @@ export function QuestionItem(
         'green': 'text-emerald-600'
     }
 
-    const container = createHTMLElement('div')
-    const questionElement = createHTMLElement('p')
-    const answerElement = createHTMLElement('p')
+    const container = document.createElement('div')
+    const questionElement = document.createElement('p')
+    const answerElement = document.createElement('p')
 
     container.className = 'flex flex-row justify-between w-40'
 
@@ -28,9 +28,9 @@ export function QuestionItem(
 }
 
 export function AttemptItem({ attemptNumber, grade, answerLink, disabledButton=false }) {
-    const container = createHTMLElement('div')
-    const attemptNumberElement = createHTMLElement('p')
-    const gradeElement = createHTMLElement('p')
+    const container = document.createElement('div')
+    const attemptNumberElement = document.createElement('p')
+    const gradeElement = document.createElement('p')
     const seeAnswerButton = Button({
         variant: 'ghost',
         title: 'Gabarito',
@@ -52,7 +52,7 @@ export function AttemptItem({ attemptNumber, grade, answerLink, disabledButton=f
 }
 
 export function SidecardBoxWithTitle({ title, titleBold, content }) {
-    const titulo = createHTMLElement('h5')
+    const titulo = document.createElement('h5')
 
     titulo.textContent = title
     titulo.className = `text-lg text-stone-700 ${ titleBold && 'font-bold' } mb-8 text-center`
@@ -65,8 +65,8 @@ export function SidecardBoxWithTitle({ title, titleBold, content }) {
 export function QuestionSidecard({ 
     questions=[], title="Respostas", titleIsGrade=false, buttonVariant, buttonName, disabledButton=false, onClick
 }) {
-    const container = createHTMLElement('div')
-    const perguntasContainer = createHTMLElement('div')
+    const container = document.createElement('div')
+    const perguntasContainer = document.createElement('div')
     const button = Button({ 
         variant: buttonVariant,
         title: buttonName,
@@ -97,9 +97,9 @@ export function QuestionSidecard({
 }
 
 export function AttemptsSidecard({ attempts=[] }) {
-    const attemptsContainer = createHTMLElement('div')
-    const noAttemptsContainer = createHTMLElement('div')
-    const noAttemptsMessage = createHTMLElement('p')
+    const attemptsContainer = document.createElement('div')
+    const noAttemptsContainer = document.createElement('div')
+    const noAttemptsMessage = document.createElement('p')
 
     attemptsContainer.className = 'space-y-4'
 

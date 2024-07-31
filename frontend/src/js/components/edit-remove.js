@@ -1,7 +1,7 @@
 import { Button } from "./button.js"
 
 export function EditRemoveActionButtons({ onEdit, onRemove }) {
-    const container = createHTMLElement('div')
+    const container = document.createElement('div')
     const editButton = Button({
         variant: 'ghost',
         title: 'Editar',

@@ -4,7 +4,7 @@ import { EditRemoveActionButtons } from "./edit-remove.js"
 import { Button } from "./button.js"
 
 export function ListItemBox({ content }) {
-    const container = createHTMLElement('li')
+    const container = document.createElement('li')
     container.className = 'list-none bg-neutral-100 shadow-base border border-neutral-200 rounded-xl px-5 py-4 w-full justify-start items-center'
     if (content) container.appendChild(content)
 
@@ -31,7 +31,7 @@ export function QuizListItem({ name='Quiz', endDate='00 de Mes', type='exc' }) {
         'prova': 'Prova',
         'exc': 'Exercicio'
     }
-    const container = createHTMLElement('div')
+    const container = document.createElement('div')
     const date = Text({
         text: endDate,
         size: 'sm',
@@ -46,7 +46,7 @@ export function QuizListItem({ name='Quiz', endDate='00 de Mes', type='exc' }) {
 }
 
 export function EditQuizListItem({ name='Quiz', onEdit, onRemove}) {
-    const container = createHTMLElement('div')
+    const container = document.createElement('div')
 
     container.className = 'flex flex-row justify-between items-center'
     container.appendChild(
@@ -59,7 +59,7 @@ export function EditQuizListItem({ name='Quiz', onEdit, onRemove}) {
 }
 
 export function RegisterListItem({ name='Text', registerLink }) {
-    const container = createHTMLElement('div')
+    const container = document.createElement('div')
 
     container.className = 'flex flex-row justify-between items-center'
     container.appendChild(Button({
@@ -73,8 +73,8 @@ export function RegisterListItem({ name='Text', registerLink }) {
 }
 
 export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x' }) {
-    const container = createHTMLElement('div')
-    const answerContainer = createHTMLElement('div')
+    const container = document.createElement('div')
+    const answerContainer = document.createElement('div')
 
     container.className = 'flex flex-row justify-between items-center'
 

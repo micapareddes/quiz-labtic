@@ -5,10 +5,10 @@ import { signOut } from '../auth/singOut.js'
 function Item({ 
     icon='/frontend/src/img/icones/question.svg', title, link=null, onClick=null, accordion=false, accordionOptions=[], active=false 
 }) {
-    const container = createHTMLElement('li')
-    const action = link ? createHTMLElement('a') : createHTMLElement('button')
-    const image = createHTMLElement('img')
-    const text = createHTMLElement('p')
+    const container = document.createElement('li')
+    const action = link ? document.createElement('a') : document.createElement('button')
+    const image = document.createElement('img')
+    const text = document.createElement('p')
 
     container.className = 'group'
 
@@ -36,8 +36,8 @@ function Item({
     container.appendChild(action)
 
     if (accordion) {
-        const arrow = createHTMLElement('img')
-        const options = createHTMLElement('ul')
+        const arrow = document.createElement('img')
+        const options = document.createElement('ul')
 
         arrow.src = '/frontend/src/img/icones/caret-right.svg'
         arrow.height = 16
@@ -50,8 +50,8 @@ function Item({
         `
 
         accordionOptions.forEach((option) => {
-            const li = createHTMLElement('li')
-            const link = createHTMLElement('a')
+            const li = document.createElement('li')
+            const link = document.createElement('a')
 
             link.textContent = option.name
             link.href = option.link
@@ -80,12 +80,12 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
         'sm': 'md:w-28',
         'lg': 'md:w-28 lg:w-56'
     }
-    const sidebar = createHTMLElement('header')
-    const smallLogo = createHTMLElement('img')
+    const sidebar = document.createElement('header')
+    const smallLogo = document.createElement('img')
     const bigLogo = LogoLado()
-    const nav = createHTMLElement('nav')
-    const navList = createHTMLElement('ul')
-    const footerItems = createHTMLElement('div')
+    const nav = document.createElement('nav')
+    const navList = document.createElement('ul')
+    const footerItems = document.createElement('div')
     const logout = Item({
         icon: '/frontend/src/img/icones/sign-out.svg',
         title: size === 'lg' ? 'Encerrar sessão': '',

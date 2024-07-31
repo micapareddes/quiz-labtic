@@ -16,7 +16,7 @@ export function Button(
         'ghost': 'text-indigo-700 data-[destructive="true"]:text-red-500 enabled:hover:underline underline-offset-4'
     }
 
-    const button = link ? createHTMLElement('a') : createHTMLElement('button')
+    const button = link ? document.createElement('a') : document.createElement('button')
     button.id = id
     button.dataset.destructive = destructive
     if (!link) button.type = type
@@ -28,7 +28,7 @@ export function Button(
     }
 
     if (icon) {
-        const iconImg = createHTMLElement('img')
+        const iconImg = document.createElement('img')
         iconImg.src = '/frontend/src/img/icones/file-plus.svg'
         iconImg.width = 32
         iconImg.height = 32

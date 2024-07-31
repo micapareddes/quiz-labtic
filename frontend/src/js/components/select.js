@@ -3,9 +3,9 @@ import { TooltipInfo } from "./tooltip-info.js"
 export function Select({ 
     options=[], labelName, id, tooltip=false, tooltipMessage  
 }) {
-    const container = createHTMLElement('div')
-    const labelContainer = createHTMLElement('div')
-    const label = createHTMLElement('label')
+    const container = document.createElement('div')
+    const labelContainer = document.createElement('div')
+    const label = document.createElement('label')
 
     label.textContent = labelName
     label.htmlFor = id

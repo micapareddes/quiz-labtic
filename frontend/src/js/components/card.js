@@ -3,7 +3,7 @@ export function Card({  size='md', content }) {
         'md': 'px-14 py-24',
         'lg': 'h-[600px] py-10 w-80'
     }
-    const container = createHTMLElement('div')
+    const container = document.createElement('div')
 
     container.className = `flex flex-col items-center ${variant[size]} bg-neutral-100 rounded-3xl`
 

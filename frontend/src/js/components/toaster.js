@@ -1,12 +1,12 @@
 function constructorToaster({ color, title, message, iconSrc, iconAlt }) {
-    const span = createHTMLElement('span')
-    const divTitle = createHTMLElement('div')
-    const divContent = createHTMLElement('div')
-    const h4 = createHTMLElement('h4')
-    const p = createHTMLElement('p')
-    const button = createHTMLElement('button')
-    const closeImg = createHTMLElement('img')
-    const iconImg = createHTMLElement('img')
+    const span = document.createElement('span')
+    const divTitle = document.createElement('div')
+    const divContent = document.createElement('div')
+    const h4 = document.createElement('h4')
+    const p = document.createElement('p')
+    const button = document.createElement('button')
+    const closeImg = document.createElement('img')
+    const iconImg = document.createElement('img')
 
     span.id = 'toaster'
     span.className = `px-5 py-3 rounded-md border-l-4 shadow-md absolute right-4 bottom-6 bg-${color}-100 border-l-${color}-400 flex items-start gap-12`

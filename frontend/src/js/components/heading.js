@@ -1,7 +1,7 @@
 import { Title } from "./fonts.js"
 
 export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack=false, onGoBack=null }) {
-    const heading = createHTMLElement('div')
+    const heading = document.createElement('div')
     const eTitle = Title({ 
         title,
         size: '3xl',
@@ -21,9 +21,9 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
         heading.classList.add('grid-heading', 'items-center', 'justify-start')
         eSubtitle.classList.add('row-start-2', 'col-start-2')
 
-        const goBackButton = createHTMLElement('button')
-        const leftArrow = createHTMLElement('img')
-        const div = createHTMLElement('div')
+        const goBackButton = document.createElement('button')
+        const leftArrow = document.createElement('img')
+        const div = document.createElement('div')
 
         div.className = 'flex justify-start w-8 h-8 mr-3'
 

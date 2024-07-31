@@ -1,7 +1,7 @@
 export function Empty(message) {
-    const container = createHTMLElement('div')
-    const icon = createHTMLElement('img')
-    const messageContainer = createHTMLElement('p')
+    const container = document.createElement('div')
+    const icon = document.createElement('img')
+    const messageContainer = document.createElement('p')
 
     container.className = 'flex h-screen flex-col items-center justify-center'
 

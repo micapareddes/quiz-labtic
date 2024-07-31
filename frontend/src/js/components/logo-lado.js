@@ -1,7 +1,7 @@
 export function LogoLado() {
-    const container = createHTMLElement('div')
-    const smallLogo = createHTMLElement('img')
-    const logoLado = createHTMLElement('img')
+    const container = document.createElement('div')
+    const smallLogo = document.createElement('img')
+    const logoLado = document.createElement('img')
 
     container.className = 'md:pt-12 lg:pl-8'
 

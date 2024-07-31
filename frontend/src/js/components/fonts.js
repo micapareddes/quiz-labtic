@@ -19,7 +19,7 @@ export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold'
         'regular': 'font-normal',
     }
 
-    const titulo = createHTMLElement(as)
+    const titulo = document.createElement(as)
     titulo.textContent = title
     titulo.className = `${font[size]} ${color[tone]} ${weight[bold]} ${className}`  
 
@@ -49,7 +49,7 @@ export function Text({ text='Texto', size='base', tone='s-500', bold='normal', a
         'regular': 'font-normal',
     }
 
-    const texto = createHTMLElement(as)
+    const texto = document.createElement(as)
     texto.textContent = text
     texto.className = `${font[size]} ${color[tone]} ${weight[bold]} ${className}`
     return texto

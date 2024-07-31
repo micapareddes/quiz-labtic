@@ -8,10 +8,10 @@ export function TextInput({
         'large': 'text-lg',
     }
 
-    const container = createHTMLElement('div')
-    const labelContainer = createHTMLElement('div')
-    const label = createHTMLElement('label')
-    const input = createHTMLElement('input')
+    const container = document.createElement('div')
+    const labelContainer = document.createElement('div')
+    const label = document.createElement('label')
+    const input = document.createElement('input')
 
     container.className = 'space-y-3'
 

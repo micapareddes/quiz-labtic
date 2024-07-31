@@ -1,8 +1,8 @@
 export function TooltipInfo({ message='Esta é uma mensagem informativa.' }) {
-    const container = createHTMLElement('span')
-    const infoButton = createHTMLElement('button')
-    const infoIcon = createHTMLElement('img')
-    const infoMessage = createHTMLElement('p')
+    const container = document.createElement('span')
+    const infoButton = document.createElement('button')
+    const infoIcon = document.createElement('img')
+    const infoMessage = document.createElement('p')
 
     infoButton.className = 'flex items-center'
     container.className = 'relative w-full'

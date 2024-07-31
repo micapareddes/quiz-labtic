@@ -6,11 +6,11 @@ import { TooltipItems } from "./tooltip-items.js"
 import { EditRemoveActionButtons } from "./edit-remove.js"
 
 export function TableRow({ cells=[{ content: 'empty', className: '' }] }) {
-    const row = createHTMLElement('tr')
+    const row = document.createElement('tr')
     row.className = `bg-neutral-100 shadow-sm rounded-xl`
 
     cells.forEach((cell) => {
-        const cellTd = createHTMLElement('td')
+        const cellTd = document.createElement('td')
         cellTd.className = `px-5 py-4 first:rounded-l-xl last:rounded-r-xl ${cell.className}`
         cellTd.appendChild(cell.content)
         row.appendChild(cellTd)
@@ -90,10 +90,10 @@ export function CadastrosTableRow({
 }
 
 export function TableHead(cells=[{ content: 'empty', className: '' }]) {
-    const thead = createHTMLElement('thead')
-    const headRow = createHTMLElement('tr')
+    const thead = document.createElement('thead')
+    const headRow = document.createElement('tr')
     cells.forEach((cell) => {
-        const headCol = createHTMLElement('th')
+        const headCol = document.createElement('th')
         const content = Text({
             size: 'sm',
             text: cell.content,
@@ -128,9 +128,9 @@ export function RegisterDisciplinasTable(rows) {
         },
     ]
 
-    const table = createHTMLElement('table')
+    const table = document.createElement('table')
     const thead = TableHead(headerContent)
-    const tbody = createHTMLElement('tbody')
+    const tbody = document.createElement('tbody')
 
     table.className = 'border-separate border-spacing-table w-full'
     tbody.className = 'w-full bg-indigo-50'
@@ -171,9 +171,9 @@ export function RegisterUsersTable({ type, rows }) {
         },
     ]
 
-    const table = createHTMLElement('table')
+    const table = document.createElement('table')
     const thead = TableHead(headerContent)
-    const tbody = createHTMLElement('tbody')
+    const tbody = document.createElement('tbody')
     
     table.className = 'border-separate border-spacing-table'
 

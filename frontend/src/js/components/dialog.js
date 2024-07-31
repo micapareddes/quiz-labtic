@@ -1,13 +1,13 @@
 import { Button } from './button.js'
 
 function constructorDialog({ title, message, confirmarButtonName = 'Confirmar', onConfirm, color='neutral' }) {
-    const container = createHTMLElement('dialog')
-    const div = createHTMLElement('div')
-    const buttonsContainer = createHTMLElement('div')
-    const h4 = createHTMLElement('h4')
-    const p = createHTMLElement('p')
-    const cancelarButton = createHTMLElement('button')
-    const confirmarButton = createHTMLElement('button')
+    const container = document.createElement('dialog')
+    const div = document.createElement('div')
+    const buttonsContainer = document.createElement('div')
+    const h4 = document.createElement('h4')
+    const p = document.createElement('p')
+    const cancelarButton = document.createElement('button')
+    const confirmarButton = document.createElement('button')
 
     container.className = 'absolute left-0 top-0 bg-indigo-950 bg-opacity-50 backdrop-blur-sm h-screen w-screen flex items-center justify-center'
     container.id = 'dialog'
@@ -71,13 +71,13 @@ export function ActionDialog({ title, message, confirmarButtonName, onConfirm })
 export function SuccessDialog({ 
     title='Título', message='Mensagem do dialog', buttonName='Redirecionar', link,
 }) {
-    const container = createHTMLElement('dialog')
-    const dialog = createHTMLElement('dialog')
-    const headingContainer = createHTMLElement('header')
-    const icon = createHTMLElement('img')
-    const dialogTitle = createHTMLElement('h4')
-    const dialogMessage = createHTMLElement('p')
-    const closeButton = createHTMLElement('button')
+    const container = document.createElement('dialog')
+    const dialog = document.createElement('dialog')
+    const headingContainer = document.createElement('header')
+    const icon = document.createElement('img')
+    const dialogTitle = document.createElement('h4')
+    const dialogMessage = document.createElement('p')
+    const closeButton = document.createElement('button')
     const redirectButton = Button({
         variant: 'ghost',
         title: buttonName,

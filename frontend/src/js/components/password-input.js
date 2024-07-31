@@ -1,10 +1,10 @@
 export function PasswordInput({ className }) {
-    const container = createHTMLElement('div')
-    const inputContainer = createHTMLElement('div')
-    const label = createHTMLElement('label')
-    const input = createHTMLElement('input')
-    const eyeButton = createHTMLElement('button')
-    const eyeIcon = createHTMLElement('img')
+    const container = document.createElement('div')
+    const inputContainer = document.createElement('div')
+    const label = document.createElement('label')
+    const input = document.createElement('input')
+    const eyeButton = document.createElement('button')
+    const eyeIcon = document.createElement('img')
 
     container.id = 'field-password'
     inputContainer.className = 'flex w-full px-2 py-3 rounded-md bg-neutral-100 border border-neutral-200 mt-3 has-[:focus]:ring-2 has-[:focus]:ring-yellow-400'
