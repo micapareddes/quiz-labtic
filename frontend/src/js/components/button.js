@@ -9,11 +9,11 @@ export function Button(
         'full': isGhost ? 'text-xl' : 'w-full py-3'
     }
     const variantStyle = {
-        'primary': 'bg-indigo-500 hover:bg-indigo-400 transition-all duration-100 text-neutral-50 data-[destructive="true"]:bg-red-500 data-[destructive="true"]:hover:bg-red-400',
+        'primary': 'bg-indigo-500 enabled:hover:bg-indigo-400 transition-all duration-100 text-neutral-50 data-[destructive="true"]:bg-red-500 enabled:data-[destructive="true"]:hover:bg-red-400',
 
-        'outline': 'border border-stone-400 hover:bg-stone-400 hover:bg-opacity-10 text-stone-500 transition-all duration-100 data-[destructive="true"]:border-red-500 data-[destructive="true"]:text-red-500 data-[destructive="true"]:hover:bg-red-500 data-[destructive="true"]:hover:bg-opacity-10',
+        'outline': 'border border-stone-400 enabled:hover:bg-stone-400 enabled:hover:bg-opacity-10 text-stone-500 transition-all duration-100 data-[destructive="true"]:border-red-500 data-[destructive="true"]:text-red-500 enabled:data-[destructive="true"]:hover:bg-red-500 enabled:data-[destructive="true"]:hover:bg-opacity-10',
 
-        'ghost': 'text-indigo-700 data-[destructive="true"]:text-red-500 hover:underline underline-offset-4'
+        'ghost': 'text-indigo-700 data-[destructive="true"]:text-red-500 enabled:hover:underline underline-offset-4'
     }
 
     const button = link ? createHTMLElement('a') : createHTMLElement('button')
@@ -21,12 +21,10 @@ export function Button(
     button.dataset.destructive = destructive
     if (!link) button.type = type
     button.textContent = title
-    button.className = sizeStyle[size] + ' ' +  variantStyle[variant] + ' ' + 'rounded-md cursor-pointer'
+    button.className = sizeStyle[size] + ' ' +  variantStyle[variant] + ' ' + 'rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 
     if (disabled) {
        button.disabled = true
-       button.classList.remove('hover:bg-stone-400', 'hover:bg-opacity-10', 'hover:underline', 'data-[destructive="true"]:hover:bg-red-400', 'data-[destructive="true"]:hover:bg-red-500', 'hover:bg-none')
-       button.classList.add('opacity-50', 'cursor-not-allowed')
     }
 
     if (icon) {
