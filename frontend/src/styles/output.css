@@ -1689,6 +1689,24 @@ video {
   outline-offset: 2px;
 }
 
+.enabled\:hover\:bg-indigo-400:hover:enabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
+}
+
+.enabled\:hover\:bg-stone-400:hover:enabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(168 162 158 / var(--tw-bg-opacity));
+}
+
+.enabled\:hover\:bg-opacity-10:hover:enabled {
+  --tw-bg-opacity: 0.1;
+}
+
+.enabled\:hover\:underline:hover:enabled {
+  text-decoration-line: underline;
+}
+
 .disabled\:cursor-not-allowed:disabled {
   cursor: not-allowed;
 }
@@ -1772,6 +1790,20 @@ video {
 }
 
 .data-\[destructive\=\"true\"\]\:hover\:bg-opacity-10:hover[data-destructive="true"] {
+  --tw-bg-opacity: 0.1;
+}
+
+.enabled\:data-\[destructive\=\"true\"\]\:hover\:bg-red-400:hover[data-destructive="true"]:enabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+
+.enabled\:data-\[destructive\=\"true\"\]\:hover\:bg-red-500:hover[data-destructive="true"]:enabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
+.enabled\:data-\[destructive\=\"true\"\]\:hover\:bg-opacity-10:hover[data-destructive="true"]:enabled {
   --tw-bg-opacity: 0.1;
 }
 
