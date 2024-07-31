@@ -43,9 +43,7 @@ export function Button(
 
     if (link) button.href = link
 
-    if (!link) button.addEventListener('click', () => {
-        onClick()
-    })
+    if (!link) button.onclick = onClick
 
     return button
 }

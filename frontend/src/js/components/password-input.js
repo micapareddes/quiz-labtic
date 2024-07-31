@@ -6,8 +6,11 @@ export function PasswordInput({ className }) {
     const eyeButton = createHTMLElement('button')
     const eyeIcon = createHTMLElement('img')
 
+    container.id = 'field-password'
     inputContainer.className = 'flex w-full px-2 py-3 rounded-md bg-neutral-100 border border-neutral-200 mt-3 has-[:focus]:ring-2 has-[:focus]:ring-yellow-400'
 
+    inputContainer.id = 'password-container'
+    
     input.type = 'password'
     input.name = 'password'
     input.id = 'password'

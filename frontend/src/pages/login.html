@@ -15,9 +15,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main class="bg-indigo-50 bg-geometrical bg-cover bg-no-repeat h-screen flex flex-col items-center justify-center">
+    <main id="main" class="bg-indigo-50 bg-geometrical bg-cover bg-no-repeat h-screen flex flex-col items-center justify-center">
         <img src="../img/logo-dark.svg" alt="Logo polvo escuro" class="w-20 md:w-24 lg:w-28 absolute left-4 top-4 md:left-6 md:top-6">
-        <div class="flex flex-col items-center justify-center bg-neutral-50 rounded-3xl border border-neutral-200 py-14 px-5 md:py-24 md:px-24 lg:px-16 shadow-xl">
+        <!-- <div class="flex flex-col items-center justify-center bg-neutral-50 rounded-3xl border border-neutral-200 py-14 px-5 md:py-24 md:px-24 lg:px-16 shadow-xl">
             <h1 class="text-3xl md:text-4xl font-semibold pb-4 border-b border-b-neutral-300 mb-12">Faça Login</h1>
             <form id="login-form">
                 <div>
@@ -37,9 +37,9 @@
                 <a href="" class="block my-10 text-base text-indigo-900 cursor-pointer hover:underline text-center">Esqueceu a senha ou deseja trocar?</a>
                 <button id="submit-button" class="py-3 bg-indigo-500 hover:bg-indigo-400 rounded-md text-neutral-50 text-lg font-semibold block w-full disabled:opacity-50 disabled:cursor-not-allowed">Entrar</button>
             </form>
-        </div>
+        </div> -->
     </main>
     <script src="../js/global.js"></script>
-    <script src="../js/login.js"></script>
+    <script type="module" src="../js/pages/login/page.js"></script>
 </body>
 </html>

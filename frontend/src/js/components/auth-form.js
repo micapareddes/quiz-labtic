@@ -3,9 +3,9 @@ import { Box } from "./box.js";
 import { Text, Title } from "./fonts.js";
 
 export function AuthForm({ 
-    title='Titulo', subtitle, buttonSize='full', buttonName, cardContent, onClick, buttonDisabled=false
+    title='Titulo', subtitle, buttonSize='full', buttonName, cardContent
 }) {
-    const container = document.createElement('div')
+    const container = document.createElement('form')
     const heading = document.createElement('div')
     const titulo = Title({
         title: title,
@@ -20,10 +20,10 @@ export function AuthForm({
         className: 'text-center'
     })
     const button = Button({
+        id: 'submit',
+        type: 'submit',
         variant: 'primary',
         title: buttonName,
-        onClick,
-        disabled: buttonDisabled,
         size: buttonSize,
     })
     container.id = 'auth-form'
