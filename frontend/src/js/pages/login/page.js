@@ -1,6 +1,7 @@
 import { checkAndRedirectUser } from '/frontend/src/js/auth/checkAndRedirectUser.js'
-import { handleSubmit } from '/frontend/src/js/pages/login/script.js'
-import { handleSubmit } from '/frontend/src/js/pages/login/script.js'
+import { loginFormValidation } from '/frontend/src/js/validations/loginFormValidation.js'
+import { reqLogin } from '/frontend/src/js/pages/login/service/login.js'
+import { LoginForm } from '/frontend/src/js/pages/login/components/login-form.js'
 
 export async function handleSubmit(event) {
     event.preventDefault()
