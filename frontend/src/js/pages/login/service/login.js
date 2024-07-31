@@ -1,5 +1,5 @@
 import { makeRequest } from '/frontend/src/js/functions/makeRequest.js'
-import { reqUserType } from '/frontend/src/js/functions/userType.js'
+import { reqUserType } from '/frontend/src/js/auth/reqUserType.js'
 import { redirectToUserDashboard } from '/frontend/src/js/functions/redirectToUserDashboard.js'
 
 export async function reqLogin(userData) {
