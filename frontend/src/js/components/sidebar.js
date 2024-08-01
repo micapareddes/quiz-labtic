@@ -21,10 +21,7 @@ function Item({
     `
 
     if (link) action.href = link
-    if (onClick) action.addEventListener('click', (e) => {
-        e.preventDefault()
-        onClick()
-    })
+    if (onClick) action.onclick = onClick
 
     image.src = icon
     image.classList = 'w-4 h-4 md:w-5 md:h-5'
@@ -54,7 +51,8 @@ function Item({
             const link = document.createElement('a')
 
             link.textContent = option.name
-            link.href = option.link
+            link.href = option.linkPainel
+
             link.className = 'hover:text-yellow-200'
 
             li.appendChild(link)
@@ -90,14 +88,13 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
         icon: '/frontend/src/img/icones/sign-out.svg',
         title: size === 'lg' ? 'Encerrar sessão': '',
         onClick: () => {
-            openDialog({ 
-                dialog: AlertDialog({
+            openDialog(
+                AlertDialog({
                     message: 'Você ira encerrar sua sessão e precisará realizar login para entrar novamente.',
                     confirmarButtonName: 'Encerrar',
                     onConfirm: () => signOut()
-                }),
-                rootId: 'root'
-            })
+                })
+            )
         },
     })
 
