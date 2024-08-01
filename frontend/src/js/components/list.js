@@ -3,15 +3,22 @@ import { Tag } from "./tag.js"
 import { EditRemoveActionButtons } from "./edit-remove.js"
 import { Button } from "./button.js"
 
-export function ListItemBox({ content }) {
-    const container = document.createElement('li')
-    container.className = 'list-none bg-neutral-100 shadow-base border border-neutral-200 rounded-xl px-5 py-4 w-full justify-start items-center'
-    if (content) container.appendChild(content)
+export function ListItemBox({ content, linkPainel }) {
+    const liContainer = document.createElement('li')
+    const aContainer = document.createElement('a')
 
-    return container
+    liContainer.className = 'list-none bg-neutral-100 shadow-base border border-neutral-200 rounded-xl  w-full justify-start items-center'
+
+    aContainer.href = linkPainel
+    aContainer.className = 'flex flex-1 px-5 py-4 transition-colors duration-200 cursor-pointer focus:outline-none'
+    if (content) aContainer.appendChild(content)
+
+    liContainer.appendChild(aContainer)
+
+    return liContainer
 }
 
-export function ListItemBoxWithTitle({ title='Título', content=null }) {
+export function ListItemBoxWithTitle({ title='Título', content=null, linkPainel }) {
     const titulo = Title({
         as: 'h4',
         size: 'md',
@@ -22,7 +29,10 @@ export function ListItemBoxWithTitle({ title='Título', content=null }) {
 
     if (content) content.prepend(titulo)
 
-    return ListItemBox({ content: content ? content : titulo })
+    return ListItemBox({ 
+        content: content ? content : titulo,
+        linkPainel,
+    })
 }
 
 export function QuizListItem({ name='Quiz', endDate='00 de Mes', type='exc' }) {
@@ -58,10 +68,10 @@ export function EditQuizListItem({ name='Quiz', onEdit, onRemove}) {
     return ListItemBoxWithTitle({ title: name, content: container })
 }
 
-export function RegisterListItem({ name='Text', registerLink }) {
+export function RegisterListItem({ name='Text', registerLink, linkPainel }) {
     const container = document.createElement('div')
 
-    container.className = 'flex flex-row justify-between items-center'
+    container.className = 'flex w-full flex-row justify-between items-center'
     container.appendChild(Button({
         title: 'Cadastrar novo',
         variant: 'ghost',
@@ -69,7 +79,10 @@ export function RegisterListItem({ name='Text', registerLink }) {
         link: registerLink,
     }))
 
-    return ListItemBoxWithTitle({ title: name, content: container })
+    return ListItemBoxWithTitle({ 
+        title: name, content: container,
+        linkPainel,
+    })
 }
 
 export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x' }) {
