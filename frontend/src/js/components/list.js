@@ -68,23 +68,6 @@ export function EditQuizListItem({ name='Quiz', onEdit, onRemove}) {
     return ListItemBoxWithTitle({ title: name, content: container })
 }
 
-export function RegisterListItem({ name='Text', registerLink, linkPainel }) {
-    const container = document.createElement('div')
-
-    container.className = 'flex w-full flex-row justify-between items-center'
-    container.appendChild(Button({
-        title: 'Cadastrar novo',
-        variant: 'ghost',
-        size: 'md',
-        link: registerLink,
-    }))
-
-    return ListItemBoxWithTitle({ 
-        title: name, content: container,
-        linkPainel,
-    })
-}
-
 export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x' }) {
     const container = document.createElement('div')
     const answerContainer = document.createElement('div')

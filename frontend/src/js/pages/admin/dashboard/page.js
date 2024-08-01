@@ -5,7 +5,7 @@ import { getAdminName } from './service/getAdminName.js'
 // Components
 import { Heading } from '/frontend/src/js/components/heading.js'
 import { Sidebar } from '/frontend/src/js/components/sidebar.js'
-import { RegisterListItem } from '/frontend/src/js/components/list.js'
+import { RegisterListItem } from '/frontend/src/js/pages/admin/dashboard/components/registerListItem.js'
 
 
 
