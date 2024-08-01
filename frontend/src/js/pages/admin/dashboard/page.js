@@ -29,6 +29,7 @@ async function PageDashboard() {
             linkCadastro: '',
         },
     ]
+
     root.prepend(
         Sidebar({
             size: 'lg',
@@ -50,6 +51,7 @@ async function PageDashboard() {
             changePassword: true,
         })
     )
+    
     try {
         main.prepend(
             Heading({ 
@@ -67,7 +69,8 @@ async function PageDashboard() {
         painel.appendChild(
             RegisterListItem({ 
                 name: item.name,
-                registerLink: item.linkCadastro
+                registerLink: item.linkCadastro,
+                linkPainel: item.linkPainel,
             })
         )
     })
