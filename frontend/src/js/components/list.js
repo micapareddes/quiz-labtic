@@ -39,7 +39,7 @@ export function QuizListItem({ name='Quiz', endDate='00 de Mes', type='exc' }) {
     })
     const typeTag = Tag({ title: quizType[type] })
 
-    container.className = 'grid-list-item justify-between items-center'
+    container.className = 'grid grid-cols-list justify-between items-center'
     container.append(date, typeTag)
 
     return ListItemBoxWithTitle({ title: name, content: container})

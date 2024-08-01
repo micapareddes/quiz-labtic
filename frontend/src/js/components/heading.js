@@ -18,7 +18,7 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
     heading.append(eTitle, eSubtitle)
 
     if (goBack) {
-        heading.classList.add('grid-heading', 'items-center', 'justify-start')
+        heading.classList.add('grid', 'grid-cols-heading', 'grid-rows-heading', 'items-center', 'justify-start')
         eSubtitle.classList.add('row-start-2', 'col-start-2')
 
         const goBackButton = document.createElement('button')
