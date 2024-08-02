@@ -4,9 +4,8 @@ import { getAdminName } from './service/getAdminName.js'
 
 // Components
 import { Heading } from '/frontend/src/js/components/heading.js'
-import { Sidebar } from '/frontend/src/js/components/sidebar.js'
+import { SidebarAdmin, painelItems } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
 import { RegisterListItem } from '/frontend/src/js/pages/admin/dashboard/components/registerListItem.js'
-
 
 
 async function PageDashboard() {
@@ -14,43 +13,8 @@ async function PageDashboard() {
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const painel = document.getElementById('painel')
-    const painelItems = [
-        {
-            name: 'Aluno',
-            linkPainel: '',
-            linkCadastro: '',
-        },{
-            name: 'Professor',
-            linkPainel: '',
-            linkCadastro: '',
-        },{
-            name: 'Disciplinas',
-            linkPainel: '/frontend/src/pages/adm/disciplinas.html',
-            linkCadastro: '',
-        },
-    ]
 
-    root.prepend(
-        Sidebar({
-            size: 'lg',
-            items: [
-                {
-                    icon: '/frontend/src/img/icones/house.svg',
-                    title: 'Dashboard',
-                    link: '/',
-                    active: true,
-                },
-                {
-                    icon: '/frontend/src/img/icones/books.svg',
-                    title: 'Painel',
-                    link: '/',
-                    accordion: true,
-                    accordionOptions: painelItems,
-                },
-            ],
-            changePassword: true,
-        })
-    )
+    root.prepend(SidebarAdmin())
     
     try {
         main.prepend(
