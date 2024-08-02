@@ -1,7 +1,13 @@
+// Functions
+import { removeFromDatabaseById } from '/frontend/src/js/pages/admin/service/removeFromDatabaseById.js'
+import { totalDeDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/functions/totalDeDisciplinas.js'
+import { removerRelacao } from '../pages/admin/service/removerRelacao.js'
+
+// Components
 import { countDown } from "../functions/counter.js"
 import { openDialog, AlertDialog } from "./dialog.js"
 import { openToaster, closeToaster, SuccessToaster } from "./toaster.js"
-import { Text, Title } from "./fonts.js"
+import { Text } from "./fonts.js"
 import { TooltipItems } from "./tooltip-items.js"
 import { EditRemoveActionButtons } from "./edit-remove.js"
 
@@ -32,15 +38,28 @@ export function CadastrosTableRow({
         message: removeDialogMessage,
         confirmarButtonName: 'Remover',
         onConfirm: async () => {
-            await removeFromDatabaseById({id, url: toRemove})
+            try {
+                await removeFromDatabaseById({id, url: toRemove})
+                await removerRelacao(id)
+            } catch (error) {
+                console.log(error);
+                if (error.status === 403) {
+                    alert('Acesso Proibido')
+                } else {
+                    alert('Algo deu errado...')
+                }
+                return 
+            }
             row.remove()
-            countDown()
-            const total = getCounterTotal()
-            if (total === 0) Empty({
-                message: `Nenhum ${type} cadastrado.`
-            })
-            openToaster(sucessToaster)
-            closeToaster()
+            window.location.reload()
+            // TODO: Fazer lógica de countdown sem precisar do reload
+            // countDown()
+            // const total = totalDeDisciplinas()
+            // if (total === 0) Empty({
+            //     message: `Nenhum ${type} cadastrado.`
+            // })
+            // openToaster(sucessToaster)
+            // closeToaster()
         }
     })
 
@@ -108,50 +127,6 @@ export function TableHead(cells=[{ content: 'empty', className: '' }]) {
     thead.appendChild(headRow)
 
     return thead
-}
-
-export function RegisterDisciplinasTable(rows) {
-    const headerContent = [
-        {
-            content: 'Nome',
-        },
-        {
-            content: 'Professor',
-            className: 'pl-4'
-        },
-        {
-            content: 'Quiz',
-            className: 'pl-4'
-        },
-        {
-            content: 'Ações',
-        },
-    ]
-
-    const table = document.createElement('table')
-    const thead = TableHead(headerContent)
-    const tbody = document.createElement('tbody')
-
-    table.className = 'border-separate border-spacing-table w-full'
-    tbody.className = 'w-full bg-indigo-50'
-    
-    rows.forEach((row) => {
-        tbody.appendChild(
-            CadastrosTableRow({
-                id: row.id,
-                matriculaOuProfessor: row.professor ? row.professor : 'Nenhum Professor',
-                name: row.name,
-                type: 'disciplina',
-                array: row.quizzes,
-                toEdit: row.toEdit,
-                toRemove: row.toRemove,
-            })
-        )
-    })
-
-    table.append(thead, tbody)
-
-    return table
 }
 
 export function RegisterUsersTable({ type, rows }) {

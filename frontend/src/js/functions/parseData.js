@@ -13,17 +13,3 @@ export function parseUsers(usersBack) {
     })
 }
 
-export function parseDisciplinas(disciplinasBack) {
-    return disciplinasBack.map((disciplina) => {
-        const deleteUrl = `api/disciplinas/${disciplina._id}`
-        const editUrl = `localhost/${disciplina._id}`
-        return {
-            id: disciplina._id, 
-            name: disciplina.nome, 
-            professor: disciplina.professor_id && disciplina.professor_id.nome, 
-            quizzes: disciplina.quizes, 
-            toEdit: editUrl, 
-            toRemove: deleteUrl,
-        }
-    })
-}

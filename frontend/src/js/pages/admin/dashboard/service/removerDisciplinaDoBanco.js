@@ -1,8 +1,8 @@
-async function removeFromDatabaseById({id, url}) {
+export async function removerDisciplinaDoBanco(id) {
     try {
         const accessToken = getFromLocalStorage('accessToken')
         const data = {"id": id}
-        await makeRequest( { url, method:'DELETE', token: accessToken, data})
+        await makeRequest( { url: 'http://localhost:3333/api/disciplinas', method:'DELETE', token: accessToken, data})
 
         console.log('deletado!');
         return  
