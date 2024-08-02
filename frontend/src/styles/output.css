@@ -946,8 +946,16 @@ video {
   grid-template-columns: 1fr 1fr auto;
 }
 
+.grid-cols-2{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .grid-rows-heading{
   grid-template-rows: repeat(2, auto);
+}
+
+.grid-rows-2{
+  grid-template-rows: repeat(2, minmax(0, 1fr));
 }
 
 .flex-row{
@@ -1190,6 +1198,11 @@ video {
 
 .bg-transparent{
   background-color: transparent;
+}
+
+.bg-red-50{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50{
