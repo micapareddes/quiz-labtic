@@ -8,6 +8,7 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
         tone: 's-900',
     })
     const eSubtitle = Title({ 
+        as: 'h2',
         title: subtitle,
         size: subtitleSize,
         tone: 's-700',
