@@ -14,6 +14,7 @@ export function TextInput({
     const input = document.createElement('input')
 
     container.className = 'space-y-3'
+    container.id = `${id}-container`
 
     input.type = type
     input.name = id
