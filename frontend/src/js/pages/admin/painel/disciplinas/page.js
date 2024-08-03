@@ -9,6 +9,7 @@ import { SidebarAdmin } from '/frontend/src/js/pages/admin/components/sidebar-ad
 import { RegisterDisciplinasTable } from '/frontend/src/js/pages/admin/painel/disciplinas/components/table.js'
 import { Button } from '/frontend/src/js/components/button.js'
 import { Empty } from '/frontend/src/js/components/empty.js'
+import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/js/components/toaster.js'
 
 async function DisciplinasPage() {
     verifyUserAccess('admin')
@@ -47,6 +48,16 @@ async function DisciplinasPage() {
         main.appendChild(
             RegisterDisciplinasTable(disciplinasFormatadas) 
         )
+        const disciplinaAlterada = localStorage.getItem('disciplinaAlterada')
+        if (disciplinaAlterada) {
+            openToaster(
+                SuccessToaster({
+                    message: `Alterações da disciplina "${disciplinaAlterada}" salvas!`
+                })
+            )
+            closeToaster()
+            localStorage.removeItem('disciplinaAlterada')
+        }
     }
 }
 DisciplinasPage()
