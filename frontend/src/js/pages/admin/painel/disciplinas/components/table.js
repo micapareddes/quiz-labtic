@@ -33,7 +33,7 @@ export function RegisterDisciplinasTable(rows) {
                 name: row.name,
                 type: 'disciplina',
                 array: row.quizzes,
-                toEdit: `http://localhost:5500/frontend/src/pages/adm/editar.html?id=${row.id}`,
+                toEdit: `http://localhost:5500/frontend/src/pages/adm/edicao/disciplinas.html?id=${row.id}`,
                 toRemove: 'http://localhost:3333/api/disciplinas',
             })
         )
