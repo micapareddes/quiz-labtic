@@ -10,8 +10,8 @@ export const painelItems = [
         linkCadastro: '',
     },{
         name: 'Disciplinas',
-        linkPainel: '/frontend/src/pages/adm/disciplinas.html',
-        linkCadastro: '',
+        linkPainel: '/frontend/src/pages/adm/painel/disciplinas.html',
+        linkCadastro: '/frontend/src/pages/adm/cadastro/disciplinas.html',
     },
 ]
 export function SidebarAdmin() {
