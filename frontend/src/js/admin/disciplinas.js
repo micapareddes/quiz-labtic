@@ -56,14 +56,14 @@ function nenhumCadastro() {
 
     table.className = 'hidden'
         
-    const div = createHTMLElement('div')
+    const div = document.createElement('div')
     div.className = 'flex h-screen flex-col items-center justify-center'
-    const img = createHTMLElement('img')
+    const img = document.createElement('img')
     img.src = '../../img/no-data-100.svg'
     img.alt = 'Duas pranchetas sobrepostas com clipes lilas.'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
-    const p = createHTMLElement('p')
+    const p = document.createElement('p')
     p.textContent = 'Não existe nada cadastrado'
     p.className = 'px-5 py-4 text-stone-400 text-lg md:text-xl lg:text-2xl block text-center mt-6'
 
@@ -89,19 +89,16 @@ function totalDeDisciplinas(){
 }
 
 function toasterSuccess() {
-    const main = document.getElementById('main')
-
-    const toaster = successToaster({
+    const toaster = SuccessToaster({
         message: 'Disciplina removida com sucesso!', 
         iconSrc: '../../img/icones/check-circle.svg'
     })
-    main.appendChild(toaster)
-
+    openToaster({ toaster, rootId: 'main' })
     closeToaster()
 }
 
 function createNameRow(name) {
-    const nameRow = createHTMLElement('td')
+    const nameRow = document.createElement('td')
     nameRow.className = 'px-5 py-4 rounded-l-xl'
     nameRow.textContent = name
 
@@ -109,7 +106,7 @@ function createNameRow(name) {
 }
 
 function createProfessorRow(name) {
-    const professorRow = createHTMLElement('td')
+    const professorRow = document.createElement('td')
     professorRow.textContent = name
     if (name === 'Nenhum Professor') professorRow.className = 'text-stone-400'
 
@@ -117,11 +114,11 @@ function createProfessorRow(name) {
 }
 
 function createTooltip(items) {
-    const tooltip = createHTMLElement('ul')
+    const tooltip = document.createElement('ul')
     tooltip.className = 'hidden group-hover:block absolute mt-1 px-4 py-2 rounded-2xl border border-neutral-200 bg-neutral-50'
 
     items.forEach((item) => {
-        const name = createHTMLElement('li')
+        const name = document.createElement('li')
         name.textContent = item.nome
         name.className = 'p-2 cursor-none'
         tooltip.appendChild(name)
@@ -131,10 +128,10 @@ function createTooltip(items) {
 }
 
 function createQuizCell(array) {
-    const quizCell = createHTMLElement('td')
+    const quizCell = document.createElement('td')
     quizCell.className = 'pl-6 md:pl-1'
 
-    const quantity = createHTMLElement('span')
+    const quantity = document.createElement('span')
     quantity.className = 'px-2 py-1 rounded-md text-stone-400'
     quantity.textContent = array.length
 
@@ -149,17 +146,17 @@ function createQuizCell(array) {
 }
 
 function createActionsCell({ onEdit, onRemove }) {
-    const actionsCell = createHTMLElement('td')
+    const actionsCell = document.createElement('td')
     actionsCell.className = 'px-5 py-4 rounded-r-xl'
 
-    const editarButton = createHTMLElement('a')
+    const editarButton = document.createElement('a')
     editarButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
     editarButton.textContent = 'Editar'
     editarButton.addEventListener('click', () => {
         onEdit()
     })
 
-    const removerButton = createHTMLElement('button')
+    const removerButton = document.createElement('button')
     removerButton.className = 'mr-6 lg:mr-8 text-indigo-700 hover:underline underline-offset-4 cursor-pointer'
     removerButton.textContent = 'Remover'
 
@@ -179,14 +176,14 @@ function openEditarDisciplinaPage(id) {
 
 // Aqui se encontra a lógica de deletar a disciplina e relação na função do dialog
 async function createTableRow({ nome, professor, quizzes, disciplinaId }) {
-    const row = createHTMLElement('tr')
+    const row = document.createElement('tr')
     row.className = 'bg-neutral-100 shadow-sm rounded-xl'
     
     const nameCell = createNameRow(nome)
     const professorCell = createProfessorRow(professor)
     const quizCell = createQuizCell(quizzes)
 
-    const dialog = createAlertDialog({
+    const dialog = AlertDialog({
         message: `Você irá remover a disciplina "${nome}".Esta ação não pode ser desfeita.`, 
         confirmarButtonName: 'Remover', 
         onConfirm: async () => { 
@@ -241,12 +238,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         createTable(disciplinas)
         if (getFromLocalStorage('disciplinaAlterada')) {
-            const root = document.getElementById('root')
-            const toaster = successToaster({
+            const toaster = SuccessToaster({
                 message: 'Alterações salvas!',
-                iconSrc: '../../img/icones/check-circle.svg'
             })
-            root.appendChild(toaster)
+            openToaster({ toaster, rootId: 'root' })
             closeToaster()
             localStorage.removeItem('disciplinaAlterada')
     }

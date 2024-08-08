@@ -17,7 +17,7 @@ async function cadastrar(data) {
         if (error.status === 2409) {
             const errorMessage = document.getElementById('error-message')
             if (!errorMessage) {
-                const message = createHTMLElement('span')
+                const message = document.createElement('span')
                 message.textContent = 'Já existe uma disciplina com esse nome'
                 message.id = 'error-message'
                 message.className = 'text-red-500 text-sm'
@@ -49,7 +49,7 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     if (nomeDisciplina.length < 3) {
         const errorMessage = document.getElementById('error-message')
         if (!errorMessage) {
-            const message = createHTMLElement('span')
+            const message = document.createElement('span')
             message.textContent = 'Insira um nome válido'
             message.id = 'error-message'
             message.className = 'text-red-500 text-sm'
@@ -78,11 +78,10 @@ cadastroDisciplinaForm.addEventListener('submit', async (event) => {
     if (response.status === 204) {
         cadastroDisciplinaForm.reset()
 
-        const toaster = successToaster({
+        const toaster = SuccessToaster({
             message: 'Disciplina cadastrada com sucesso!',
-            iconSrc: '../../img/icones/check-circle.svg'
         })
-        main.appendChild(toaster)
+        openToaster({ toaster, rootId: 'main' })
         closeToaster()
 
     }

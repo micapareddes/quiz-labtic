@@ -107,7 +107,7 @@ form.addEventListener('submit', async (e) => {
         const inputNome = document.getElementById('disciplina')
         const containerInput = document.getElementById('disciplina-container')
         if (!errorMessage) {
-            const message = createHTMLElement('span')
+            const message = document.createElement('span')
             message.textContent = 'O nome deve ter no mínimo 3 caracteres!'
             message.id = 'error-message'
             message.className = 'text-red-500 text-sm'
@@ -126,11 +126,10 @@ form.addEventListener('submit', async (e) => {
         localStorage.setItem('disciplinaAlterada', true)
         navigateTo('disciplinas.html')   
     } else {
-        const toaster = infoToaster({
+        const toaster = InfoToaster({
             message: 'Não foi feita nenhuma alteração para salvar.',
-            iconSrc: '../../img/icones/info.svg'
         })
-        root.appendChild(toaster)
+        openToaster({ toaster, rootId: 'root' })
         closeToaster()
     }
 })
