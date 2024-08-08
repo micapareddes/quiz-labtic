@@ -22,9 +22,12 @@ class DisciplinaController {
 
         if (disciplinaExiste) throw new ServidorError(DISCIPLINA_ERROR.ALREADY_EXIST)
 
-        let novaDisciplina = { nome }
+        let novaDisciplina = { 
+            nome,
+            professor_id: null 
+        }
 
-        if (professor_id) {
+        if (professor_id !== 'null') {
             const idInvalido = !mongoose.Types.ObjectId.isValid(professor_id)
             if (idInvalido) throw new ServidorError(USER_ERROR.INVALID_ID)
     
