@@ -6,7 +6,7 @@ export const ROUTES = {
         PAINEL: {
             DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/disciplinas.html' 
         },
-        CADASTRTO: {
+        CADASTRO: {
             DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/disciplinas.html'
         },
         EDICAO: {
