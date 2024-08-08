@@ -1,20 +1,21 @@
 // Functions
-import { verifyUserAccess } from '/frontend/src/js/auth/verifyUserAccess.js'
-import { getProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplinas/service/getProfessores.js'
-import { parseProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
-import { cadastroDisciplinaValidation } from '/frontend/src/js/validations/cadastroDisciplinaValidation.js'
-import { cadastrarDisciplina } from '/frontend/src/js/pages/admin/cadastro/disciplinas/service/cadastrarDisciplina.js'
-import { navigateTo } from '/frontend/src/js/functions/navigateTo.js'
+import { ROUTES } from '/frontend/src/utils/routes.js'
+import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
+import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
+import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
+import { cadastrarDisciplina } from '/frontend/src/pages/admin/cadastro/disciplinas/service/cadastrarDisciplina.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 
 // Components
-import { Heading } from '/frontend/src/js/components/heading.js'
-import { SidebarAdmin } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
-import { Button } from '/frontend/src/js/components/button.js'
-import { TextInput } from '/frontend/src/js/components/text-input.js'
-import { Select } from '/frontend/src/js/components/select.js'
-import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/js/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/js/pages/login/components/error-message.js' //TODO: colocar em components de admin
-import { openDialog, AlertDialog } from '/frontend/src/js/components/dialog.js'
+import { Heading } from '/frontend/src/components/heading.js'
+import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { Button } from '/frontend/src/components/button.js'
+import { TextInput } from '/frontend/src/components/text-input.js'
+import { Select } from '/frontend/src/components/select.js'
+import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
+import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 
 
 async function handleSubmit(event) {
@@ -126,7 +127,7 @@ async function CadastroDisciplinaPage() {
             title: 'Cadastro da Disciplina', 
             onGoBack: () => {
                 const previousWindowName = localStorage.getItem('window')
-                const painel = previousWindowName === 'disciplinas' ? '/frontend/src/pages/adm/painel/disciplinas.html' : '/frontend/src/pages/adm/dashboard.html'
+                const painel = previousWindowName === 'disciplinas' ? ROUTES.ADMIN.PAINEL.DISCIPLINAS : ROUTES.ADMIN.DASHBOARD
                 
                 if (form.querySelector('input').value) {
                     openDialog(
