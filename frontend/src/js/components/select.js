@@ -33,7 +33,7 @@ export function Select({
         const empty = document.createElement('option')
 
         empty.text = emptyOption
-        empty.value = ''
+        empty.value = 'null'
 
         select.appendChild(empty)
     }
