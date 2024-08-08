@@ -9,6 +9,7 @@ import { obtainValuesFromStorage } from '/frontend/src/js/pages/admin/edicao/dis
 import { deleteValuesFromStorage } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/deleteValuesFromStorage.js'
 import { saveOriginalValues } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/saveOriginalValues.js'
 import { alterarDisciplinaNoBanco } from '/frontend/src/js/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
+import { cadastroDisciplinaValidation } from '/frontend/src/js/validations/cadastroDisciplinaValidation.js'
 
 // Components
 import { Heading } from '/frontend/src/js/components/heading.js'
@@ -20,12 +21,13 @@ import { InfoToaster, openToaster, closeToaster } from '/frontend/src/js/compone
 import { ErrorMessage } from '/frontend/src/js/pages/login/components/error-message.js' //TODO: colocar em components de admin
 
 async function handleSubmit(e) {
-    console.log('rodou');
     e.preventDefault()
 
     const form = e.target
+    const inputContainer = form.querySelector('#name-container')
     const input = form.querySelector('input')
     const select = form.querySelector('select')
+    const submitButton = form.querySelector('#submit')
     const savedData = obtainValuesFromStorage()
 
     let editedData = {
@@ -33,7 +35,15 @@ async function handleSubmit(e) {
         professor_id: !select.value.trim() ? 'null' : select.value.trim()
     }
 
-    // TODO: validação de nome e mensagem de erro
+    const { success } = cadastroDisciplinaValidation(editedData.nome)
+    if (!success) {
+        input.classList.add('border-red-500')
+        inputContainer.appendChild(
+            ErrorMessage('O nome deve conter pelo menos 3 caracteres')
+        )
+        submitButton.disabled = true
+        return
+    }
 
     const formMudou = savedData.nome !== editedData.nome  || savedData.professor_id !== editedData.professor_id
 
@@ -62,6 +72,18 @@ async function handleSubmit(e) {
             console.log(error);
             alert('Algo deu errado, tente novamente mais tarde...')
         }
+    }
+}
+
+function handleChange(event) {
+    const form = event.target.form
+    const input = form.querySelector('input')
+    const submitButton = form.querySelector('#submit')
+    const errorMessage = form.querySelector('#error-message')
+    if (errorMessage) {
+        errorMessage.remove()
+        input.classList.remove('border-red-500')
+        submitButton.disabled = false
     }
 }
 
@@ -120,10 +142,11 @@ async function EdicaoCadastroPage() {
         form
     )
  
+    // Mostra em form nome da disciplina e professor
     const input =  form.querySelector('input')
     const select = form.querySelector('select')
     input.value = nome
-    select.value = professor_id
+    select.value = String(professor_id)
 
     saveOriginalValues({
         nome,
@@ -131,5 +154,6 @@ async function EdicaoCadastroPage() {
     })
 
     form.onsubmit = handleSubmit
+    form.oninput = handleChange
 }
 EdicaoCadastroPage()
