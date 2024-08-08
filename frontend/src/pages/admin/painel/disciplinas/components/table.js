@@ -1,3 +1,4 @@
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
 
 export function RegisterDisciplinasTable(rows) {
@@ -33,8 +34,8 @@ export function RegisterDisciplinasTable(rows) {
                 name: row.name,
                 type: 'disciplina',
                 array: row.quizzes,
-                toEdit: `http://localhost:5500/frontend/src/pages/adm/edicao/disciplinas.html?id=${row.id}`,
-                toRemove: 'http://localhost:3333/api/disciplinas',
+                toEdit: ROUTES.ADMIN.EDICAO.DISCIPLINAS(row.id),
+                toRemove: API_ENDPOINTS.DELETE_DISCIPLINA,
             })
         )
     })
