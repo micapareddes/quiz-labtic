@@ -146,7 +146,7 @@ async function EdicaoCadastroPage() {
     const input =  form.querySelector('input')
     const select = form.querySelector('select')
     input.value = nome
-    select.value = professor_id
+    select.value = String(professor_id)
 
     saveOriginalValues({
         nome,
