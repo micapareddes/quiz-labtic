@@ -10,7 +10,7 @@ export const ROUTES = {
             DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/disciplinas.html'
         },
         EDICAO: {
-            DISCIPLINAS: '/frontend/src/pages/admin/edicao/disciplinas/disciplinas.html'
+            DISCIPLINAS: (id) => `/frontend/src/pages/admin/edicao/disciplinas/index.html?id=${id}`,
         },
     },
     ALUNO: {
