@@ -2,6 +2,7 @@
 import { verifyUserAccess } from '/frontend/src/js/auth/verifyUserAccess.js'
 import { getDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/service/getDisciplinas.js'
 import { parseDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
+import { saveWindow } from '/frontend/src/js/functions/saveWindow.js'
 
 // Components
 import { Heading } from '/frontend/src/js/components/heading.js'
@@ -59,5 +60,7 @@ async function DisciplinasPage() {
             localStorage.removeItem('disciplinaAlterada')
         }
     }
+
+    saveWindow('disciplinas')
 }
 DisciplinasPage()
