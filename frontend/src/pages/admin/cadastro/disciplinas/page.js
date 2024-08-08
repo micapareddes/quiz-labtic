@@ -127,19 +127,19 @@ async function CadastroDisciplinaPage() {
             title: 'Cadastro da Disciplina', 
             onGoBack: () => {
                 const previousWindowName = localStorage.getItem('window')
-                const painel = previousWindowName === 'disciplinas' ? ROUTES.ADMIN.PAINEL.DISCIPLINAS : ROUTES.ADMIN.DASHBOARD
+                const previousWindow = previousWindowName === 'disciplinas' ? ROUTES.ADMIN.PAINEL.DISCIPLINAS : ROUTES.ADMIN.DASHBOARD
                 
                 if (form.querySelector('input').value) {
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => navigateTo(painel)
+                            onConfirm: () => navigateTo(previousWindow)
                         })
                     )
                     return
                 }
-                navigateTo(painel)
+                navigateTo(previousWindow)
             }
         }),
         form
