@@ -4,6 +4,7 @@ import { getProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplina
 import { parseProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/js/validations/cadastroDisciplinaValidation.js'
 import { cadastrarDisciplina } from '/frontend/src/js/pages/admin/cadastro/disciplinas/service/cadastrarDisciplina.js'
+import { navigateTo } from '/frontend/src/js/functions/navigateTo.js'
 
 // Components
 import { Heading } from '/frontend/src/js/components/heading.js'
@@ -13,6 +14,7 @@ import { TextInput } from '/frontend/src/js/components/text-input.js'
 import { Select } from '/frontend/src/js/components/select.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/js/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/js/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { openDialog, AlertDialog } from '/frontend/src/js/components/dialog.js'
 
 
 async function handleSubmit(event) {
@@ -122,10 +124,26 @@ async function CadastroDisciplinaPage() {
         Heading({
             goBack: true, 
             title: 'Cadastro da Disciplina', 
+            onGoBack: () => {
+                const previousWindowName = localStorage.getItem('window')
+                const painel = previousWindowName === 'disciplinas' ? '/frontend/src/pages/adm/painel/disciplinas.html' : '/frontend/src/pages/adm/dashboard.html'
+                
+                if (form.querySelector('input').value) {
+                    openDialog(
+                        AlertDialog({
+                            message: 'O cadastro não será salvo.',
+                            confirmarButtonName: 'Voltar',
+                            onConfirm: () => navigateTo(painel)
+                        })
+                    )
+                    return
+                }
+                navigateTo(painel)
+            }
         }),
         form
     )
-
+    
     form.onsubmit = handleSubmit
     form.oninput = handleChange
 }

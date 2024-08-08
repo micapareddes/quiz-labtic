@@ -38,9 +38,7 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
 
         heading.prepend(div)
 
-        goBackButton.addEventListener('click', () => {
-            onGoBack()
-        })
+        goBackButton.onclick = onGoBack
     }
     
     return heading

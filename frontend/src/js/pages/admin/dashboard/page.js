@@ -6,6 +6,7 @@ import { getAdminName } from './service/getAdminName.js'
 import { Heading } from '/frontend/src/js/components/heading.js'
 import { SidebarAdmin, painelItems } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
 import { RegisterListItem } from '/frontend/src/js/pages/admin/dashboard/components/registerListItem.js'
+import { saveWindow } from '/frontend/src/js/functions/saveWindow.js'
 
 
 async function PageDashboard() {
@@ -38,6 +39,8 @@ async function PageDashboard() {
             })
         )
     })
+
+    saveWindow('dashboard')
 }
 
 PageDashboard()
