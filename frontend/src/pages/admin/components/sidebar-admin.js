@@ -1,3 +1,4 @@
+import { ROUTES } from '/frontend/src/utils/routes.js'
 import { Sidebar } from '/frontend/src/components/sidebar.js'
 export const painelItems = [
     {
@@ -10,8 +11,8 @@ export const painelItems = [
         linkCadastro: '',
     },{
         name: 'Disciplinas',
-        linkPainel: '/frontend/src/pages/adm/painel/disciplinas.html',
-        linkCadastro: '/frontend/src/pages/adm/cadastro/disciplinas.html',
+        linkPainel: ROUTES.ADMIN.PAINEL.DISCIPLINAS,
+        linkCadastro: ROUTES.ADMIN.CADASTRO.DISCIPLINAS,
     },
 ]
 export function SidebarAdmin() {
