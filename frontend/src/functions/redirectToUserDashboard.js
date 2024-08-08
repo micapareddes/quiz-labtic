@@ -1,9 +1,11 @@
+import { ROUTES } from '/frontend/src/utils/routes.js'
+
 export function redirectToUserDashboard(userType) {
     if (userType === 'aluno') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/aluno/dashboard.html'
+        window.location.href = ROUTES.ALUNO.DASHBOARD
     } else if (userType === 'professor') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/professor/dashboard.html'
+        window.location.href = ROUTES.PROFESSOR.DASHBOARD
     } else if (userType === 'admin') {
-        window.location.href = 'http://localhost:5500/frontend/src/pages/adm/dashboard.html'
+        window.location.href = ROUTES.ADMIN.DASHBOARD
     }
 }
