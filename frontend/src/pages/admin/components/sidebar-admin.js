@@ -1,4 +1,4 @@
-import { Sidebar } from '/frontend/src/js/components/sidebar.js'
+import { Sidebar } from '/frontend/src/components/sidebar.js'
 export const painelItems = [
     {
         name: 'Aluno',

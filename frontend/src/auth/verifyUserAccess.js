@@ -1,6 +1,6 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
-import { reqUserType } from '/frontend/src/js/auth/reqUserType.js'
-import { navigateTo } from '/frontend/src/js/functions/navigateTo.js'
+import { reqUserType } from '/frontend/src/auth/reqUserType.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 
 export async function verifyUserAccess(tipo) {
     const accessToken = localStorage.getItem('accessToken')

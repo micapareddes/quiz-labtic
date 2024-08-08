@@ -1,5 +1,5 @@
-import { AuthFormContent } from '/frontend/src/js/pages/login/components/auth-form-content.js'
-import { AuthForm } from '/frontend/src/js/components/auth-form.js'
+import { AuthFormContent } from '/frontend/src/pages/login/components/auth-form-content.js'
+import { AuthForm } from '/frontend/src/components/auth-form.js'
 
 export function LoginForm() {
     const authFormContainer = document.createElement('div')

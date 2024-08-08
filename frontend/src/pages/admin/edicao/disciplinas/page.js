@@ -1,24 +1,24 @@
 // Functions
-import { verifyUserAccess } from '/frontend/src/js/auth/verifyUserAccess.js'
-import { getProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplinas/service/getProfessores.js'
-import { parseProfessores } from '/frontend/src/js/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
-import { getDisciplina } from '/frontend/src/js/pages/admin/edicao/disciplinas/service/getDisciplina.js'
-import { getUrlParam } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/getUrlParam.js'
-import { navigateTo } from '/frontend/src/js/functions/navigateTo.js'
-import { obtainValuesFromStorage } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/obtainValuesFromStorage.js'
-import { deleteValuesFromStorage } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/deleteValuesFromStorage.js'
-import { saveOriginalValues } from '/frontend/src/js/pages/admin/edicao/disciplinas/functions/saveOriginalValues.js'
-import { alterarDisciplinaNoBanco } from '/frontend/src/js/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
-import { cadastroDisciplinaValidation } from '/frontend/src/js/validations/cadastroDisciplinaValidation.js'
+import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
+import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
+import { getDisciplina } from '/frontend/src/pages/admin/edicao/disciplinas/service/getDisciplina.js'
+import { getUrlParam } from '/frontend/src/pages/admin/edicao/disciplinas/functions/getUrlParam.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
+import { obtainValuesFromStorage } from '/frontend/src/pages/admin/edicao/disciplinas/functions/obtainValuesFromStorage.js'
+import { deleteValuesFromStorage } from '/frontend/src/pages/admin/edicao/disciplinas/functions/deleteValuesFromStorage.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/disciplinas/functions/saveOriginalValues.js'
+import { alterarDisciplinaNoBanco } from '/frontend/src/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
+import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
 
 // Components
-import { Heading } from '/frontend/src/js/components/heading.js'
-import { SidebarAdmin } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
-import { Button } from '/frontend/src/js/components/button.js'
-import { TextInput } from '/frontend/src/js/components/text-input.js'
-import { Select } from '/frontend/src/js/components/select.js'
-import { InfoToaster, openToaster, closeToaster } from '/frontend/src/js/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/js/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { Heading } from '/frontend/src/components/heading.js'
+import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { Button } from '/frontend/src/components/button.js'
+import { TextInput } from '/frontend/src/components/text-input.js'
+import { Select } from '/frontend/src/components/select.js'
+import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
+import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
 
 async function handleSubmit(e) {
     e.preventDefault()

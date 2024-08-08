@@ -1,4 +1,4 @@
-import { makeRequest } from '/frontend/src/js/functions/makeRequest.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 export async function removeFromDatabaseById({id, url}) {
     const accessToken = localStorage.getItem('accessToken')

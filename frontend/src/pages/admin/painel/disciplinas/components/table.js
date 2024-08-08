@@ -1,4 +1,4 @@
-import { TableHead, CadastrosTableRow } from '/frontend/src/js/components/table.js'
+import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
 
 export function RegisterDisciplinasTable(rows) {
     const headerContent = [

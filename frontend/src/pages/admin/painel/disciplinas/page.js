@@ -1,16 +1,16 @@
 // Functions
-import { verifyUserAccess } from '/frontend/src/js/auth/verifyUserAccess.js'
-import { getDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/service/getDisciplinas.js'
-import { parseDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
-import { saveWindow } from '/frontend/src/js/functions/saveWindow.js'
+import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { getDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/service/getDisciplinas.js'
+import { parseDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
+import { saveWindow } from '/frontend/src/functions/saveWindow.js'
 
 // Components
-import { Heading } from '/frontend/src/js/components/heading.js'
-import { SidebarAdmin } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
-import { RegisterDisciplinasTable } from '/frontend/src/js/pages/admin/painel/disciplinas/components/table.js'
-import { Button } from '/frontend/src/js/components/button.js'
-import { Empty } from '/frontend/src/js/components/empty.js'
-import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/js/components/toaster.js'
+import { Heading } from '/frontend/src/components/heading.js'
+import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { RegisterDisciplinasTable } from '/frontend/src/pages/admin/painel/disciplinas/components/table.js'
+import { Button } from '/frontend/src/components/button.js'
+import { Empty } from '/frontend/src/components/empty.js'
+import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 
 async function DisciplinasPage() {
     verifyUserAccess('admin')

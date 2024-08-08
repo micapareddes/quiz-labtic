@@ -1,4 +1,4 @@
-import { makeRequest } from '/frontend/src/js/functions/makeRequest.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 export async function removerRelacao(id) {
     const accessToken = localStorage.getItem('accessToken')

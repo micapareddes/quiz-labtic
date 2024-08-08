@@ -1,6 +1,6 @@
 // Functions
-import { removeFromDatabaseById } from '/frontend/src/js/pages/admin/service/removeFromDatabaseById.js'
-import { totalDeDisciplinas } from '/frontend/src/js/pages/admin/painel/disciplinas/functions/totalDeDisciplinas.js'
+import { removeFromDatabaseById } from '/frontend/src/pages/admin/service/removeFromDatabaseById.js'
+import { totalDeDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/totalDeDisciplinas.js'
 import { removerRelacao } from '../pages/admin/service/removerRelacao.js'
 
 // Components

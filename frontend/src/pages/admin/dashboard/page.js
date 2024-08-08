@@ -1,12 +1,12 @@
 // Functions
-import { verifyUserAccess } from '/frontend/src/js/auth/verifyUserAccess.js'
+import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getAdminName } from './service/getAdminName.js'
 
 // Components
-import { Heading } from '/frontend/src/js/components/heading.js'
-import { SidebarAdmin, painelItems } from '/frontend/src/js/pages/admin/components/sidebar-admin.js'
-import { RegisterListItem } from '/frontend/src/js/pages/admin/dashboard/components/registerListItem.js'
-import { saveWindow } from '/frontend/src/js/functions/saveWindow.js'
+import { Heading } from '/frontend/src/components/heading.js'
+import { SidebarAdmin, painelItems } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { RegisterListItem } from '/frontend/src/pages/admin/dashboard/components/registerListItem.js'
+import { saveWindow } from '/frontend/src/functions/saveWindow.js'
 
 
 async function PageDashboard() {
