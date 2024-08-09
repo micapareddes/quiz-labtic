@@ -5,7 +5,7 @@ import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/s
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
 import { cadastrarDisciplina } from '/frontend/src/pages/admin/cadastro/disciplinas/service/cadastrarDisciplina.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
+import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -126,20 +126,17 @@ async function CadastroDisciplinaPage() {
             goBack: true, 
             title: 'Cadastro da Disciplina', 
             onGoBack: () => {
-                const previousWindowName = localStorage.getItem('window')
-                const previousWindow = previousWindowName === 'disciplinas' ? ROUTES.ADMIN.PAINEL.DISCIPLINAS : ROUTES.ADMIN.DASHBOARD
-                
                 if (form.querySelector('input').value) {
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => navigateTo(previousWindow)
+                            onConfirm: () => goBack()
                         })
                     )
                     return
                 }
-                navigateTo(previousWindow)
+                goBack()
             }
         }),
         form

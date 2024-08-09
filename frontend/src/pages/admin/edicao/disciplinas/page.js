@@ -10,6 +10,7 @@ import { deleteValuesFromStorage } from '/frontend/src/pages/admin/edicao/discip
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/disciplinas/functions/saveOriginalValues.js'
 import { alterarDisciplinaNoBanco } from '/frontend/src/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
+import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -137,7 +138,8 @@ async function EdicaoCadastroPage() {
     main.append(    
         Heading({
             goBack: true, 
-            title: 'Cadastro da Disciplina', 
+            onGoBack: () => goBack(),
+            title: 'Edição da Disciplina', 
         }),
         form
     )
