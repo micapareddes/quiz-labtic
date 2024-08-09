@@ -4,10 +4,10 @@ export const ROUTES = {
     ADMIN: {
         DASHBOARD: '/frontend/src/pages/admin/dashboard/index.html',
         PAINEL: {
-            DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/disciplinas.html' 
+            DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/index.html' 
         },
         CADASTRO: {
-            DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/disciplinas.html'
+            DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/index.html'
         },
         EDICAO: {
             DISCIPLINAS: (id) => `/frontend/src/pages/admin/edicao/disciplinas/index.html?id=${id}`,
