@@ -1,8 +1,10 @@
 // Functions
+import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/service/getDisciplinas.js'
 import { parseDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
-import { saveWindow } from '/frontend/src/functions/saveWindow.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
+import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -25,16 +27,17 @@ async function DisciplinasPage() {
     header.append(        
         Heading({
             goBack: true, 
+            onGoBack: () => navigateTo(ROUTES.ADMIN.DASHBOARD),
             title: 'Disciplinas', 
             subtitle: `${quantidadeDisciplinas} cadastradas`,
-            subtitleSize: 'lg'
+            subtitleSize: 'lg',
         }),
         Button({
             variant: 'primary',
             size: 'md',
             title: 'Cadastrar',
             icon: true,
-            link: '/frontend/src/pages/adm/cadastroDisciplina.html'
+            link: ROUTES.ADMIN.CADASTRO.DISCIPLINAS
         })
     )
     root.prepend(SidebarAdmin())
@@ -60,7 +63,6 @@ async function DisciplinasPage() {
             localStorage.removeItem('disciplinaAlterada')
         }
     }
-
-    saveWindow('disciplinas')
+    saveWindowPath()
 }
 DisciplinasPage()
