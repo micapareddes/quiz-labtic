@@ -4,7 +4,8 @@ export const ROUTES = {
     ADMIN: {
         DASHBOARD: '/frontend/src/pages/admin/dashboard/index.html',
         PAINEL: {
-            DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/index.html' 
+            DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/index.html',
+            ALUNOS: '/frontend/src/pages/admin/painel/alunos/index.html',
         },
         CADASTRO: {
             DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/index.html'
