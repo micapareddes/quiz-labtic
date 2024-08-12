@@ -2,8 +2,8 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { Sidebar } from '/frontend/src/components/sidebar.js'
 export const painelItems = [
     {
-        name: 'Aluno',
-        linkPainel: '',
+        name: 'Alunos',
+        linkPainel: ROUTES.ADMIN.PAINEL.ALUNOS,
         linkCadastro: '',
     },{
         name: 'Professor',
