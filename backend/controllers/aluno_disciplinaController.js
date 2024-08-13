@@ -91,7 +91,6 @@ class Aluno_DisciplinaController {
                         {
                             $project: {
                                 disciplina_nome: 1,
-                                disciplina_id: 1
                             }
                         }
                     ]
