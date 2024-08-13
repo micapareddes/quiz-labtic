@@ -7,7 +7,11 @@ import { authenticateToken } from "../middleware/authenticateToken.js"
 const routerAlunoDisciplina = Router()
 
 routerAlunoDisciplina.get("/", authenticateToken, tryCatch(Aluno_DisciplinaController.consultarRelacaoPorAluno))
+
+routerAlunoDisciplina.get("/all_students", authenticateToken, tryCatch(Aluno_DisciplinaController.getAllStudents))
+
 routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.criarRelacao))
+
 routerAlunoDisciplina.delete("/", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
 
 export default routerAlunoDisciplina

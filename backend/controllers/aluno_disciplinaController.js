@@ -71,6 +71,43 @@ class Aluno_DisciplinaController {
         
         res.status(204).send()
     }
+
+    async getAllStudents(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const data = await ModeloUsuario.aggregate([
+            { $match: { papel: 'aluno' } },
+            {
+                $lookup: {
+                    from: 'alunos_disciplinas',
+                    localField: '_id',
+                    foreignField: 'aluno_id',
+                    as: 'disciplinas',
+                    pipeline: [
+                        {
+                            $project: {
+                                disciplina_nome: 1,
+                                disciplina_id: 1
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    nome: 1,
+                    matricula: 1,
+                    disciplinas: 1
+                }
+            }
+        ])
+        res.status(200).json(data);
+    }
 }
 
 export default new Aluno_DisciplinaController()
