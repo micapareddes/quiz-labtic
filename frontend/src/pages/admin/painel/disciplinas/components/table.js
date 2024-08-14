@@ -30,7 +30,7 @@ export function RegisterDisciplinasTable(rows) {
         tbody.appendChild(
             CadastrosTableRow({
                 id: row.id,
-                matriculaOuProfessor: row.professor ? row.professor : 'Nenhum Professor',
+                matriculaOuProfessor: row.professor,
                 name: row.name,
                 type: 'disciplina',
                 array: row.quizzes,
