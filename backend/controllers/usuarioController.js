@@ -1,5 +1,6 @@
 import { TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 import { ModeloUsuario } from "../models/Usuario.js"
+import { ModeloDisciplina } from "../models/Disciplina.js"
 import { generateAccessToken } from "../utils/generateToken.js"
 import ServidorError from "../ServidorError.js"
 
@@ -159,6 +160,42 @@ class UsuarioController {
 
 
         return res.status(200).json({ professoresCadastrados })
+    }
+
+    async listarTodosProfessoresComDisciplinas(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const data = await ModeloUsuario.aggregate([
+            { $match: { papel: 'professor' } },
+            {
+                $lookup: {
+                    from: 'disciplinas',
+                    localField: '_id',
+                    foreignField: 'professor_id',
+                    as: 'disciplinas',
+                    pipeline: [
+                        {
+                            $project: {
+                                nome: 1,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    nome: 1,
+                    matricula: 1,
+                    disciplinas: 1
+                }
+            }
+        ])
+
+
+        return res.status(200).json(data)
     }
 }
 
