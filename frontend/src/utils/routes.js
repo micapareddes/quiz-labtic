@@ -36,6 +36,6 @@ export const API_ENDPOINTS = {
     GET_PROFESSORES: 'http://localhost:3333/api/usuarios/professores',
 
     GET_ALL_STUDENTS_WITH_DISCIPLINAS: 'http://localhost:3333/api/alunos_disciplinas/all_students',
-    GET_ALL_PROFESSORES_WITH_DISCIPLINAS: '', //TODO:
+    GET_ALL_PROFESSORES_WITH_DISCIPLINAS: 'http://localhost:3333/api/usuarios/all_professores',
     DELETE_RELATION: 'http://localhost:3333/api/alunos_disciplinas',
 }
