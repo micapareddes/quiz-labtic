@@ -18,13 +18,7 @@ async function ProfessoresPage() {
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const header = document.createElement('div')
-    // const professores = await getProfessores()
-    const professores = [{
-        nome: 'Severus Snape',
-        matricula: '123223',
-        disciplinas: [],
-        id: 'abcsd'
-    }]
+    const professores = await getProfessores()
     const quantidadeProfessores = professores.length
 
     header.className = 'flex flex-row justify-between items-start mb-10'
