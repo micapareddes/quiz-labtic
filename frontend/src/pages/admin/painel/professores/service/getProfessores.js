@@ -1,10 +1,10 @@
 import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
-export async function getStudents() {
+export async function getProfessores() {
     try {
         const accessToken = localStorage.getItem('accessToken')
-        const response = await makeRequest( { url: API_ENDPOINTS.GET_ALL_STUDENTS_WITH_DISCIPLINAS, method:'GET', token: accessToken})
+        const response = await makeRequest( { url: API_ENDPOINTS.GET_ALL_PROFESSORES_WITH_DISCIPLINAS, method:'GET', token: accessToken})
     
         return response
     } catch (error) {
