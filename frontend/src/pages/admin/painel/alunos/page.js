@@ -1,9 +1,9 @@
 // Functions
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/service/getDisciplinas.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
+import { getStudents } from './service/getStudents.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -18,17 +18,7 @@ async function AlunosPage() {
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const header = document.createElement('div')
-    const alunos = [
-        {
-            id: 'ABC123456FD',
-            matricula: '123456',
-            name: 'Harry Potter',
-            disciplinas: [],
-            toEdit: '',
-            toRemove: '',
-        }
-    ]
-    // const alunosFormatados = parseUsers(alunos)
+    const alunos = await getStudents()
     const quantidadeAlunos = alunos.length
 
     header.className = 'flex flex-row justify-between items-start mb-10'
