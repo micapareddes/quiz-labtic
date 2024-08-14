@@ -6,6 +6,7 @@ export const ROUTES = {
         PAINEL: {
             DISCIPLINAS: '/frontend/src/pages/admin/painel/disciplinas/index.html',
             ALUNOS: '/frontend/src/pages/admin/painel/alunos/index.html',
+            PROFESSORES: '/frontend/src/pages/admin/painel/professores/index.html',
         },
         CADASTRO: {
             DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/index.html'
@@ -35,6 +36,6 @@ export const API_ENDPOINTS = {
     GET_PROFESSORES: 'http://localhost:3333/api/usuarios/professores',
 
     GET_ALL_STUDENTS_WITH_DISCIPLINAS: 'http://localhost:3333/api/alunos_disciplinas/all_students',
-    GET_ALL_PROFESSORS_WITH_DISCIPLINAS: '', //TODO:
+    GET_ALL_PROFESSORES_WITH_DISCIPLINAS: '', //TODO:
     DELETE_RELATION: 'http://localhost:3333/api/alunos_disciplinas',
 }
