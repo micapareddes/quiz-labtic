@@ -7,7 +7,7 @@ export const painelItems = [
         linkCadastro: '',
     },{
         name: 'Professor',
-        linkPainel: '',
+        linkPainel: ROUTES.ADMIN.PAINEL.PROFESSORES,
         linkCadastro: '',
     },{
         name: 'Disciplinas',
