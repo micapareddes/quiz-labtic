@@ -5,6 +5,7 @@ export function TooltipInfo({ message='Esta é uma mensagem informativa.' }) {
     const infoMessage = document.createElement('p')
 
     infoButton.className = 'flex items-center'
+    infoButton.type = 'button'
     container.className = 'relative w-full'
 
     infoIcon.src = '/frontend/src/img/icones/question.svg'
