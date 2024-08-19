@@ -11,6 +11,14 @@
         --tw-border-spacing-y: 0.5rem;
         border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
     }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Esconde o scrollbar para WebKit browsers (Chrome, Safari) */
+      }
+      
+    .hide-scrollbar {
+        -ms-overflow-style: none; /* Esconde o scrollbar para Internet Explorer 10+ */
+        scrollbar-width: none; /* Esconde o scrollbar para Firefox */
+    }
 }
 
 :root {
