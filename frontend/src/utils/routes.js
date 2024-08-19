@@ -9,10 +9,14 @@ export const ROUTES = {
             PROFESSORES: '/frontend/src/pages/admin/painel/professores/index.html',
         },
         CADASTRO: {
-            DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/index.html'
+            DISCIPLINAS: '/frontend/src/pages/admin/cadastro/disciplinas/index.html',
+            ALUNOS: '/frontend/src/pages/admin/cadastro/alunos/index.html',
+            PROFESSORES: '/frontend/src/pages/admin/cadastro/professores/index.html',
         },
         EDICAO: {
             DISCIPLINAS: (id) => `/frontend/src/pages/admin/edicao/disciplinas/index.html?id=${id}`,
+            ALUNOS: (id) => `/frontend/src/pages/admin/edicao/alunos/index.html?id=${id}`,
+            PROFESSORES: (id) => `/frontend/src/pages/admin/edicao/professores/index.html?id=${id}`,
         },
     },
     ALUNO: {
