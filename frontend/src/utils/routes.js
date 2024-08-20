@@ -32,17 +32,18 @@ export const API_ENDPOINTS = {
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    PATCH_PROFESSORES_TO_DISCIPLINAS: 'http://localhost:3333/api/disciplinas',
     DELETE_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
 
     GET_USER_TYPE: 'http://localhost:3333/api/usuarios/me',
     GET_USER_NAME: 'http://localhost:3333/api/usuarios/name',
+    GET_ALL_PROFESSORES_WITH_DISCIPLINAS: 'http://localhost:3333/api/usuarios/all_professores',
     POST_USER: 'http://localhost:3333/api/usuarios',
+    DELETE_USER: 'http://localhost:3333/api/usuarios',
 
     GET_PROFESSORES: 'http://localhost:3333/api/usuarios/professores',
 
     GET_ALL_STUDENTS_WITH_DISCIPLINAS: 'http://localhost:3333/api/alunos_disciplinas/all_students',
-    GET_ALL_PROFESSORES_WITH_DISCIPLINAS: 'http://localhost:3333/api/usuarios/all_professores',
-    PATCH_PROFESSORES_TO_DISCIPLINAS: 'http://localhost:3333/api/disciplinas',
     POST_STUDENT_RELATIONS: 'http://localhost:3333/api/alunos_disciplinas',
     DELETE_RELATION: 'http://localhost:3333/api/alunos_disciplinas',
 }
