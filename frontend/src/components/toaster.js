@@ -1,15 +1,15 @@
-function constructorToaster({ color, title, message, iconSrc, iconAlt }) {
+function constructorToaster({ color, title, message, phosphor }) {
     const span = document.createElement('span')
     const divTitle = document.createElement('div')
     const divContent = document.createElement('div')
     const h4 = document.createElement('h4')
     const p = document.createElement('p')
     const button = document.createElement('button')
-    const closeImg = document.createElement('img')
-    const iconImg = document.createElement('img')
+    const closeIcon = document.createElement('i')
+    const toasterIcon = document.createElement('i')
 
     span.id = 'toaster'
-    span.className = `px-5 py-3 rounded-md border-l-4 shadow-md absolute right-4 bottom-6 bg-${color}-100 border-l-${color}-400 flex items-start gap-12`
+    span.className = `px-5 py-3 rounded-md border-l-4 shadow-md absolute right-4 bottom-6 bg-${color}-100 border-l-${color}-500 flex items-start gap-12`
 
     divTitle.className = 'flex items-center gap-2'
 
@@ -21,20 +21,12 @@ function constructorToaster({ color, title, message, iconSrc, iconAlt }) {
 
     button.id = 'toaster-button'
 
-    closeImg.src = '/frontend/src/img/icones/x.svg'
-    closeImg.alt = 'Icone de X'
-    closeImg.style.height = '21px'
-    closeImg.style.width = '21px'
-    closeImg.className = 'opacity-50 hover:opacity-70'
+    closeIcon.className = `ph ph-x text-xl text-${color}-500 opacity-50 hover:opacity-70`
+    toasterIcon.className = `ph-fill ph-${phosphor} text-xl text-${color}-500`
 
-    iconImg.src = iconSrc
-    iconImg.alt = iconAlt
-    iconImg.style.height = '21px'
-    iconImg.style.width = '21px'
-
-    divTitle.append(iconImg, h4)
+    divTitle.append(toasterIcon, h4)
     divContent.append(divTitle, p)
-    button.appendChild(closeImg)
+    button.appendChild(closeIcon)
     span.append(divContent, button)
 
     return span
@@ -46,8 +38,7 @@ export function SuccessToaster({ message }) {
         color: 'emerald', 
         title: 'Sucesso!', 
         message, 
-        iconSrc: '/frontend/src/img/icones/check-circle.svg', 
-        iconAlt: 'Icone de check circular verde'
+        phosphor: 'check-circle', 
     })
 
     return successToaster
@@ -58,8 +49,16 @@ export function InfoToaster({ message }) {
         color: 'indigo', 
         title: 'Info', 
         message, 
-        iconSrc: '/frontend/src/img/icones/info.svg', 
-        iconAlt: 'Icone de informação roxo'
+        phosphor: 'info', 
+    })
+}
+
+export function ErrorToaster({ message }) {
+    return constructorToaster({ 
+        color: 'red', 
+        title: 'Error', 
+        message, 
+        phosphor: 'x-circle'
     })
 }
 
