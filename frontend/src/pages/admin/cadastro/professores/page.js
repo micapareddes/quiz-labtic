@@ -93,10 +93,15 @@ async function handleSubmit(event) {
             closeToaster()
             
             submitButton.disabled = true
-        } else {
-            console.log(error);
+        } else if (error.status === 2410) { 
+            openToaster(
+                ErrorToaster({ message: error.message })
+            )
+            closeToaster()
             
-            // alert('Algo deu errado, tente novamente mais tarde...')
+            submitButton.disabled = true
+        } else {
+            alert('Algo deu errado, tente novamente mais tarde...')
         }
     }
 }
