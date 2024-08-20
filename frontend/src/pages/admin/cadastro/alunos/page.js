@@ -4,7 +4,7 @@ import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
 import { cadastroUserValidation } from '../../../../validations/cadastroUserValidation.js'
 import { cadastrarUser } from '../service/cadastrarUser.js'
-import { getDisciplinas } from '../service/getDisciplinas.js'
+import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
