@@ -27,7 +27,7 @@ module.exports = {
     function({ addComponents }) {
       addComponents({
         '.main-container': {
-          '@apply bg-neutral-50 h-full flex flex-col col-span-1 rounded-t-2xl md:rounded-r-none md:rounded-s-3xl p-6 md:p-10 md:py-10 md:overflow-y-scroll': {},
+          '@apply bg-neutral-50 h-full flex flex-col col-span-1 rounded-t-2xl md:rounded-r-none md:rounded-s-3xl p-6 md:p-10 md:py-10 overflow-scroll hide-scrollbar': {},
         },
         '.root-container': {
           '@apply block md:grid lg:grid-cols-root-lg md:grid-cols-root-md bg-indigo-950 text-stone-900 h-screen overflow-y-scroll md:overflow-hidden': {},
