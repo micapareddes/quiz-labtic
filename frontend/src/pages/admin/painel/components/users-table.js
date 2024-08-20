@@ -29,8 +29,8 @@ export function UsersTable({ type, rows }) {
                 name: row.nome,
                 type,
                 array: row.disciplinas,
-                toEdit: '', //TODO: Adicionar rotas de edição e remoção
-                toRemove: '',
+                toEdit: type === 'aluno' ? ROUTES.ADMIN.EDICAO.ALUNOS(row._id) : type === 'professor' ? ROUTES.ADMIN.EDICAO.PROFESSORES(row._id) : ROUTES.ERROR404,
+                toRemove: API_ENDPOINTS.DELETE_USER,
             })
         )
     })
