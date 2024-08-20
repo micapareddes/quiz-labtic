@@ -134,6 +134,37 @@ class DisciplinaController {
 
         res.status(200).json({ disciplina })
     }
+
+    async cadastrarProfessorADisciplinas(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const { matricula, disciplinas } = req.body
+        const professor = await ModeloUsuario.findOne({ matricula }, '_id papel');
+        const professorInvalido = !professor || professor.papel !== 'professor'
+        if (professorInvalido) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        for (const disciplina of disciplinas) {
+            const existingDisciplina = await ModeloDisciplina.findById(disciplina.id);
+            if (existingDisciplina.professor_id !== null) {
+                throw new ServidorError(DISCIPLINA_ERROR.HAS_PROFESSOR(existingDisciplina.nome))
+            }
+        }
+
+
+        await Promise.all(disciplinas.map(
+            async (disciplina) => {
+                await ModeloDisciplina.findByIdAndUpdate(
+                    disciplina.id,
+                    { professor_id: professor._id }
+                )
+            }
+        ))
+        res.status(204).send()
+    }
 }
 
 export default new DisciplinaController()
