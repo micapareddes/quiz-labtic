@@ -87,16 +87,13 @@ class UsuarioController {
         const reqUser = await ModeloUsuario.findById(reqUserId)
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
-        const matricula = req.body.matricula
+        const id = req.body.id
 
-        const resposta = await ModeloUsuario.deleteOne({"matricula": matricula})
+        const user = await ModeloUsuario.findByIdAndDelete(id)
 
-        if (resposta.n === 0) {
-            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
-        }
-
-        console.log('Usuario deletado! ', matricula)
-        return res.status(204).send()
+        if (!user) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        
+        res.status(204).send()
     }
 
     async editarUsuario(req, res) {
@@ -149,6 +146,19 @@ class UsuarioController {
         if (!userData) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
         return res.status(200).json({ name: userData.nome })
+    }
+
+    async listarInformacoesPorId(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        const user = await ModeloUsuario.findOne({ _id: id }, 'nome matricula email')
+        if (!user) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        res.status(200).json( user )
     }
 
     async listarTodosPorfessores(req, res) {
