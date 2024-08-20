@@ -112,7 +112,7 @@ class Aluno_DisciplinaController {
                     pipeline: [
                         {
                             $project: {
-                                disciplina_nome: 1,
+                                nome: "$disciplina_nome",
                             }
                         }
                     ]
