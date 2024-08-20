@@ -10,6 +10,7 @@ routerDisciplina.get("/cadastradas", authenticateToken, tryCatch(DisciplinaContr
 routerDisciplina.get("/:id", authenticateToken, tryCatch(DisciplinaController.listarInformaçõesPorId))
 routerDisciplina.post("/", authenticateToken, tryCatch(DisciplinaController.criarDisciplina))
 routerDisciplina.patch("/:id", authenticateToken, tryCatch(DisciplinaController.editarDisciplina))
+routerDisciplina.patch("/", authenticateToken, tryCatch(DisciplinaController.cadastrarProfessorADisciplinas))
 routerDisciplina.delete("/", authenticateToken, tryCatch(DisciplinaController.eliminarDisciplina))
 
 export default routerDisciplina
