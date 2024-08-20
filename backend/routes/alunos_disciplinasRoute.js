@@ -10,7 +10,7 @@ routerAlunoDisciplina.get("/", authenticateToken, tryCatch(Aluno_DisciplinaContr
 
 routerAlunoDisciplina.get("/all_students", authenticateToken, tryCatch(Aluno_DisciplinaController.getAllStudents))
 
-routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.criarRelacao))
+routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.cadastrarAlunoADisciplinas))
 
 routerAlunoDisciplina.delete("/", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
 
