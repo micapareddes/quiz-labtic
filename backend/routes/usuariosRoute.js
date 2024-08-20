@@ -9,6 +9,7 @@ routerUsuario.get("/me", authenticateToken, tryCatch(UsuarioController.tipoDoUsu
 routerUsuario.get("/name", authenticateToken, tryCatch(UsuarioController.consultarNome))
 routerUsuario.get("/professores", authenticateToken, tryCatch(UsuarioController.listarTodosPorfessores))
 routerUsuario.get("/all_professores", authenticateToken, tryCatch(UsuarioController.listarTodosProfessoresComDisciplinas))
+routerUsuario.get("/user_data/:id", authenticateToken, tryCatch(UsuarioController.listarInformacoesPorId))
 routerUsuario.post("/", authenticateToken, tryCatch(UsuarioController.criarUsuario))
 routerUsuario.post("/login", tryCatch(UsuarioController.login))
 routerUsuario.delete("/", authenticateToken, tryCatch(UsuarioController.eliminarUsuario))
