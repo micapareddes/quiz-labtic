@@ -59,15 +59,15 @@ export function MultiSelect({
         option.className = 'relative has-[:checked]:bg-indigo-100 hover:bg-neutral-200 cursor-pointer'
         optionInput.className = 'absolute inset-0 opacity-0'
         optionInput.type = 'checkbox'
+        optionInput.id = 'option'
         optionInput.name = 'disciplinas'
         optionInput.value = optionItem._id
         optionInput.dataset.label = optionItem.nome
         option.append(optionInput, optionItem.nome)
         options.appendChild(option)
         
-        optionInput.onchange = () => {
+        optionInput.onchange = () => { //:TODO: lançar evento personalizado e renderizar lista em container
             if (optionInput.checked) {
-
                 placeholderText.remove()
                 selectedValuesContainer.appendChild(
                     selectedItem({
@@ -76,9 +76,7 @@ export function MultiSelect({
                         value: optionItem._id,
                     })
                 )
-
             } else {
-
                 const selectedItem = document.getElementById(optionItem._id)
                 selectedItem.remove()
                 if (selectedValuesContainer.children.length === 0) selectedValuesContainer.appendChild(placeholderText)
