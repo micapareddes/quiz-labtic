@@ -97,14 +97,15 @@ class UsuarioController {
     }
 
     async editarUsuario(req, res) {
-        const reqUserId = req.userId
-        const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const invalidAdmin = !admin || admin.papel !== 'admin'
+        if (invalidAdmin) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const id = req.params.id
         const atualizacoes = req.body
 
-        if ('matricula' in atualizacoes || 'senha' in atualizacoes || 'papel' in atualizacoes) {
+        if ('senha' in atualizacoes || 'papel' in atualizacoes) {
             throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
         }
 
