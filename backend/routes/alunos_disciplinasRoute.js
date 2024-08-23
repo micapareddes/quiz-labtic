@@ -10,6 +10,10 @@ routerAlunoDisciplina.get("/", authenticateToken, tryCatch(Aluno_DisciplinaContr
 
 routerAlunoDisciplina.get("/all_students", authenticateToken, tryCatch(Aluno_DisciplinaController.getAllStudents))
 
+routerAlunoDisciplina.get("/student/:id", authenticateToken, tryCatch(Aluno_DisciplinaController.getStudentDataWithDisciplinasById))
+
+routerAlunoDisciplina.patch('/student/:id', authenticateToken, tryCatch(Aluno_DisciplinaController.editarCadastroDeDisciplinasDoAlunoById))
+
 routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.cadastrarAlunoADisciplinas))
 
 routerAlunoDisciplina.delete("/", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
