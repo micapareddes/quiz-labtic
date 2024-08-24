@@ -4,11 +4,11 @@ export const painelItems = [
     {
         name: 'Alunos',
         linkPainel: ROUTES.ADMIN.PAINEL.ALUNOS,
-        linkCadastro: '',
+        linkCadastro: ROUTES.ADMIN.CADASTRO.ALUNOS,
     },{
         name: 'Professor',
         linkPainel: ROUTES.ADMIN.PAINEL.PROFESSORES,
-        linkCadastro: '',
+        linkCadastro: ROUTES.ADMIN.CADASTRO.PROFESSORES,
     },{
         name: 'Disciplinas',
         linkPainel: ROUTES.ADMIN.PAINEL.DISCIPLINAS,

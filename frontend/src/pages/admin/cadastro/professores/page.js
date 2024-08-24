@@ -1,10 +1,11 @@
 // Functions
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
-import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
-import { cadastrarUser } from '../service/cadastrarUser.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
+import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
+import { cadastrar } from '/frontend/src/pages/admin/service/cadastrar.js'
 import { cadastrarProfessorADisciplinas } from './service/cadastrarProfessorADisciplinas.js'
+import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -12,7 +13,7 @@ import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js'
+import { ErrorMessage } from '/frontend/src/components/error-message.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { MultiSelect } from '/frontend/src/components/multi-select.js'
 
@@ -74,7 +75,10 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrarUser(data)
+        await cadastrar({
+            url: API_ENDPOINTS.POST_USER,
+            data,
+        })
         if (selectedDisciplinasArray.length > 0) await cadastrarProfessorADisciplinas(disciplinasData)
         form.reset()
         selectedDisciplinasOnContainer.forEach((selected) => selected.remove())

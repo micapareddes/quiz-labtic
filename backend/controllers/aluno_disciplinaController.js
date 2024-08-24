@@ -3,7 +3,7 @@ import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
 import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 import ServidorError from "../ServidorError.js"
-import { DISCIPLINA_ERROR, RELATION_ERROR, USER_ERROR } from "../constants/errorCodes.js"
+import { DISCIPLINA_ERROR, RELATION_ERROR, USER_ERROR, TOKEN_ERROR } from "../constants/errorCodes.js"
 class Aluno_DisciplinaController {
     async consultarRelacaoPorAluno(req, res) {
         const alunoId = req.userId
@@ -68,6 +68,18 @@ class Aluno_DisciplinaController {
         const id = req.body.id
 
         await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: id })
+        
+        res.status(204).send()
+    }
+
+    async eliminarRelacaoPorAlunoId(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId, 'papel')
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+        await ModeloAlunos_Disciplina.deleteMany({ aluno_id: id })
         
         res.status(204).send()
     }

@@ -2,7 +2,7 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { getAlunoWithDisciplinas } from './service/getAlunoWithDisciplinas.js'
+import { getProfessorWithDisciplinas } from './service/getProfessorWithDisciplinas.js'
 import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
@@ -11,7 +11,7 @@ import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
-import { editedDisciplinasDoAluno } from './service/editDisciplinasDoAluno.js'
+import { editProfessorOfDisciplinas } from './service/editProfessorOfDisciplinas.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -19,7 +19,7 @@ import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { MultiSelect } from '/frontend/src/components/multi-select.js'
-import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
+import { InfoToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
@@ -44,10 +44,7 @@ async function handleSubmit(e) {
         email: emailInput.value.trim(),
     }
     const editedDisciplinas = selectedDisciplinasArray.map((disciplina) => {
-        return {
-            nome: disciplina.getAttribute('data-label'),
-            id: disciplina.value,
-        }
+        return disciplina.value
     })
     
     const { success, error } = cadastroUserValidation(editedData)
@@ -78,11 +75,11 @@ async function handleSubmit(e) {
 
     const arraysSaoIguais = (a1, a2) => {
         if (a1.length !== a2.length) return false
-        return a1.every(obj1 => a2.some(obj2 => obj1.id === obj2.id))
+        return a1.every(id => a2.some(obj2 => id === obj2.id))
     }
     const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
-    
-    const formMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula || disciplinasMudaram
+    const dataMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula
+    const formMudou = dataMudou || disciplinasMudaram
 
     if (!formMudou) {
         openToaster(
@@ -94,19 +91,25 @@ async function handleSubmit(e) {
 
         return
     }
-console.log(editedDisciplinas);
 
     try {
-        await editUser(editedData)
-        if (disciplinasMudaram) await editedDisciplinasDoAluno(editedDisciplinas)
+        if (dataMudou) await editUser(editedData)
+        if (disciplinasMudaram) await editProfessorOfDisciplinas(editedDisciplinas)
         removeOriginalValuesFromStorage()
-        localStorage.setItem('alunoAlterado', editedData.nome)
-        navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS) 
+        localStorage.setItem('professorAlterado', editedData.nome)
+        navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES) 
     } catch (error) {
         if (error.status === 403) {
             alert('Acesso Proibido')
             localStorage.removeItem('accessToken')
             navigateTo(ROUTES.LOGIN)
+        } else if (error.status === 2410) { 
+            openToaster(
+                ErrorToaster({ message: error.message })
+            )
+            closeToaster()
+            
+            submitButton.disabled = true
         } else {
             console.log(error);
             alert('Algo deu errado, tente novamente mais tarde...')
@@ -114,7 +117,7 @@ console.log(editedDisciplinas);
     }
 }
 
-function handleChange(event) {
+function handleChange(event) { //TODO: reset error handler
     const form = event.target.form
     const input = form.querySelector('input')
     const submitButton = form.querySelector('#submit')
@@ -122,14 +125,14 @@ function handleChange(event) {
     if (errorMessage) {
         errorMessage.remove()
         input.classList.remove('border-red-500')
-        submitButton.disabled = false
     }
+    submitButton.disabled = false
 }
 
 async function EdicaoCadastroPage() {
     verifyUserAccess('admin')
     if (!getUrlParam('id')) {
-        navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS)
+        navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES)
         return
     }
 
@@ -139,8 +142,8 @@ async function EdicaoCadastroPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinasCadastradas = await getDisciplinas()
-    const { nome, matricula, email, disciplinas } = await getAlunoWithDisciplinas()
-    const disciplinasAlunoIds = new Set(disciplinas.map(disciplina => disciplina.id))
+    const { nome, matricula, email, disciplinas } = await getProfessorWithDisciplinas()
+    const disciplinasIds = new Set(disciplinas.map(disciplina => disciplina.id))
 
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
@@ -151,7 +154,7 @@ async function EdicaoCadastroPage() {
         TextInput({
             id: 'name', 
             labelName: 'Nome',
-            placeholder: 'Nome do aluno' 
+            placeholder: 'Nome do professor' 
         }),
         TextInput({
             id: 'matricula', 
@@ -165,7 +168,7 @@ async function EdicaoCadastroPage() {
         }),
         MultiSelect({
             labelName: 'Disciplinas',
-            placeholder: 'Disciplinas do aluno',
+            placeholder: 'Disciplinas do professor',
             optionsArray: disciplinasCadastradas,
             tooltip: 'Devem existir disciplinas cadastradas, logo o campo é opcional.'
         })
@@ -175,7 +178,7 @@ async function EdicaoCadastroPage() {
             id: 'submit',
             variant: 'primary',
             size: 'lg',
-            title: 'Cadastrar',
+            title: 'Salvar alterações',
             type: 'submit',
         })
     )
@@ -183,7 +186,7 @@ async function EdicaoCadastroPage() {
     main.append(    
         Heading({
             goBack: true, 
-            title: 'Edição do Aluno', 
+            title: 'Edição do Professor', 
             onGoBack: () => goBack() //TODO: adicionar lógica de "alterações não serão salvas"
         }),
         form
@@ -198,7 +201,7 @@ async function EdicaoCadastroPage() {
     matriculaInput.value = matricula
     emailInput.value = email
     options.forEach((option) => {
-        if (disciplinasAlunoIds.has(option.value)) {
+        if (disciplinasIds.has(option.value)) {
             option.checked = true
             const event = new Event('change', { bubbles: true })
             option.dispatchEvent(event)

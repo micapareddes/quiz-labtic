@@ -16,6 +16,7 @@ routerAlunoDisciplina.patch('/student/:id', authenticateToken, tryCatch(Aluno_Di
 
 routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.cadastrarAlunoADisciplinas))
 
-routerAlunoDisciplina.delete("/", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
+routerAlunoDisciplina.delete("/disciplina", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
+routerAlunoDisciplina.delete("/aluno", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorAlunoId))
 
 export default routerAlunoDisciplina

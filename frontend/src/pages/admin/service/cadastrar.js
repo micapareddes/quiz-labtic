@@ -1,13 +1,14 @@
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 
-export async function cadastrarDisciplina(data) {
+export async function cadastrar({ url, data }) {
     const accessToken = localStorage.getItem('accessToken')
-    const url = 'http://localhost:3333/api/disciplinas'
     const response = await makeRequest({ 
         url, 
         method: 'POST', 
         token: accessToken, 
-        data 
+        data, 
     })
+    
     return response
 }

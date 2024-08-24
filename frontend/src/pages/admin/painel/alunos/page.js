@@ -6,9 +6,9 @@ import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getStudents } from './service/getStudents.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { UsersTable } from '/frontend/src/pages/admin/painel/components/users-table.js'
+import { Heading } from '/frontend/src/components/heading.js'
+import { AlunoTable } from './components/aluno-table.js'
 import { Button } from '/frontend/src/components/button.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
@@ -48,7 +48,7 @@ async function AlunosPage() {
         )
     } else {
         main.appendChild(
-            UsersTable({ type: 'aluno', rows: alunos})
+            AlunoTable(alunos)
         )
         const alunoAlterado = localStorage.getItem('alunoAlterado')
         if (alunoAlterado) {

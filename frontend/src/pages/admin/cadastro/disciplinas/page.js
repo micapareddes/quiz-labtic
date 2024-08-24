@@ -1,23 +1,33 @@
 // Functions
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { cadastrarDisciplina } from '/frontend/src/pages/admin/cadastro/disciplinas/service/cadastrarDisciplina.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
+import { cadastrar } from '../../service/cadastrar.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { Heading } from '/frontend/src/components/heading.js'
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
-import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
+import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
-
+function handleChange(event) {
+    const form = event.target.form
+    const input = form.querySelector('#name')
+    const submitButton = form.querySelector('#submit')
+    const errorMessage = form.querySelector('#error-message')
+    if (errorMessage) {
+        errorMessage.remove()
+        input.classList.remove('border-red-500')
+        submitButton.disabled = false
+    }
+}
 async function handleSubmit(event) {
     event.preventDefault()
 
@@ -32,7 +42,7 @@ async function handleSubmit(event) {
         'nome': nomeDisciplina,
         'professor_id': professor_id,
     }
-
+    
     const { success } = cadastroDisciplinaValidation(nomeDisciplina)
 
     if (!success) {
@@ -45,7 +55,10 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrarDisciplina(data)
+        await cadastrar({
+            url: API_ENDPOINTS.POST_DISCIPLINA,
+            data,
+        })
         form.reset()
         select.selectedIndex = 0
         openToaster(
@@ -56,27 +69,16 @@ async function handleSubmit(event) {
         closeToaster()
         
     } catch (error) {
+        console.log(error);
+        
         if (error.status === 2409) {
-            input.classList.add('border-red-500')
-            inputsContainer.appendChild(
-                ErrorMessage('Disciplina já cadastrada!')
+            openToaster(
+                ErrorToaster('Disciplina já cadastrada!')
             )
-            submitButton.disabled = true
+            closeToaster()
         } else {
             alert('Algo deu errado...')
         }
-    }
-}
-
-function handleChange(event) {
-    const form = event.target.form
-    const input = form.querySelector('#name')
-    const submitButton = form.querySelector('#submit')
-    const errorMessage = form.querySelector('#error-message')
-    if (errorMessage) {
-        errorMessage.remove()
-        input.classList.remove('border-red-500')
-        submitButton.disabled = false
     }
 }
 

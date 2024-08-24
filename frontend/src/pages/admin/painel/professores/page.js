@@ -6,9 +6,9 @@ import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getProfessoresWithDisciplinas } from './service/getProfessoresWithDisciplinas.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { UsersTable } from '/frontend/src/pages/admin/painel/components/users-table.js'
+import { Heading } from '/frontend/src/components/heading.js'
+import { ProfessorTable } from './components/professor-table.js'
 import { Button } from '/frontend/src/components/button.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
@@ -20,7 +20,7 @@ async function ProfessoresPage() {
     const header = document.createElement('div')
     const professores = await getProfessoresWithDisciplinas()
     const quantidadeProfessores = professores.length
-
+    
     header.className = 'flex flex-row justify-between items-start mb-10'
     header.append(        
         Heading({
@@ -48,7 +48,7 @@ async function ProfessoresPage() {
         )
     } else {
         main.appendChild(
-            UsersTable({ type: 'professor', rows: professores})
+            ProfessorTable(professores)
         )
         const professorAlterado = localStorage.getItem('professorAlterado')
         if (professorAlterado) {

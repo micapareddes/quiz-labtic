@@ -1,24 +1,39 @@
 // Functions
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
-import { cadastroUserValidation } from '../../../../validations/cadastroUserValidation.js'
-import { cadastrarUser } from '../service/cadastrarUser.js'
+import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
+import { cadastrar } from '/frontend/src/pages/admin/service/cadastrar.js'
+import { cadastrarAlunoADisciplinas } from './service/cadastrarAlunoADisciplinas.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
+import { resetMultiselect } from '/frontend/src/functions/resetMultiselect.js'
+import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
+import { Heading } from '/frontend/src/components/heading.js'
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
+import { MultiSelect } from '/frontend/src/components/multi-select.js'
 import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
-import { MultiSelect } from '../../../../components/multi-select.js'
-import { cadastrarAlunoADisciplinas } from './service/cadastrarAlunoADisciplinas.js'
-import { resetMultiselect } from '../functions/resetMultiselect.js'
+import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
-
+function handleChange(event) {
+    const form = event.target.form
+    const nameInput = form.querySelector('#name')
+    const matriculaInput = form.querySelector('#matricula')
+    const emailInput = form.querySelector('#email')
+    const submitButton = form.querySelector('#submit')
+    const errorMessage = form.querySelectorAll('#error-message')
+    
+    if (errorMessage) {
+        nameInput.classList.remove('border-red-500')
+        matriculaInput.classList.remove('border-red-500')
+        emailInput.classList.remove('border-red-500')
+        errorMessage.forEach((error) => error.remove())
+        submitButton.disabled = false
+    }
+}
 async function handleSubmit(event) {
     event.preventDefault()
 
@@ -77,7 +92,10 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrarUser(data)
+        await cadastrar({
+            url: API_ENDPOINTS.POST_USER,
+            data,
+        })
         if (hasDisciplinas) await cadastrarAlunoADisciplinas(disciplinasData)
         form.reset()
         resetMultiselect(selectedDisciplinas)
@@ -99,23 +117,6 @@ async function handleSubmit(event) {
         } else {
             alert('Algo deu errado, tente novamente mais tarde...')
         }
-    }
-}
-
-function handleChange(event) {
-    const form = event.target.form
-    const nameInput = form.querySelector('#name')
-    const matriculaInput = form.querySelector('#matricula')
-    const emailInput = form.querySelector('#email')
-    const submitButton = form.querySelector('#submit')
-    const errorMessage = form.querySelectorAll('#error-message')
-    
-    if (errorMessage) {
-        nameInput.classList.remove('border-red-500')
-        matriculaInput.classList.remove('border-red-500')
-        emailInput.classList.remove('border-red-500')
-        errorMessage.forEach((error) => error.remove())
-        submitButton.disabled = false
     }
 }
 

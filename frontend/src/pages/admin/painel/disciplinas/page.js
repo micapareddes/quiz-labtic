@@ -9,7 +9,7 @@ import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { RegisterDisciplinasTable } from '/frontend/src/pages/admin/painel/disciplinas/components/table.js'
+import { DisciplinasTable } from '/frontend/src/pages/admin/painel/disciplinas/components/disciplinas-table.js'
 import { Button } from '/frontend/src/components/button.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
@@ -50,7 +50,7 @@ async function DisciplinasPage() {
         )
     } else {
         main.appendChild(
-            RegisterDisciplinasTable(disciplinasFormatadas) 
+            DisciplinasTable(disciplinasFormatadas) 
         )
         const disciplinaAlterada = localStorage.getItem('disciplinaAlterada')
         if (disciplinaAlterada) {

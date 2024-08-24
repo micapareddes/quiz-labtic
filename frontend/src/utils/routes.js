@@ -28,27 +28,33 @@ export const ROUTES = {
 }
 
 export const API_ENDPOINTS = {
+    POST_USER: 'http://localhost:3333/api/usuarios',
+    POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
+
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
-    POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,
     PATCH_PROFESSORES_TO_DISCIPLINAS: 'http://localhost:3333/api/disciplinas',
-    DELETE_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
 
     GET_USER: (id) => `http://localhost:3333/api/usuarios/user_data/${id}`,
     GET_USER_TYPE: 'http://localhost:3333/api/usuarios/me',
     GET_USER_NAME: 'http://localhost:3333/api/usuarios/name',
     GET_ALL_PROFESSORES_WITH_DISCIPLINAS: 'http://localhost:3333/api/usuarios/all_professores',
-    POST_USER: 'http://localhost:3333/api/usuarios',
     PATCH_USER: (id) => `http://localhost:3333/api/usuarios/user/${id}`,
-    DELETE_USER: 'http://localhost:3333/api/usuarios',
 
     GET_PROFESSORES: 'http://localhost:3333/api/usuarios/professores',
+    GET_PROFESSOR_WITH_DISCIPLINA: (id) => `http://localhost:3333/api/usuarios/professor_disciplina/${id}`,
 
     GET_ALL_STUDENTS_WITH_DISCIPLINAS: 'http://localhost:3333/api/alunos_disciplinas/all_students',
     GET_STUDENT_WITH_DISCIPLINA: (id) => `http://localhost:3333/api/alunos_disciplinas/student/${id}`,
     PATCH_STUDENT_DISCIPLINAS: (id) => `http://localhost:3333/api/alunos_disciplinas/student/${id}`,
     POST_STUDENT_RELATIONS: 'http://localhost:3333/api/alunos_disciplinas',
-    DELETE_RELATION: 'http://localhost:3333/api/alunos_disciplinas',
+
+    DELETE_USER: 'http://localhost:3333/api/usuarios',
+    DELETE_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
+    DELETE_PROFESSOR_FROM_DISCIPLINA: 'http://localhost:3333/api/disciplinas/professor',
+    DELETE_RELATION_BY_DISCIPLINA_ID: 'http://localhost:3333/api/alunos_disciplinas/disciplina',    
+    DELETE_RELATION_BY_ALUNO_ID: 'http://localhost:3333/api/alunos_disciplinas/aluno',
 }

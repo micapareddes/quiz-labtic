@@ -1,8 +1,3 @@
-// Functions
-import { removeFromDatabaseById } from '/frontend/src/pages/admin/service/removeFromDatabaseById.js'
-import { totalDeDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/totalDeDisciplinas.js'
-import { removerRelacao } from '../pages/admin/service/removerRelacao.js'
-
 // Components
 import { countDown } from "../functions/counter.js"
 import { openDialog, AlertDialog } from "./dialog.js"
@@ -26,7 +21,7 @@ export function TableRow({ cells=[{ content: 'empty', className: '' }] }) {
 }
 
 export function CadastrosTableRow({ 
-    id, type, name, matriculaOuProfessor, array=[], toEdit, toRemove  
+    id, type, name, matriculaOuProfessor, array=[], toEdit, onRemove  
 }) {
     const successMessage = type === 'disciplina' ? `A disciplina ${name} foi removida!` : `O ${type} ${name} foi removido!`
     
@@ -38,18 +33,7 @@ export function CadastrosTableRow({
         message: removeDialogMessage,
         confirmarButtonName: 'Remover',
         onConfirm: async () => {
-            try {
-                await removeFromDatabaseById({id, url: toRemove})
-                await removerRelacao(id)
-            } catch (error) {
-                console.log(error);
-                if (error.status === 403) {
-                    alert('Acesso Proibido')
-                } else {
-                    alert('Algo deu errado...')
-                }
-                return 
-            }
+            await onRemove() 
             row.remove()
             window.location.reload()
             // TODO: Fazer lógica de countdown sem precisar do reload

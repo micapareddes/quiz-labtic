@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import { TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
@@ -76,9 +77,8 @@ class UsuarioController {
             senha: await bcrypt.hash(matricula, 8),
         }
 
-        const usuarioCriado = await ModeloUsuario.create(novoUsuario)
-        console.log("Novo usuario criado!", usuarioCriado)
-
+        await ModeloUsuario.create(novoUsuario)
+        console.log("Novo usuario criado!")
         return res.status(204).send()
     }
 
@@ -207,6 +207,35 @@ class UsuarioController {
 
 
         return res.status(200).json(data)
+    }
+
+    async getProfessorDataWithDisciplinasById(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        const { nome, email, matricula, papel } = await ModeloUsuario.findById(id, 'nome email matricula papel')
+        const professorInvalido = !papel || papel !== 'professor'
+        if (professorInvalido) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        
+        const disciplinas = await ModeloDisciplina.find({ professor_id: new mongoose.Types.ObjectId(id) })
+        .select({ nome: 1, _id: 1 })
+        .lean()
+        const disciplinasFormatadas = disciplinas.map(disciplina => ({
+            nome: disciplina.nome,
+            id: disciplina._id
+        }))
+
+        const professorFormatado = {
+            nome,
+            email,
+            matricula,
+            disciplinas: disciplinasFormatadas,
+        }
+    
+        res.status(200).json(professorFormatado)
     }
 }
 
