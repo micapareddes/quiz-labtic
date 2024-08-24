@@ -65,23 +65,39 @@ export function MultiSelect({
         optionInput.dataset.label = optionItem.nome
         option.append(optionInput, optionItem.nome)
         options.appendChild(option)
-        
-        optionInput.onchange = () => { //:TODO: lançar evento personalizado e renderizar lista em container
-            if (optionInput.checked) {
-                placeholderText.remove()
+    })
+
+    options.onchange = (e) => {
+        if (e.target && e.target.type === 'checkbox') {
+            const selectedOptions = options.querySelectorAll('#option:checked')
+            const selectedOptionsArray = Array.from(selectedOptions)
+            
+            const optionsChanged = new CustomEvent('optionsChanged', {
+                detail: {
+                    selectedOptionsArray,
+                }
+            })
+
+            selectedValuesContainer.dispatchEvent(optionsChanged)
+        }
+    }
+
+    selectedValuesContainer.addEventListener('optionsChanged', (e) => {
+        const checkedOptions = e.detail.selectedOptionsArray
+        selectedValuesContainer.innerHTML = ''
+        if (checkedOptions.length > 0) {
+            checkedOptions.forEach((checkedOption) => {
                 selectedValuesContainer.appendChild(
                     selectedItem({
-                        name: optionItem.nome,
-                        dataLabel: optionItem.nome,
-                        value: optionItem._id,
+                        name: checkedOption.getAttribute('data-label'),
+                        dataLabel: checkedOption.getAttribute('data-label'),
+                        value: checkedOption.value,
                     })
                 )
-            } else {
-                const selectedItem = document.getElementById(optionItem._id)
-                selectedItem.remove()
-                if (selectedValuesContainer.children.length === 0) selectedValuesContainer.appendChild(placeholderText)
-            }
+            })
+            return
         }
+        selectedValuesContainer.appendChild(placeholderText)
     })
 
     document.addEventListener('click', (event) => {
