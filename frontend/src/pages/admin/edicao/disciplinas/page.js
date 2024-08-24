@@ -20,7 +20,7 @@ import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { ErrorMessage } from '/frontend/srccomponents/error-message.js' //TODO: colocar em components de admin
 
 async function handleSubmit(e) {
     e.preventDefault()

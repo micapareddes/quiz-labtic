@@ -94,7 +94,6 @@ async function handleSubmit(e) {
 
         return
     }
-console.log(editedDisciplinas);
 
     try {
         await editUser(editedData)

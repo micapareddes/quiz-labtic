@@ -115,7 +115,7 @@ class UsuarioController {
             throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
-        console.log("Usuario editado!", usuario)
+        console.log("Usuario editado!")
         return res.status(204).send()
     }
 

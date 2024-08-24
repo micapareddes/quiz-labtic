@@ -46,7 +46,6 @@ async function handleSubmit(e) {
     const editedDisciplinas = selectedDisciplinasArray.map((disciplina) => {
         return disciplina.value
     })
-    
     const { success, error } = cadastroUserValidation(editedData)
 
     if (!success) {

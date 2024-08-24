@@ -205,7 +205,8 @@ class Aluno_DisciplinaController {
         const novasCadastradasIds = new Set(novasDisciplinasAluno.map(disciplina => disciplina.id))
 
         const relacoesAEliminar = disciplinasCadastradas.filter( dc => !novasCadastradasIds.has(dc.disciplina_id.toString()) )
-        await ModeloAlunos_Disciplina.deleteMany({ $or: relacoesAEliminar })
+        
+        if (relacoesAEliminar.length > 0) {await ModeloAlunos_Disciplina.deleteMany({ $or: relacoesAEliminar })}
 
         const relacoesACadastrar = novasDisciplinasFormatadas.filter( novaDisc => !disciplinasCadastradasIds.has(novaDisc.disciplina_id))
         
