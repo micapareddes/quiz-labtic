@@ -1,15 +1,17 @@
 // Functions
+import { ROUTES } from '../../../../utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { getDisciplina } from '/frontend/src/pages/admin/edicao/disciplinas/service/getDisciplina.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/disciplinas/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { obtainValuesFromStorage } from '/frontend/src/pages/admin/edicao/disciplinas/functions/obtainValuesFromStorage.js'
-import { deleteValuesFromStorage } from '/frontend/src/pages/admin/edicao/disciplinas/functions/deleteValuesFromStorage.js'
-import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/disciplinas/functions/saveOriginalValues.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
+import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { alterarDisciplinaNoBanco } from '/frontend/src/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
+import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -18,7 +20,7 @@ import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { ErrorMessage } from '/frontend/srccomponents/error-message.js'
 
 async function handleSubmit(e) {
     e.preventDefault()
@@ -28,7 +30,7 @@ async function handleSubmit(e) {
     const input = form.querySelector('input')
     const select = form.querySelector('select')
     const submitButton = form.querySelector('#submit')
-    const savedData = obtainValuesFromStorage()
+    const { nome, professorId } = obtainOriginalValuesFromStorage()
 
     let editedData = {
         nome: input.value.trim(),
@@ -45,7 +47,7 @@ async function handleSubmit(e) {
         return
     }
 
-    const formMudou = savedData.nome !== editedData.nome  || savedData.professor_id !== editedData.professor_id
+    const formMudou = nome !== editedData.nome  || professorId !== editedData.professor_id
 
     if (!formMudou) {
         openToaster(
@@ -60,9 +62,9 @@ async function handleSubmit(e) {
 
     try {
         await alterarDisciplinaNoBanco(editedData)
-        deleteValuesFromStorage()
+        removeOriginalValuesFromStorage()
         localStorage.setItem('disciplinaAlterada', editedData.nome)
-        navigateTo('disciplinas.html') 
+        navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS) 
     } catch (error) {
         if (error.status === 403) {
             alert('Acesso Proibido')
@@ -90,7 +92,7 @@ function handleChange(event) {
 async function EdicaoCadastroPage() {
     verifyUserAccess('admin')
     if (!getUrlParam('id')) {
-        navigateTo('/frontend/src/pages/adm/painel/disciplinas.html')
+        navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
         return
     }
 
@@ -137,7 +139,8 @@ async function EdicaoCadastroPage() {
     main.append(    
         Heading({
             goBack: true, 
-            title: 'Cadastro da Disciplina', 
+            onGoBack: () => goBack(),
+            title: 'Edição da Disciplina', 
         }),
         form
     )
@@ -148,10 +151,7 @@ async function EdicaoCadastroPage() {
     input.value = nome
     select.value = String(professor_id)
 
-    saveOriginalValues({
-        nome,
-        professorId: professor_id
-    })
+    saveOriginalValues({ nome, professorId: professor_id })
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange

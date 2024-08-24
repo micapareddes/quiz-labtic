@@ -3,7 +3,7 @@ export function parseDisciplinas(disciplinasBack) {
         return {
             id: disciplina._id, 
             name: disciplina.nome, 
-            professor: disciplina.professor_id && disciplina.professor_id.nome, 
+            professor: disciplina.professor_id ? disciplina.professor_id.nome : 'Nenhum Professor', 
             quizzes: disciplina.quizes, 
         }
     })

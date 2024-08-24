@@ -8,18 +8,15 @@ import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCod
 class DisciplinaController {
     async criarDisciplina(req, res) {
         const adminId = req.userId
-
         const admin = await ModeloUsuario.findById(adminId)
         const adminInvalido = !admin || admin.papel !== 'admin'
-
         if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const { nome, professor_id } = req.body
-
+        
         if (nome.length < 3) throw new ServidorError(DISCIPLINA_ERROR.INVALID_NAME)
-
-        const disciplinaExiste = await ModeloDisciplina.findOne({nome: nome})
-
+        
+            const disciplinaExiste = await ModeloDisciplina.findOne({nome: nome})
         if (disciplinaExiste) throw new ServidorError(DISCIPLINA_ERROR.ALREADY_EXIST)
 
         let novaDisciplina = { 
@@ -27,7 +24,7 @@ class DisciplinaController {
             professor_id: null 
         }
 
-        if (professor_id !== 'null') {
+        if (professor_id) {
             const idInvalido = !mongoose.Types.ObjectId.isValid(professor_id)
             if (idInvalido) throw new ServidorError(USER_ERROR.INVALID_ID)
     
@@ -76,15 +73,13 @@ class DisciplinaController {
     }
 
     async eliminarDisciplina(req, res) {
-        const reqUserId = req.userId
-        const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId, 'papel')
+        const adminIvalido = !admin || admin.papel !== 'admin'
+        if (adminIvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const id = req.body.id
-
-        const disciplina = await ModeloDisciplina.findByIdAndDelete(id)
-
-        if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+        await ModeloDisciplina.findByIdAndDelete(id)
         
         res.status(204).send()
     }
@@ -115,7 +110,7 @@ class DisciplinaController {
 
         const disciplinasCadastradas = await ModeloDisciplina.find({}).populate('professor_id', 'nome')
 
-        return res.status(200).json({ disciplinasCadastradas })
+        return res.status(200).json(disciplinasCadastradas)
     }
 
     async listarInformaçõesPorId(req, res) {
@@ -133,6 +128,116 @@ class DisciplinaController {
         if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
 
         res.status(200).json({ disciplina })
+    }
+
+    async cadastrarProfessorADisciplinas(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const { matricula, disciplinas } = req.body
+        const professor = await ModeloUsuario.findOne({ matricula }, '_id papel');
+        const professorInvalido = !professor || professor.papel !== 'professor'
+        if (professorInvalido) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        for (const disciplina of disciplinas) {
+            const existingDisciplina = await ModeloDisciplina.findById(disciplina.id);
+            if (existingDisciplina.professor_id !== null) {
+                throw new ServidorError(DISCIPLINA_ERROR.HAS_PROFESSOR(existingDisciplina.nome))
+            }
+        }
+
+
+        await Promise.all(disciplinas.map(
+            async (disciplina) => {
+                await ModeloDisciplina.findByIdAndUpdate(
+                    disciplina.id,
+                    { professor_id: professor._id }
+                )
+            }
+        ))
+        res.status(204).send()
+    }
+
+    async editarProfessorDeDisciplinasPorId(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        const novasDisciplinas = req.body
+        const professor = await ModeloUsuario.findById(id, '_id papel');
+        const professorInvalido = !professor || professor.papel !== 'professor'
+        if (professorInvalido) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        const antigasDisciplinas = await ModeloDisciplina.find({ professor_id: id }, '_id')
+        
+        if (antigasDisciplinas.length === 0) {
+            await ModeloDisciplina.updateMany(
+                { _id: { $in: novasDisciplinas } }, 
+                { $set: { professor_id: id }}
+            )
+            return res.status(204).send()
+        }
+
+        const antigasDisciplinasIds = antigasDisciplinas.map(d => {
+            return d._id.toString()
+        })
+        if (antigasDisciplinas.length > 0 && novasDisciplinas.length === 0) {
+            await ModeloDisciplina.updateMany(
+                { _id: { $in: antigasDisciplinasIds } }, 
+                { $set: { professor_id: null }}
+            )
+            return res.status(204).send()
+        }
+
+        const disciplinasParaEliminarProfessor = antigasDisciplinasIds.filter( id => !novasDisciplinas.includes(id) )
+        await ModeloDisciplina.updateMany(
+            { _id: { $in: disciplinasParaEliminarProfessor } }, 
+            { $set: { professor_id: null }}
+        )
+
+        const disciplinasParaCadastrarProfessor = novasDisciplinas.filter( id => !antigasDisciplinasIds.includes(id))
+
+        for (const id of disciplinasParaCadastrarProfessor) {
+            const existingDisciplina = await ModeloDisciplina.findById(id);
+            if (existingDisciplina.professor_id !== null) {
+                throw new ServidorError(DISCIPLINA_ERROR.HAS_PROFESSOR(existingDisciplina.nome))
+            }
+        }
+
+        await ModeloDisciplina.updateMany(
+            { _id: { $in: disciplinasParaCadastrarProfessor } }, 
+            { $set: { professor_id: id }}
+        )
+        return res.status(204).send()
+    }
+
+    async removeProfessorFromDisciplinas(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+        const disciplinasProfessor = await ModeloDisciplina.find({ professor_id: id }, '_id')
+
+        if (disciplinasProfessor.length > 0) {
+            const idsDisciplinasProfessor = disciplinasProfessor.map(d => {
+                return d._id.toString()
+            })
+            await ModeloDisciplina.updateMany(
+                { _id: { $in: idsDisciplinasProfessor } }, 
+                { $set: { professor_id: null }}
+            )
+        }
+
+        res.status(204).send()
     }
 }
 

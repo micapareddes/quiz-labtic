@@ -1,7 +1,8 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
+import { removeFromDatabaseById } from '/frontend/src/pages/admin/service/removeFromDatabaseById.js'
 
-export function RegisterDisciplinasTable(rows) {
+export function DisciplinasTable(rows) {
     const headerContent = [
         {
             content: 'Nome',
@@ -30,12 +31,21 @@ export function RegisterDisciplinasTable(rows) {
         tbody.appendChild(
             CadastrosTableRow({
                 id: row.id,
-                matriculaOuProfessor: row.professor ? row.professor : 'Nenhum Professor',
+                matriculaOuProfessor: row.professor,
                 name: row.name,
                 type: 'disciplina',
                 array: row.quizzes,
                 toEdit: ROUTES.ADMIN.EDICAO.DISCIPLINAS(row.id),
-                toRemove: API_ENDPOINTS.DELETE_DISCIPLINA,
+                onRemove: async () => {
+                    await removeFromDatabaseById({
+                        id: row.id, 
+                        url: API_ENDPOINTS.DELETE_DISCIPLINA,
+                    })
+                    await removeFromDatabaseById({
+                        id: row.id, 
+                        url: API_ENDPOINTS.DELETE_RELATION_BY_DISCIPLINA_ID,
+                    })
+                },
             })
         )
     })

@@ -7,7 +7,7 @@ export function ListItemBox({ content, linkPainel }) {
     const liContainer = document.createElement('li')
     const aContainer = document.createElement('a')
 
-    liContainer.className = 'list-none bg-neutral-100 shadow-base border border-neutral-200 rounded-xl  w-full justify-start items-center'
+    liContainer.className = 'list-none bg-neutral-100 hover:bg-neutral-200 shadow-base border border-neutral-200 rounded-xl  w-full justify-start items-center'
 
     aContainer.href = linkPainel
     aContainer.className = 'flex flex-1 px-5 py-4 transition-colors duration-200 cursor-pointer focus:outline-none'

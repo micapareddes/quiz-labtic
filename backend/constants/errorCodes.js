@@ -66,7 +66,12 @@ export const DISCIPLINA_ERROR = {
         statusCode: 422,
         errorCode: 2422,
         message: "Nome inválido. O nome deve ter no mínimo 3 caracteres!"
-    }
+    },
+    HAS_PROFESSOR: (disciplinaName) => ({
+        statusCode: 409,
+        errorCode: 2410,
+        message: `A disciplina ${disciplinaName} já possui um professor cadastrado!`
+    })
 }
 
 export const RELATION_ERROR = {

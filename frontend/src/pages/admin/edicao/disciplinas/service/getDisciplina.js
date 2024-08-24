@@ -1,4 +1,4 @@
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/disciplinas/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 export async function getDisciplina() {

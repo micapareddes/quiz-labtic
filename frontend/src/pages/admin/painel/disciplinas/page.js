@@ -1,13 +1,15 @@
 // Functions
+import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/service/getDisciplinas.js'
+import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { parseDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
-import { saveWindow } from '/frontend/src/functions/saveWindow.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
+import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { RegisterDisciplinasTable } from '/frontend/src/pages/admin/painel/disciplinas/components/table.js'
+import { DisciplinasTable } from '/frontend/src/pages/admin/painel/disciplinas/components/disciplinas-table.js'
 import { Button } from '/frontend/src/components/button.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
@@ -25,16 +27,17 @@ async function DisciplinasPage() {
     header.append(        
         Heading({
             goBack: true, 
+            onGoBack: () => navigateTo(ROUTES.ADMIN.DASHBOARD),
             title: 'Disciplinas', 
             subtitle: `${quantidadeDisciplinas} cadastradas`,
-            subtitleSize: 'lg'
+            subtitleSize: 'lg',
         }),
         Button({
             variant: 'primary',
             size: 'md',
             title: 'Cadastrar',
             icon: true,
-            link: '/frontend/src/pages/adm/cadastroDisciplina.html'
+            link: ROUTES.ADMIN.CADASTRO.DISCIPLINAS
         })
     )
     root.prepend(SidebarAdmin())
@@ -47,7 +50,7 @@ async function DisciplinasPage() {
         )
     } else {
         main.appendChild(
-            RegisterDisciplinasTable(disciplinasFormatadas) 
+            DisciplinasTable(disciplinasFormatadas) 
         )
         const disciplinaAlterada = localStorage.getItem('disciplinaAlterada')
         if (disciplinaAlterada) {
@@ -60,7 +63,6 @@ async function DisciplinasPage() {
             localStorage.removeItem('disciplinaAlterada')
         }
     }
-
-    saveWindow('disciplinas')
+    saveWindowPath()
 }
 DisciplinasPage()

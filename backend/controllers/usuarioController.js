@@ -1,5 +1,7 @@
+import mongoose from "mongoose"
 import { TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 import { ModeloUsuario } from "../models/Usuario.js"
+import { ModeloDisciplina } from "../models/Disciplina.js"
 import { generateAccessToken } from "../utils/generateToken.js"
 import ServidorError from "../ServidorError.js"
 
@@ -75,9 +77,8 @@ class UsuarioController {
             senha: await bcrypt.hash(matricula, 8),
         }
 
-        const usuarioCriado = await ModeloUsuario.create(novoUsuario)
-        console.log("Novo usuario criado!", usuarioCriado)
-
+        await ModeloUsuario.create(novoUsuario)
+        console.log("Novo usuario criado!")
         return res.status(204).send()
     }
 
@@ -86,27 +87,25 @@ class UsuarioController {
         const reqUser = await ModeloUsuario.findById(reqUserId)
         if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
-        const matricula = req.body.matricula
+        const id = req.body.id
 
-        const resposta = await ModeloUsuario.deleteOne({"matricula": matricula})
+        const user = await ModeloUsuario.findByIdAndDelete(id)
 
-        if (resposta.n === 0) {
-            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
-        }
-
-        console.log('Usuario deletado! ', matricula)
-        return res.status(204).send()
+        if (!user) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        
+        res.status(204).send()
     }
 
     async editarUsuario(req, res) {
-        const reqUserId = req.userId
-        const reqUser = await ModeloUsuario.findById(reqUserId)
-        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const invalidAdmin = !admin || admin.papel !== 'admin'
+        if (invalidAdmin) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const id = req.params.id
         const atualizacoes = req.body
 
-        if ('matricula' in atualizacoes || 'senha' in atualizacoes || 'papel' in atualizacoes) {
+        if ('senha' in atualizacoes || 'papel' in atualizacoes) {
             throw new ServidorError(USER_ERROR.FORBIDDEN_EDIT)
         }
 
@@ -116,7 +115,7 @@ class UsuarioController {
             throw new ServidorError(USER_ERROR.DOESNT_EXIST)
         }
 
-        console.log("Usuario editado!", usuario)
+        console.log("Usuario editado!")
         return res.status(204).send()
     }
 
@@ -150,6 +149,19 @@ class UsuarioController {
         return res.status(200).json({ name: userData.nome })
     }
 
+    async listarInformacoesPorId(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        const user = await ModeloUsuario.findOne({ _id: id }, 'nome matricula email')
+        if (!user) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+
+        res.status(200).json( user )
+    }
+
     async listarTodosPorfessores(req, res) {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
@@ -159,6 +171,71 @@ class UsuarioController {
 
 
         return res.status(200).json({ professoresCadastrados })
+    }
+
+    async listarTodosProfessoresComDisciplinas(req, res) {
+        const reqUserId = req.userId
+        const reqUser = await ModeloUsuario.findById(reqUserId)
+        if (reqUser.papel !== 'admin') throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const data = await ModeloUsuario.aggregate([
+            { $match: { papel: 'professor' } },
+            {
+                $lookup: {
+                    from: 'disciplinas',
+                    localField: '_id',
+                    foreignField: 'professor_id',
+                    as: 'disciplinas',
+                    pipeline: [
+                        {
+                            $project: {
+                                nome: 1,
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    nome: 1,
+                    matricula: 1,
+                    disciplinas: 1
+                }
+            }
+        ])
+
+
+        return res.status(200).json(data)
+    }
+
+    async getProfessorDataWithDisciplinasById(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.params.id
+        const { nome, email, matricula, papel } = await ModeloUsuario.findById(id, 'nome email matricula papel')
+        const professorInvalido = !papel || papel !== 'professor'
+        if (professorInvalido) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        
+        const disciplinas = await ModeloDisciplina.find({ professor_id: new mongoose.Types.ObjectId(id) })
+        .select({ nome: 1, _id: 1 })
+        .lean()
+        const disciplinasFormatadas = disciplinas.map(disciplina => ({
+            nome: disciplina.nome,
+            id: disciplina._id
+        }))
+
+        const professorFormatado = {
+            nome,
+            email,
+            matricula,
+            disciplinas: disciplinasFormatadas,
+        }
+    
+        res.status(200).json(professorFormatado)
     }
 }
 

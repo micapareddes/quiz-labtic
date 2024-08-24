@@ -33,9 +33,7 @@ export function Button(
         iconImg.width = 32
         iconImg.height = 32
   
-        console.log(iconImg);
         button.prepend(iconImg)
-        console.log(button);
         button.classList.add('flex', 'items-center', 'justify-center', 'gap-2')
     }
 
