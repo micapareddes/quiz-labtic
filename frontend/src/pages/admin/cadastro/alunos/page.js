@@ -16,6 +16,7 @@ import { ErrorMessage } from '/frontend/src/pages/login/components/error-message
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { MultiSelect } from '../../../../components/multi-select.js'
 import { cadastrarAlunoADisciplinas } from './service/cadastrarAlunoADisciplinas.js'
+import { resetMultiselect } from '../functions/resetMultiselect.js'
 
 
 async function handleSubmit(event) {
@@ -23,7 +24,6 @@ async function handleSubmit(event) {
 
     const form = event.target
     const multiselect = form.querySelector('#multiselect')
-    const selectedDisciplinasOnContainer = multiselect.querySelectorAll('.selected-item')
     const selectedDisciplinas = multiselect.querySelectorAll('#option:checked')
     const nameInput = form.querySelector('#name')
     const matriculaInput = form.querySelector('#matricula')
@@ -33,6 +33,7 @@ async function handleSubmit(event) {
     const emailInputContainer = form.querySelector('#email-container')
     const submitButton = form.querySelector('#submit')
     const selectedDisciplinasArray = Array.from(selectedDisciplinas)
+    const hasDisciplinas = selectedDisciplinasArray.length !== 0
     const data = {
         nome: nameInput.value,
         papel: 'aluno',
@@ -77,9 +78,9 @@ async function handleSubmit(event) {
 
     try {
         await cadastrarUser(data)
-        await cadastrarAlunoADisciplinas(disciplinasData)
+        if (hasDisciplinas) await cadastrarAlunoADisciplinas(disciplinasData)
         form.reset()
-        selectedDisciplinasOnContainer.forEach((selected) => selected.remove())
+        resetMultiselect(selectedDisciplinas)
         openToaster(
             SuccessToaster({
                 message: `Aluno "${data.nome}" cadastrado!`
@@ -170,7 +171,7 @@ async function CadastroAlunoPage() {
             goBack: true, 
             title: 'Cadastro do Aluno', 
             onGoBack: () => {
-                if (form.querySelector('input').value) {
+                if (form.querySelector('input').value) { //TODO: ajustar lógica de inputs preenchidos
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
