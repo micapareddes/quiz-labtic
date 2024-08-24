@@ -1,9 +1,9 @@
 // Functions
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
-import { cadastroUserValidation } from '../../../../validations/cadastroUserValidation.js' //TODO: trocar nome para cadastroUserValidation
+import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 import { cadastrarUser } from '../service/cadastrarUser.js'
-import { getDisciplinas } from '../service/getDisciplinas.js'
+import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { cadastrarProfessorADisciplinas } from './service/cadastrarProfessorADisciplinas.js'
 
 // Components
@@ -12,9 +12,9 @@ import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js' //TODO: colocar em components de admin
+import { ErrorMessage } from '/frontend/src/pages/login/components/error-message.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
-import { MultiSelect } from '../../../../components/multi-select.js'
+import { MultiSelect } from '/frontend/src/components/multi-select.js'
 
 
 async function handleSubmit(event) {
@@ -131,7 +131,7 @@ async function CadastroProfessorPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinas = await getDisciplinas()
-
+    
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'flex flex-col h-full'
@@ -174,8 +174,8 @@ async function CadastroProfessorPage() {
         Heading({
             goBack: true, 
             title: 'Cadastro de Professor', 
-            onGoBack: () => {
-                if (form.querySelector('input').value) {
+            onGoBack: () => { 
+                if (form.querySelector('input').value) { //TODO: ajustar lógica de inputs preenchidos
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
