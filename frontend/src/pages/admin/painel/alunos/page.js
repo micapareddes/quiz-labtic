@@ -20,7 +20,7 @@ async function AlunosPage() {
     const header = document.createElement('div')
     const alunos = await getStudents()
     const quantidadeAlunos = alunos.length
-
+    
     header.className = 'flex flex-row justify-between items-start mb-10'
     header.append(        
         Heading({

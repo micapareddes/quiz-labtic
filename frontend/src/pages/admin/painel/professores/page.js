@@ -3,7 +3,7 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
-import { getProfessores } from './service/getProfessores.js'
+import { getProfessoresWithDisciplinas } from './service/getProfessoresWithDisciplinas.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -18,7 +18,7 @@ async function ProfessoresPage() {
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const header = document.createElement('div')
-    const professores = await getProfessores()
+    const professores = await getProfessoresWithDisciplinas()
     const quantidadeProfessores = professores.length
 
     header.className = 'flex flex-row justify-between items-start mb-10'
