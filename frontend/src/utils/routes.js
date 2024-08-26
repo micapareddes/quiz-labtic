@@ -23,7 +23,7 @@ export const ROUTES = {
         DASHBOARD: '/frontend/src/old-pages/aluno/dashboard.html',
     },
     PROFESSOR: {
-        DASHBOARD: 'http://localhost:5500/frontend/src/pages/professor/dashboard.html',
+        DASHBOARD: '/frontend/src/pages/professor/dashboard/index.html',
     },
 }
 
