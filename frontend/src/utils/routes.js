@@ -24,6 +24,9 @@ export const ROUTES = {
     },
     PROFESSOR: {
         DASHBOARD: '/frontend/src/pages/professor/dashboard/index.html',
+        QUIZ: {
+            CREATE: '/frontend/src/pages/professor/quiz/create/index.html'
+        }
     },
 }
 
