@@ -20,13 +20,13 @@ export function SidebarAdmin() {
         size: 'lg',
         items: [
             {
-                icon: '/frontend/src/img/icones/house.svg',
+                icon: 'house',
                 title: 'Dashboard',
                 link: '/',
                 active: true,
             },
             {
-                icon: '/frontend/src/img/icones/books.svg',
+                icon: 'books',
                 title: 'Painel',
                 link: '/',
                 accordion: true,

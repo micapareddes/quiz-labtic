@@ -3,11 +3,11 @@ import { LogoLado } from './logo-lado.js'
 import { signOut } from '../auth/singOut.js'
 
 function Item({ 
-    icon='/frontend/src/img/icones/question.svg', title, link=null, onClick=null, accordion=false, accordionOptions=[], active=false 
+    phosphor='question', title, link=null, onClick=null, accordion=false, accordionOptions=[], active=false 
 }) {
     const container = document.createElement('li')
     const action = link ? document.createElement('a') : document.createElement('button')
-    const image = document.createElement('img')
+    const icon = document.createElement('i')
     const text = document.createElement('p')
 
     container.className = 'group'
@@ -16,30 +16,26 @@ function Item({
     action.classList = `
         group flex items-center gap-2 
         py-1 md:py-0  md:px-8 
-        border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-200 
+        border-b-2 md:border-b-0 md:border-l-4 border-transparent hover:border-l-yellow-300 
         data-[active=true]:border-l-yellow-200 data-[active=true]:border-b-yellow-200
     `
 
     if (link) action.href = link
     if (onClick) action.onclick = onClick
 
-    image.src = icon
-    image.classList = 'w-4 h-4 md:w-5 md:h-5'
+    icon.classList = `ph ph-${phosphor} text-indigo-50 group-hover:text-yellow-200 text-xl`
 
     text.textContent = title
-    text.classList = 'hidden lg:block text-sm text-indigo-50 group-hover:text-white group-data-[active=true]:font-semibold'
+    text.classList = 'hidden lg:block text-sm text-indigo-50 group-hover:text-yellow-200 group-data-[active=true]:font-semibold'
 
-    action.append(image, text)
+    action.append(icon, text)
     container.appendChild(action)
 
     if (accordion) {
-        const arrow = document.createElement('img')
+        const arrow = document.createElement('i')
         const options = document.createElement('ul')
 
-        arrow.src = '/frontend/src/img/icones/caret-right.svg'
-        arrow.height = 16
-        arrow.width = 16
-        arrow.className = 'group-hover:rotate-90 transition-all duration-200'
+        arrow.className = 'ph ph-caret-right text-indigo-50 font-base group-hover:rotate-90 transition-all duration-200'
 
         options.className = `hidden
             flex flex-col items-start justify-center pt-6 pl-8 space-y-4
@@ -85,7 +81,7 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
     const navList = document.createElement('ul')
     const footerItems = document.createElement('div')
     const logout = Item({
-        icon: '/frontend/src/img/icones/sign-out.svg',
+        phosphor: 'sign-out',
         title: size === 'lg' ? 'Encerrar sessão': '',
         onClick: () => {
             openDialog(
@@ -100,7 +96,7 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
 
     if (changePassword) {
         const trocarSenha = Item({
-            icon: '/frontend/src/img/icones/password.svg',
+            phosphor: 'password',
             title: size === 'lg'? 'Trocar senha' : '',
             active: false,
             link: null,
@@ -126,7 +122,7 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
 
     items.forEach((item) => {
         const sidebarItem = Item({
-            icon: item.icon,
+            phosphor: item.icon,
             title: size === 'lg' ? item.title : '',
             active: item.active,
             link: item.link,
