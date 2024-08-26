@@ -1,5 +1,5 @@
 export const ROUTES = {
-    LOGIN: '/frontend/src/pages/login/login.html',
+    LOGIN: '/frontend/src/pages/login/index.html',
     ERROR404: '/frontend/src/old-pages/404.html',
     ADMIN: {
         DASHBOARD: '/frontend/src/pages/admin/dashboard/index.html',
