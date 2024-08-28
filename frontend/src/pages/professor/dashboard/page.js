@@ -2,6 +2,7 @@
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessorName } from './service/getProfessorName.js'
 import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
+import { getProfessorDisciplinas } from '../service/getProfessorDisciplinas.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -9,7 +10,7 @@ import { SidebarProfessor, painelItems } from '/frontend/src/pages/professor/com
 import { RegisterListItem } from '/frontend/src/pages/admin/dashboard/components/registerListItem.js'
 import { Title } from '/frontend/src/components/fonts.js'
 import { Empty } from '/frontend/src/components/empty.js'
-
+import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
 
 async function PageDashboard() {
     verifyUserAccess('professor')
@@ -38,6 +39,7 @@ async function PageDashboard() {
             Empty('Você não está cadastrado em nenhuma disciplina ainda.')
         )
     } else {
+        ul.className = 'space-y-2'
         main.appendChild(
             Title({
                 title: 'Disciplinas',
@@ -46,6 +48,14 @@ async function PageDashboard() {
                 as: 'h3',
                 className: 'mt-10 mb-2',
             })
+        )
+        painelItems.forEach( item => {
+            ul.appendChild(
+                ListItemBoxWithTitle({
+                    title: item.name,
+                    linkPainel: item.linkPainel,
+                })
+            )}
         )
         nav.appendChild(ul)
         main.appendChild(nav)

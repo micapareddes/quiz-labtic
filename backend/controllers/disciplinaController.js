@@ -95,9 +95,8 @@ class DisciplinaController {
         }
 
         const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
-        const disciplinasDoProfessor = { nome: professor.nome, disciplinas }
 
-        return res.status(200).json(disciplinasDoProfessor)
+        return res.status(200).json(disciplinas)
     }
 
     async listarDisciplinasCadastradas(req, res) {
