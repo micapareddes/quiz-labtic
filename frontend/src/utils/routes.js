@@ -33,6 +33,7 @@ export const ROUTES = {
 export const API_ENDPOINTS = {
     POST_USER: 'http://localhost:3333/api/usuarios',
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
+    POST_QUIZ: 'http://localhost:3333/api/quiz/new',
 
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
