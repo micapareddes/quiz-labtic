@@ -20,6 +20,12 @@
         -ms-overflow-style: none; /* Esconde o scrollbar para Internet Explorer 10+ */
         scrollbar-width: none; /* Esconde o scrollbar para Firefox */
     }
+
+    .hide-calendar-icon::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        display: none;
+        -webkit-appearance: none;
+    }    
 }
 
 :root {

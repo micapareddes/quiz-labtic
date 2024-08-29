@@ -24,12 +24,16 @@ export const ROUTES = {
     },
     PROFESSOR: {
         DASHBOARD: '/frontend/src/pages/professor/dashboard/index.html',
+        QUIZ: {
+            CREATE: '/frontend/src/pages/professor/quiz/create/index.html?step=1'
+        }
     },
 }
 
 export const API_ENDPOINTS = {
     POST_USER: 'http://localhost:3333/api/usuarios',
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
+    POST_QUIZ: 'http://localhost:3333/api/quiz/new',
 
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
@@ -42,8 +46,8 @@ export const API_ENDPOINTS = {
     GET_USER_TYPE: 'http://localhost:3333/api/usuarios/me',
     GET_USER_NAME: 'http://localhost:3333/api/usuarios/name',
     GET_ALL_PROFESSORES_WITH_DISCIPLINAS: 'http://localhost:3333/api/usuarios/all_professores',
+    GET_DISCIPLINAS_PROFESSOR: 'http://localhost:3333/api/disciplinas/professor',
     PATCH_USER: (id) => `http://localhost:3333/api/usuarios/user/${id}`,
-
     GET_PROFESSORES: 'http://localhost:3333/api/usuarios/professores',
     GET_PROFESSOR_WITH_DISCIPLINA: (id) => `http://localhost:3333/api/usuarios/professor_disciplina/${id}`,
 

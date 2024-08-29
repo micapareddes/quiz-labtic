@@ -1,7 +1,14 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { Sidebar } from '/frontend/src/components/sidebar.js'
-export const painelItems = [
-] //TODO: importar disciplinas do professor
+import { getProfessorDisciplinas } from '../service/getProfessorDisciplinas.js'
+
+const disciplinas = await getProfessorDisciplinas() //TODO: é necessario colocar aqui?
+export const painelItems = disciplinas.map((disciplina) => {
+    return {
+        name: disciplina.nome,
+        linkPainel: `/${disciplina._id}`
+    }
+})
 export function SidebarProfessor() {
     return Sidebar({
         size: 'lg',
@@ -22,7 +29,7 @@ export function SidebarProfessor() {
             {
                 icon: 'file-plus',
                 title: 'Criar quiz',
-                link: '/',
+                link: ROUTES.PROFESSOR.QUIZ.CREATE,
             },
         ],
         changePassword: true,

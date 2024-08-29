@@ -80,7 +80,7 @@ export const RELATION_ERROR = {
         errorCode: 3400,
         message: 'Relação já existe!',
     },
-};
+}
 
 export const TOKEN_ERROR = {
     NOT_PROVIDED: {
@@ -93,4 +93,12 @@ export const TOKEN_ERROR = {
         errorCode: 4403,
         message: 'Acesso negado!',
     }
+}
+
+export const QUIZ_ERROR = {
+    NAME_ALREADY_EXIST: {
+        statusCode: 409,
+        errorCode: 5409,
+        message: "Já existe um quiz com esse nome!"
+    },
 }
