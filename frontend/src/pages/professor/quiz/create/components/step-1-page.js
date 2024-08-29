@@ -296,6 +296,8 @@ export async function Step1Page() {
         tempoMaxInput.value = dadosPreenchidos.tempoMax
         dataInicioInput.value = dadosPreenchidos.dataInicio
         dataFinalInput.value = dadosPreenchidos.dataFinal
+        orientacoesInput.value = dadosPreenchidos.orientacoes
+        tipoInput.value = dadosPreenchidos.tipo
     }
 
 }

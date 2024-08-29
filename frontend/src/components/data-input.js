@@ -4,7 +4,7 @@ export function DataInput({ labelName = 'Data', id }) {
     const label = document.createElement('label')
 
     dataInput.type = 'date'
-    dataInput.className = 'bg-transparent pl-4 py-3 border-b border-stone-300 text-stone-500 hide-calendar-icon'
+    dataInput.className = 'bg-transparent pl-4 py-3 border-b border-stone-300 hide-calendar-icon'
     label.textContent = labelName
     label.htmlFor = id
     label.className = 'text-stone-500'

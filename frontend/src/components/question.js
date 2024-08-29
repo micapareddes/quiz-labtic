@@ -1,9 +1,10 @@
 import { Title } from './fonts.js'
 import { TextArea } from './text-area.js'
 
-function RespostaIncorreta() {
+function RespostaIncorreta(id, number) {
     const respostaIncorretaContainer = document.createElement('div')
     const xIcon = document.createElement('i')
+    respostaIncorretaContainer.id = 
     respostaIncorretaContainer.className = 'w-full flex flex-row items-center gap-2'
     xIcon.className = 'ph-fill ph-x-circle text-red-500 text-3xl'
     respostaIncorretaContainer.append(
@@ -11,7 +12,8 @@ function RespostaIncorreta() {
         TextArea({
             placeholder: 'Digite aqui uma resposta incorreta...', 
             size: 'fit', 
-            className: 'bg-red-50 w-full',
+            className: 'incorreta bg-red-50 w-full',
+            id: `resposta-incorreta-${id}-${number}`,
         }),
     )
     return respostaIncorretaContainer
@@ -23,7 +25,8 @@ export function Question({ number='1' }) {
     const checkIcon = document.createElement('i')
     const respostaCorretaContainer = document.createElement('div')
 
-    container.className = 'flex flex-col'
+    container.id = `pergunta-container-${number}`
+    container.className = 'pergunta-container flex flex-col'
     respostasContainer.className = 'flex flex-col space-y-5'
     respostaCorretaContainer.className = 'w-full flex flex-row items-center gap-2'
     checkIcon.className = 'ph-fill ph-check-circle text-emerald-400 text-3xl'    
@@ -34,14 +37,14 @@ export function Question({ number='1' }) {
             placeholder: 'Digite aqui a resposta correta...', 
             id: `resposta-correta-${number}`,
             size: 'fit', 
-            className: 'bg-emerald-50 w-full',
+            className: 'correta bg-emerald-50 w-full',
         }),
     )
     respostasContainer.append(
         respostaCorretaContainer,
-        RespostaIncorreta(),
-        RespostaIncorreta(),
-        RespostaIncorreta(),
+        RespostaIncorreta('1', number),
+        RespostaIncorreta('2', number),
+        RespostaIncorreta('3', number),
     )    
     container.append(
         Title({
@@ -53,9 +56,9 @@ export function Question({ number='1' }) {
         }),
         TextArea({
             placeholder: 'Digite aqui a pergunta...', 
-            id: `pergunta-${number}`,
+            id: `${number}`,
             size: 'fit', 
-            className: 'mb-5',
+            className: 'pergunta mb-5',
         }),
         respostasContainer,
     )

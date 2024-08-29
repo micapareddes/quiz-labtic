@@ -53,9 +53,17 @@ const schemaQuiz = new Schema({
         }
     },
     tentativas: {
-        type: Number,
+        type: String,
         required: true,
-    },    
+    },
+    tipo: {
+        type: String,
+        required: true,
+        enum: {
+            values: ['prova', 'simulado', 'quiz'],
+            message: 'O tipo deve ser prova, simulado ou quiz!'
+        }
+    }, 
     data_inicio: {
         type: String,
         required: true,
@@ -67,11 +75,7 @@ const schemaQuiz = new Schema({
     orientacao: {
         type: String,
         required: false,
-    },    
-    mostrarGabarito: {
-        type: Boolean,
-        required: true,
-    },    
+    },       
     isRascunho: {
         type: Boolean,
         required: true,

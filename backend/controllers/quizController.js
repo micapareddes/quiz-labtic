@@ -12,8 +12,10 @@ class QuizController {
         if (profInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const quiz = req.body
-
-        const nomeDoQuizExiste = await ModeloQuiz.findOne({ titulo: quiz.titulo })
+        console.log(quiz);
+        
+        const disciplinaId = new mongoose.Types.ObjectId(quiz.disciplina_id)
+        const nomeDoQuizExiste = await ModeloQuiz.findOne({ titulo: quiz.titulo, disciplina_id: disciplinaId })
         if (nomeDoQuizExiste) throw new ServidorError(QUIZ_ERROR.NAME_ALREADY_EXIST)
         await ModeloQuiz.create(quiz)
         console.log('Novo quiz criado!')
