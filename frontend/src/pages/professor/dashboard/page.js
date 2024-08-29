@@ -61,16 +61,6 @@ async function PageDashboard() {
         main.appendChild(nav)
     }
 
-    painelItems.forEach((item) => {
-        painel.appendChild(
-            RegisterListItem({ 
-                name: item.name,
-                registerLink: item.linkCadastro,
-                linkPainel: item.linkPainel,
-            })
-        )
-    })
-
     saveWindowPath()
 }
 
