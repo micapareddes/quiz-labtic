@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import { ModeloUsuario } from "../models/Usuario.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
+import { ModeloQuiz } from "../models/Quiz.js"
 import ServidorError from "../ServidorError.js"
 import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
 
@@ -236,6 +237,25 @@ class DisciplinaController {
             )
         }
 
+        res.status(204).send()
+    }
+
+    async adicionarQuizADisciplina(req, res) {
+        //TODO: Validação de pessoa pelo accesToken. Deve ser apenas professor ou admin também pode?
+        const { disciplina_id, nome_quiz } = req.body
+        const disciplina_objectId = new mongoose.Types.ObjectId(disciplina_id)
+        const quiz_id = await ModeloQuiz.findOne({ titulo: nome_quiz, disciplina_id: disciplina_objectId }, '_id')
+        const novoQuiz = {
+            quiz_id,
+            nome: nome_quiz
+        }
+        const disciplinaAtualizada = await ModeloDisciplina.findByIdAndUpdate(
+            disciplina_objectId,
+            { $push: { quizes: novoQuiz } },
+            { new: true, useFindAndModify: false }
+        )
+        if (!disciplinaAtualizada) new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+        
         res.status(204).send()
     }
 }

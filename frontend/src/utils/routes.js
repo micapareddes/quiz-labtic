@@ -38,7 +38,8 @@ export const API_ENDPOINTS = {
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
-    PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    PATCH_ADICIONAR_QUIZ_A_DISCIPLINA: 'http://localhost:3333/api/disciplinas/quiz',
+    PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/editar/${id}`,
     PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,
     PATCH_PROFESSORES_TO_DISCIPLINAS: 'http://localhost:3333/api/disciplinas',
 
