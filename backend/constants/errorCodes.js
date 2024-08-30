@@ -80,6 +80,11 @@ export const RELATION_ERROR = {
         errorCode: 3400,
         message: 'Relação já existe!',
     },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 3404,
+        message: "Relação entre aluno e disciplina não existe!"        
+    },
 }
 
 export const TOKEN_ERROR = {
@@ -100,5 +105,10 @@ export const QUIZ_ERROR = {
         statusCode: 409,
         errorCode: 5409,
         message: "Já existe um quiz com esse nome!"
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 5404,
+        message: "Quiz não existe!"        
     },
 }

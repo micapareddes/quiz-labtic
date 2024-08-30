@@ -5,6 +5,8 @@ import quizController from "../controllers/quizController.js"
 
 const routerQuiz = Router()
 
+routerQuiz.get("/questions/:id", authenticateToken, tryCatch(quizController.getPerguntasQuiz))
+
 routerQuiz.post("/new", authenticateToken, tryCatch(quizController.postNewQuiz))
 
 export default routerQuiz
