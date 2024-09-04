@@ -12,11 +12,14 @@ routerAlunoDisciplina.get("/all_students", authenticateToken, tryCatch(Aluno_Dis
 
 routerAlunoDisciplina.get("/student/:id", authenticateToken, tryCatch(Aluno_DisciplinaController.getStudentDataWithDisciplinasById))
 
+routerAlunoDisciplina.get("/get", authenticateToken, tryCatch(Aluno_DisciplinaController.getDisciplinasDoAluno))
+
 routerAlunoDisciplina.patch('/student/:id', authenticateToken, tryCatch(Aluno_DisciplinaController.editarCadastroDeDisciplinasDoAlunoById))
 
 routerAlunoDisciplina.post("/", authenticateToken, tryCatch(Aluno_DisciplinaController.cadastrarAlunoADisciplinas))
 
 routerAlunoDisciplina.delete("/disciplina", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorDisciplinaId))
+
 routerAlunoDisciplina.delete("/aluno", authenticateToken, tryCatch(Aluno_DisciplinaController.eliminarRelacaoPorAlunoId))
 
 export default routerAlunoDisciplina

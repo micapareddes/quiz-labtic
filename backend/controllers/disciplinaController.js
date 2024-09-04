@@ -98,8 +98,8 @@ class DisciplinaController {
         const disciplinas = await ModeloDisciplina.find({professor_id: profId}, 'disciplina_id nome')
 
         return res.status(200).json(disciplinas)
-    }
-
+    } 
+    
     async listarDisciplinasCadastradas(req, res) {
         const adminId = req.userId
 
