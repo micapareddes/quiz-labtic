@@ -6,7 +6,6 @@ import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAluno, painelItems } from '/frontend/src/pages/aluno/components/sidebar.js'
-import { RegisterListItem } from '/frontend/src/pages/admin/dashboard/components/registerListItem.js'
 import { Title } from '/frontend/src/components/fonts.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
