@@ -15,7 +15,6 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
         bold: 'regular',
     })
 
-    heading.className = 'w-full'
     heading.append(eTitle, eSubtitle)
 
     if (goBack) {

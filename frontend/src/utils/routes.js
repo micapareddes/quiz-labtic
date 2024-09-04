@@ -34,10 +34,12 @@ export const API_ENDPOINTS = {
     POST_USER: 'http://localhost:3333/api/usuarios',
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     POST_QUIZ: 'http://localhost:3333/api/quiz/new',
+    POST_RESPOSTA: 'http://localhost:3333/api/respostas/new',
 
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    GET_QUIZ_BY_ID: (id) => `http://localhost:3333/api/quiz/questions/${id}`,
     PATCH_ADICIONAR_QUIZ_A_DISCIPLINA: 'http://localhost:3333/api/disciplinas/quiz',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/editar/${id}`,
     PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,

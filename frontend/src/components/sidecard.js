@@ -2,7 +2,7 @@ import { Button } from './button.js'
 import { Card } from './card.js'
 
 export function QuestionItem(
-    { question='Bold', answer='Regular', color='neutral' }
+    { question='Bold', questionId='id', answer='Regular', color='neutral' }
 ) {
     const colorStyle = {
         'neutral': ' text-stone-700',
@@ -15,10 +15,13 @@ export function QuestionItem(
     const answerElement = document.createElement('p')
 
     container.className = 'flex flex-row justify-between w-40'
+    container.setAttribute('pergunta', questionId)
+
 
     questionElement.textContent = question
     questionElement.className = 'text-base font-semibold text-stone-700'
 
+    answerElement.id = 'answer'
     answerElement.textContent = answer
     answerElement.className = `text-base ${colorStyle[color]}`
 
@@ -75,12 +78,14 @@ export function QuestionSidecard({
         onClick,
     })
 
-    container.className = 'flex flex-col items-center'
+    container.id = 'sidecard'
+    container.className = 'flex flex-col items-center w-[320px]'
     perguntasContainer.className = 'flex flex-col gap-4 mb-8'
 
     questions.forEach((pergunta) => {
         const item = QuestionItem({ 
             question: pergunta.question,
+            questionId: pergunta.questionId,
             answer: pergunta.answer,
             color: pergunta.color
         })

@@ -30,7 +30,7 @@ class QuizController {
         if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
 
         const quizId = req.params.id
-        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo perguntas').populate('disciplina_id', 'nome')
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo perguntas.pergunta perguntas._id perguntas.alternativas.conteudo perguntas.alternativas._id').populate('disciplina_id', 'nome')
         if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         const isAlunoCadastradoADisciplina = await ModeloAlunos_Disciplina.exists({

@@ -112,3 +112,11 @@ export const QUIZ_ERROR = {
         message: "Quiz não existe!"        
     },
 }
+
+export const ANSWER_ERROR = {
+    NO_MORE_ATTEMPTS: {
+        status: 403,
+        errorCode: 6403,
+        message: "O aluno não possui mais tentativas disponíveis."
+    }
+}
