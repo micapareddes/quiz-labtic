@@ -1,25 +1,12 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
-import { Text } from '../../../components/fonts.js';
-import { ListItemBoxWithTitle } from '../../../components/list.js';
-import { Tag } from '../../../components/tag.js';
+import { Text } from '/frontend/src/components/fonts.js';
+import { ListItemBoxWithTitle } from '/frontend/src/components/list.js';
+import { Tag } from '/frontend/src/components/tag.js';
+import { formatDate } from '/frontend/src/functions/formatDate.js';
 
 const capitalizeFirstLetter = (string) => {
     if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function formatDate(dateString) {
-    const months = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
-  
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-  
-    return `${day} de ${month}`;
 }
 
 function getCurrentDate() {

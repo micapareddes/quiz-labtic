@@ -749,6 +749,15 @@ video {
   grid-row-start: 2;
 }
 
+.m-8{
+  margin: 2rem;
+}
+
+.my-8{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mb-10{
   margin-bottom: 2.5rem;
 }
@@ -1130,6 +1139,10 @@ video {
 
 .gap-20{
   gap: 5rem;
+}
+
+.gap-24{
+  gap: 6rem;
 }
 
 .space-x-1 > :not([hidden]) ~ :not([hidden]){
@@ -1540,6 +1553,10 @@ video {
 
 .pr-12{
   padding-right: 3rem;
+}
+
+.pr-2{
+  padding-right: 0.5rem;
 }
 
 .text-center{
