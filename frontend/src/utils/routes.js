@@ -21,6 +21,7 @@ export const ROUTES = {
     },
     ALUNO: {
         DASHBOARD: '/frontend/src/old-pages/aluno/dashboard.html',
+        QUIZ: (id) => `/frontend/src/pages/aluno/quiz/index.html?step=1&id=${id}`
     },
     PROFESSOR: {
         DASHBOARD: '/frontend/src/pages/professor/dashboard/index.html',
@@ -40,6 +41,7 @@ export const API_ENDPOINTS = {
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_QUIZ_BY_ID: (id) => `http://localhost:3333/api/quiz/questions/${id}`,
+    GET_QUIZ_INFO_BY_DISCIPLINA_ID: (id) => `http://localhost:3333/api/disciplinas/quiz/${id}`,
     PATCH_ADICIONAR_QUIZ_A_DISCIPLINA: 'http://localhost:3333/api/disciplinas/quiz',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/editar/${id}`,
     PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,

@@ -7,7 +7,8 @@ const routerDisciplina = Router()
 
 routerDisciplina.get("/professor", authenticateToken, tryCatch(DisciplinaController.mostrarDisciplinasDoProfessor))
 routerDisciplina.get("/cadastradas", authenticateToken, tryCatch(DisciplinaController.listarDisciplinasCadastradas))
-routerDisciplina.get("/:id", authenticateToken, tryCatch(DisciplinaController.listarInformaçõesPorId))
+routerDisciplina.get("/:id", authenticateToken, tryCatch(DisciplinaController.listarInformaçõesPorId)) //TODO: Mudar rota para /info/:id
+routerDisciplina.get("/quiz/:id", authenticateToken, tryCatch(DisciplinaController.getQuizzesInfoByDisciplinaId))
 routerDisciplina.post("/", authenticateToken, tryCatch(DisciplinaController.criarDisciplina))
 routerDisciplina.patch("/professor/:id", authenticateToken, tryCatch(DisciplinaController.editarProfessorDeDisciplinasPorId))
 routerDisciplina.patch("/editar/:id", authenticateToken, tryCatch(DisciplinaController.editarDisciplina))

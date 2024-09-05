@@ -258,6 +258,20 @@ class DisciplinaController {
         
         res.status(204).send()
     }
+
+    async getQuizzesInfoByDisciplinaId(req, res) {
+        const alunoId = req.userId
+
+        const aluno = await ModeloUsuario.findById(alunoId)
+        const alunoInvalido = !aluno || aluno.papel !== 'aluno'
+        if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const disciplinaId = req.params.id
+        const data = await ModeloDisciplina.findById(disciplinaId, 'nome quizes').populate('quizes.quiz_id', 'data_fim tipo')
+        if (!data) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+
+        res.status(200).json(data)
+    }
 }
 
 export default new DisciplinaController()
