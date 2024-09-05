@@ -36,6 +36,7 @@ export function Text({ text='Texto', size='md', tone='s-500', bold='normal', as=
     const color = {
         'i-50': 'text-indigo-50',
         'i-700': 'text-indigo-700',
+        'r-500': 'text-red-500',
         's-400': 'text-stone-400',
         's-500': 'text-stone-500',
         's-600': 'text-stone-600',
