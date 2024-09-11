@@ -1,7 +1,7 @@
 import { Schema, model, mongoose } from "mongoose";
 import { ModeloUsuario } from "./Usuario.js";
 
-const schemaResposta_Pergunta = new Schema({
+const schemaGabarito = new Schema({
     pergunta_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz.perguntas',
@@ -11,6 +11,10 @@ const schemaResposta_Pergunta = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz.perguntas.alternativas',
         required: false,    
+    },
+    acertou: {
+        type: Boolean,
+        required: true,
     }
 })
 const schemaResposta = new Schema({
@@ -35,7 +39,7 @@ const schemaResposta = new Schema({
         type: Number,
         required: false,
     },
-    respostas_perguntas: [schemaResposta_Pergunta]
-})
+    gabarito: [schemaGabarito],
+}, { timestamps: true })
 
 export const ModeloResposta = model('Resposta', schemaResposta)

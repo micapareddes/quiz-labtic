@@ -22,7 +22,7 @@ export function QuestionItem(
     questionElement.className = 'text-base font-semibold text-stone-700'
 
     answerElement.id = 'answer'
-    answerElement.textContent = answer
+    answerElement.textContent = answer.toUpperCase()
     answerElement.className = `text-base ${colorStyle[color]}`
 
     container.append(questionElement, answerElement)

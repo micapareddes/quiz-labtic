@@ -106,6 +106,14 @@ class QuizController {
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
         res.status(200).json(perguntasData)
     }
+    
+    async getPerguntasQuizForGabarito(req, res) {
+        const quizId = req.params.id
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo perguntas').populate('disciplina_id', 'nome')
+        if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
+        res.status(200).json(perguntasData)
+    }
 
     async getQuizzesPorDisciplinaIdParaProfessor(req, res) {
         const profId = req.userId
