@@ -41,7 +41,7 @@ class QuizController {
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
 
-        const tentativas = await ModeloResposta.find({ quiz_id: quizId, aluno_id: alunoId }, '_id')
+        const tentativas = await ModeloResposta.find({ quiz_id: quizId, aluno_id: alunoId }, '_id nota') //TODO: Adicionar logica de timestamp para definir ordem da tentativa
 
         const data = {
             data_fim: info.data_fim,
