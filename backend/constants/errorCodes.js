@@ -66,7 +66,17 @@ export const DISCIPLINA_ERROR = {
         statusCode: 422,
         errorCode: 2422,
         message: "Nome inválido. O nome deve ter no mínimo 3 caracteres!"
-    }
+    },
+    HAS_PROFESSOR: (disciplinaName) => ({
+        statusCode: 409,
+        errorCode: 2410,
+        message: `A disciplina ${disciplinaName} já possui um professor cadastrado!`
+    }),
+    INVALID_PROFESSOR: {
+        statusCode: 422,
+        errorCode: 2423,
+        message: "O professor não está cadastrado a disciplina!"
+    },
 }
 
 export const RELATION_ERROR = {
@@ -75,7 +85,12 @@ export const RELATION_ERROR = {
         errorCode: 3400,
         message: 'Relação já existe!',
     },
-};
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 3404,
+        message: "Relação entre aluno e disciplina não existe!"        
+    },
+}
 
 export const TOKEN_ERROR = {
     NOT_PROVIDED: {
@@ -87,5 +102,26 @@ export const TOKEN_ERROR = {
         statusCode: 403,
         errorCode: 4403,
         message: 'Acesso negado!',
+    }
+}
+
+export const QUIZ_ERROR = {
+    NAME_ALREADY_EXIST: {
+        statusCode: 409,
+        errorCode: 5409,
+        message: "Já existe um quiz com esse nome!"
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 5404,
+        message: "Quiz não existe!"        
+    },
+}
+
+export const ANSWER_ERROR = {
+    NO_MORE_ATTEMPTS: {
+        status: 403,
+        errorCode: 6403,
+        message: "O aluno não possui mais tentativas disponíveis."
     }
 }

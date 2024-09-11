@@ -18,8 +18,8 @@ async function fetchDisciplinas(accessToken, url) {
 
 // elementos do dashboard -------------------
 function criarUiDisciplina(nomeDisciplina) {
-    const li = createHTMLElement('li')
-    const a = createHTMLElement('a')
+    const li = document.createElement('li')
+    const a = document.createElement('a')
 
     a.className = "block px-5 py-4 bg-neutral-100 border hover:bg-neutral-200 transition-colors duration-200 border-neutral-200 rounded-xl cursor-pointer mb-2"
     a.textContent = nomeDisciplina
@@ -35,14 +35,14 @@ function nenhumaDisciplinaCadastradaUi() {
 
     htmlTituloDisciplinas.className = 'hidden'
     
-    const div = createHTMLElement('div')
+    const div = document.createElement('div')
     div.className = 'flex h-screen flex-col items-center justify-center'
-    const img = createHTMLElement('img')
+    const img = document.createElement('img')
     img.src = '../../img/no-data-100.svg'
     img.alt = 'Duas pranchetas sobrepostas com clipes lilas.'
     img.className = 'w-48 h-48 md:w-72 md:h-72 lg:w-96 lg:h-96'
 
-    const p = createHTMLElement('p')
+    const p = document.createElement('p')
     p.textContent = 'Você não está cadastrado em nenhuma disciplina'
     p.className = 'px-5 py-4 text-stone-400 text-lg md:text-xl lg:text-2xl block text-center mt-6'
 

@@ -8,7 +8,7 @@ function listarProfessoresNoSelect(listaProfessores) {
     const select = document.getElementById('select')
 
     listaProfessores.forEach((professor) => {
-        const option = createHTMLElement('option')
+        const option = document.createElement('option')
         option.id = professor._id
         option.value = professor._id
         option.textContent = professor.nome
