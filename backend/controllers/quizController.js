@@ -73,7 +73,7 @@ class QuizController {
         })
         if (!isProfCadastradoADisciplina) throw new ServidorError(DISCIPLINA_ERROR.INVALID_PROFESSOR)
             
-        const alunosQueResponderam = await ModeloResposta.find({ quiz_id: quizId }, 'nota')
+        const alunosQueResponderam = await ModeloResposta.find({ quiz_id: quizId }, 'nota').populate('aluno_id', 'nome')
             
         const data = {
                 data_fim: info.data_fim,

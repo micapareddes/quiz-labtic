@@ -30,6 +30,7 @@ try {
         method: 'GET', 
         token: localStorage.getItem('accessToken'), 
     })
+    console.log(alunos);
     
     content.className = 'ml-11 mt-8 space-y-10'
     alunosContainer.className = 'space-y-3'
@@ -48,9 +49,12 @@ try {
         alunos.forEach((aluno) => {
             listaAlunosContainer.append(
                 StudentGradeListItem({ 
-                    studentName: 'Nome', 
-                    answerLink: '', 
-                    grade: '10' 
+                    studentName: aluno.aluno_id.nome, 
+                    answerLink: ROUTES.PROFESSOR.QUIZ.GABARITO({
+                        quiz: quizId,
+                        tentativa: aluno._id
+                    }), 
+                    grade: aluno.nota 
                 })
             )
             navAlunosContainer.appendChild(listaAlunosContainer)
