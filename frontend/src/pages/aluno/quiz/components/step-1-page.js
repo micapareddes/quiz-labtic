@@ -5,16 +5,35 @@ import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
-
+import { formatDate } from '/frontend/src/functions/formatDate.js'
+import { getCurrentDate } from '/frontend/src/functions/getCurrentDate.js'
+import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { Title, Text } from '/frontend/src/components/fonts.js'
 import { Button } from '/frontend/src/components/button.js'
 import { AttemptsSidecard } from './attempts-sidecard.js'
+import { openDialog, ActionDialog } from '/frontend/src/components/dialog.js'
+
+function convertTime(minutes) {
+    if (minutes < 60) {
+      return `${minutes}min`;
+    } else {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}hs ${remainingMinutes}min`;
+    }
+}
 
 export async function Step1Page() {
     try {
         verifyUserAccess('aluno')
+        const id = getUrlParam('id')
+        const data = await makeRequest({
+            method: 'GET',
+            url: API_ENDPOINTS.GET_QUIZ_INFO_FOR_STRUDENT_BY_ID(id),
+            token: localStorage.getItem('accessToken'),
+        })
         const main = document.getElementById('main')
         const container = document.createElement('div')
         const infoContainer = document.createElement('div')
@@ -28,7 +47,7 @@ export async function Step1Page() {
             as: 'h4', 
         })
         const orientacoes = Text({
-            text: 'Lorem ipsum dolor sit amet consectetur. Eros nibh urna eu varius amet id. Ipsum mi ultrices pulvinar ultricies et facilisis arcu. Id velit senectus maecenas donec. Nulla nec fermentum non egestas elit quam vestibulum adipiscing.', 
+            text: data.orientacao, 
             size:'md', 
             tone:'s-700', 
             bold:'normal', 
@@ -38,23 +57,31 @@ export async function Step1Page() {
         const quizInfos = [
             {
                 title: 'Tentativas',
-                value: 3,
+                value: data.tentativas === '0' ? 'Ilimitadas' : data.tentativas,
             },            
             {
                 title: 'Tempo Máximo',
-                value: 30,
+                value: convertTime(data.tempo),
             },            
             {
                 title: 'Data de Inicio',
-                value: '30 de Mar',
+                value: formatDate(data.data_inicio),
             },            
             {
                 title: 'Data de Entrega',
-                value: '30 de Mar',
+                value:  formatDate(data.data_fim),
             },
         ]
-        const id = getUrlParam('id')
+        const tentativasAluno = data.tentativas_aluno
+        const attempts = tentativasAluno.map((tentativa, index) => {
+            return {
+                attemptNumber: index + 1,
+                grade: '8',
+                answerLink: ''
+            }
 
+        })
+        
         main.classList.add('flex', 'md:flex-row', 'gap-24')
         infoContainer.className = 'pl-11'
         orientacoesContainer.className = 'my-8'
@@ -62,7 +89,7 @@ export async function Step1Page() {
 
         sidecardContainer.appendChild(
             AttemptsSidecard({
-                attempts: [],
+                attempts,
             })
         )
         quizInfos.forEach((info) => {
@@ -101,16 +128,27 @@ export async function Step1Page() {
             quizInfosList,
             Button({
                 id: 'open-quiz',
-                title: 'Começar quiz',
-                onClick: () => {}
+                title: getCurrentDate() > data.data_fim ? 'Encerrado' : 'Começar quiz',
+                onClick: () => {
+                    localStorage.setItem('step', true)
+                    openDialog(
+                        ActionDialog({
+                            title: 'Deseja começar agora?', 
+                            message: 'Ao clicar no botão o quiz começará imediatamente e deve ser entregue para poder sair.', 
+                            confirmarButtonName: 'Começar', 
+                            onConfirm: () => navigateTo(`/frontend/src/pages/aluno/quiz/index.html?step=2&id=${id}`),
+                        })
+                    )
+                },
+                disabled: getCurrentDate() > data.data_fim,
             })
         )
         container.append(            
             Heading({ 
                 goBack: true, 
                 onGoBack: () => goBack(),
-                title: 'Quiz name', 
-                subtitle: 'Disciplina',
+                title: data.titulo, 
+                subtitle: data.disciplina_nome,
                 subtitleSize: 'lg'
             }),
             infoContainer

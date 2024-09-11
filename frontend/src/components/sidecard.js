@@ -30,30 +30,6 @@ export function QuestionItem(
     return container
 }
 
-export function AttemptItem({ attemptNumber, grade, answerLink, disabledButton=false }) {
-    const container = document.createElement('div')
-    const attemptNumberElement = document.createElement('p')
-    const gradeElement = document.createElement('p')
-    const seeAnswerButton = Button({
-        variant: 'ghost',
-        title: 'Gabarito',
-        link: answerLink,
-        disabled: disabledButton,
-    })
-
-    container.className = 'flex flex-row w-60 justify-between'
-
-    attemptNumberElement.textContent = attemptNumber
-    attemptNumberElement.className = 'text-base text-stone-700'
-
-    gradeElement.textContent = grade + ' / 10'
-    gradeElement.className = 'text-base font-semibold text-stone-700'
-
-    container.append(attemptNumberElement, gradeElement, seeAnswerButton)
-
-    return container
-}
-
 export function SidecardBoxWithTitle({ title, titleBold, content }) {
     const titulo = document.createElement('h5')
 

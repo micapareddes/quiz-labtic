@@ -71,7 +71,12 @@ export const DISCIPLINA_ERROR = {
         statusCode: 409,
         errorCode: 2410,
         message: `A disciplina ${disciplinaName} já possui um professor cadastrado!`
-    })
+    }),
+    INVALID_PROFESSOR: {
+        statusCode: 422,
+        errorCode: 2423,
+        message: "O professor não está cadastrado a disciplina!"
+    },
 }
 
 export const RELATION_ERROR = {

@@ -3,14 +3,11 @@ import { Text } from '/frontend/src/components/fonts.js';
 import { ListItemBoxWithTitle } from '/frontend/src/components/list.js';
 import { Tag } from '/frontend/src/components/tag.js';
 import { formatDate } from '/frontend/src/functions/formatDate.js';
+import { getCurrentDate } from '/frontend/src/functions/getCurrentDate.js';
 
 const capitalizeFirstLetter = (string) => {
     if (!string) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function getCurrentDate() {
-    return new Date().toISOString().split('T')[0];
 }
 
 function QuizRow({ 

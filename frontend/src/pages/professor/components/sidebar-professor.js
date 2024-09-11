@@ -6,7 +6,7 @@ const disciplinas = await getProfessorDisciplinas() //TODO: é necessario coloca
 export const painelItems = disciplinas.map((disciplina) => {
     return {
         name: disciplina.nome,
-        linkPainel: `/${disciplina._id}`
+        linkPainel: ROUTES.PROFESSOR.DISCIPLINA(disciplina._id)
     }
 })
 export function SidebarProfessor() {
