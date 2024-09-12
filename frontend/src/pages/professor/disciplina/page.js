@@ -21,17 +21,25 @@ async function DisciplinaPage() {
         const main = document.getElementById('main')
         const contentContainer = document.createElement('div')
         const header = document.createElement('div')
+        const accessToken = localStorage.getItem('accessToken')
         const { postados, rascunhos } = await makeRequest({ 
             url: API_ENDPOINTS.GET_QUIZZES_FOR_PROFESSOR_BY_DISCIPLINA_ID(disciplinaId), 
             method: 'GET', 
-            token: localStorage.getItem('accessToken'), 
+            token: accessToken, 
         })
+        const reqNomeDisciplina = await makeRequest({ 
+            url: API_ENDPOINTS.GET_DISCIPLINA_NAME(disciplinaId), 
+            method: 'GET', 
+            token: accessToken, 
+        })
+        const nomeDisciplina = reqNomeDisciplina.nome
+        
         contentContainer.className = 'flex w-full justify-between items-start gap-10 mt-10'
         header.className = 'flex w-full justify-between items-center'
         header.append(
             Heading({ 
                 goBack: true, 
-                title: postados[0].disciplina_id.nome, //TODO: Melhorar lógica para nao puxar nome em todos os quizzes 
+                title: nomeDisciplina,
                 subtitle: 'Quizzes',
                 subtitleSize: 'lg'
             }),

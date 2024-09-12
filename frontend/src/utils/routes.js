@@ -42,6 +42,7 @@ export const API_ENDPOINTS = {
     POST_RESPOSTA: 'http://localhost:3333/api/respostas/new',
 
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
+    GET_DISCIPLINA_NAME: (id) => `http://localhost:3333/api/disciplinas/name/${id}`,
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
     GET_GABARITO: (id) => `http://localhost:3333/api/respostas/gabarito/${id}`,
