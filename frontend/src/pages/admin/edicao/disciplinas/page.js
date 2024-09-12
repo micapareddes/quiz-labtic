@@ -1,5 +1,5 @@
 // Functions
-import { ROUTES } from '../../../../utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '../../../../utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
@@ -9,9 +9,9 @@ import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
-import { alterarDisciplinaNoBanco } from '/frontend/src/pages/admin/edicao/disciplinas/service/alterarDisciplinaNoBanco.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -20,7 +20,7 @@ import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/srccomponents/error-message.js'
+import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
 async function handleSubmit(e) {
     e.preventDefault()
@@ -61,7 +61,14 @@ async function handleSubmit(e) {
     }
 
     try {
-        await alterarDisciplinaNoBanco(editedData)
+        const accessToken = localStorage.getItem('accessToken')
+        const id = getUrlParam('id')
+        await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_DISCIPLINA_BY_ID(id), 
+            method:'PATCH', 
+            data: editedData, 
+            token: accessToken 
+        })
         removeOriginalValuesFromStorage()
         localStorage.setItem('disciplinaAlterada', editedData.nome)
         navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS) 

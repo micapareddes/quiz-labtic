@@ -51,6 +51,7 @@ export const API_ENDPOINTS = {
     GET_QUIZ_INFO_FOR_PROFESSOR_BY_ID: (id) => `http://localhost:3333/api/quiz/professor_infos/${id}`,
     GET_QUIZ_INFO_BY_DISCIPLINA_ID: (id) => `http://localhost:3333/api/disciplinas/quiz/${id}`,
     GET_QUIZZES_FOR_PROFESSOR_BY_DISCIPLINA_ID: (id) => `http://localhost:3333/api/quiz/prof/disciplina/${id}`,
+
     PATCH_ADICIONAR_QUIZ_A_DISCIPLINA: 'http://localhost:3333/api/disciplinas/quiz',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/editar/${id}`,
     PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,
