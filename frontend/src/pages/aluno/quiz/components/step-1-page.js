@@ -85,7 +85,7 @@ export async function Step1Page() {
 
         })
         const quizExpirou = getCurrentDate() > data.data_fim
-        const alunoEsgotouTentativas = data.tentativas <= tentativasAluno.length
+        const alunoEsgotouTentativas = data.tentativas !== '0' && data.tentativas <= tentativasAluno.length
        
         main.classList.add('flex', 'md:flex-row', 'gap-24')
         infoContainer.className = 'pl-11 pb-11'
