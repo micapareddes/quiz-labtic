@@ -84,7 +84,9 @@ export async function Step1Page() {
             }
 
         })
-        
+        const quizExpirou = getCurrentDate() > data.data_fim
+        const alunoEsgotouTentativas = data.tentativas <= tentativasAluno.length
+       
         main.classList.add('flex', 'md:flex-row', 'gap-24')
         infoContainer.className = 'pl-11 pb-11'
         orientacoesContainer.className = 'my-8'
@@ -131,7 +133,7 @@ export async function Step1Page() {
             quizInfosList,
             Button({
                 id: 'open-quiz',
-                title: getCurrentDate() > data.data_fim ? 'Encerrado' : 'Começar quiz',
+                title: quizExpirou ? 'Encerrado' : alunoEsgotouTentativas ? 'Entregue' : 'Começar quiz',
                 onClick: () => {
                     localStorage.setItem('step', true)
                     openDialog(
@@ -143,7 +145,7 @@ export async function Step1Page() {
                         })
                     )
                 },
-                disabled: getCurrentDate() > data.data_fim,
+                disabled: quizExpirou || alunoEsgotouTentativas,
             })
         )
         container.append(            
