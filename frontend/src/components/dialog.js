@@ -1,4 +1,5 @@
 import { Button } from './button.js'
+import { Title } from './fonts.js'
 
 function constructorDialog({ title, message, confirmarButtonName = 'Confirmar', onConfirm, color='neutral' }) {
     const container = document.createElement('dialog')
@@ -72,10 +73,14 @@ export function SuccessDialog({
     title='Título', message='Mensagem do dialog', buttonName='Redirecionar', link,
 }) {
     const container = document.createElement('dialog')
+    const div = document.createElement('div')
     const dialog = document.createElement('dialog')
     const headingContainer = document.createElement('header')
-    const icon = document.createElement('img')
-    const dialogTitle = document.createElement('h4')
+    const icon = document.createElement('i')
+    const dialogTitle = Title({
+        as: 'h4',
+        title,
+    })
     const dialogMessage = document.createElement('p')
     const closeButton = document.createElement('button')
     const redirectButton = Button({
@@ -85,29 +90,33 @@ export function SuccessDialog({
     })
 
     container.className = 'absolute left-0 top-0 bg-indigo-950 bg-opacity-50 backdrop-blur-sm h-screen w-screen flex items-center justify-center'
-
-    dialog.className = 'bg-neutral-50 rounded-3xl px-6 py-8'
-
-    headingContainer.className = 'flex flex-col gap-3'
-
-    icon.src = '/frontend/src/img/icones/check-circle.svg'
-    icon.height = 32
-    icon.width = 32
-
-    dialogTitle.textContent = title
-    dialogTitle.className = 'text-xl lg:text-2xl font-semibold text-stone-900 mb-4'
-
-    dialogMessage.textContent = message
-    dialogMessage.className = 'mb-6 text-stone-700 text-base w-64 md:w-[350px] lg:w-[479px]'
-
-    closeButton.src = '/frontend/src/img/icones/x.svg'
-    closeButton.width = 21
-    closeButton.height = 21
-    closeButton.className = 'opacity-20'
+    headingContainer.className = 'flex flex-row gap-2 items-center'
+    div.className = 'bg-neutral-50 rounded-3xl px-6 py-8'
+    icon.className = 'ph-fill ph-check-circle text-emerald-500 text-2xl'
 
     headingContainer.append(icon, dialogTitle)
-    dialog.append(headingContainer, dialogMessage, redirectButton)
-    container.appendChild(dialog)
+    div.appendChild(headingContainer)
+    container.appendChild(div)
+
+
+    // icon.src = '/frontend/src/img/icones/check-circle.svg'
+    // icon.height = 32
+    // icon.width = 32
+
+    // dialogTitle.textContent = title
+    // dialogTitle.className = 'text-xl lg:text-2xl font-semibold text-stone-900 mb-4'
+
+    // dialogMessage.textContent = message
+    // dialogMessage.className = 'mb-6 text-stone-700 text-base w-64 md:w-[350px] lg:w-[479px]'
+
+    // closeButton.src = '/frontend/src/img/icones/x.svg'
+    // closeButton.width = 21
+    // closeButton.height = 21
+    // closeButton.className = 'opacity-20'
+
+    // headingContainer.append(icon, dialogTitle)
+    // dialog.append(headingContainer, dialogMessage, redirectButton)
+    // container.appendChild(dialog)
 
     return container
 }

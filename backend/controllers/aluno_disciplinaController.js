@@ -142,6 +142,21 @@ class Aluno_DisciplinaController {
         res.status(200).json(data)
     }
 
+    async getDisciplinasDoAluno(req, res) {
+        const alunoId = req.userId
+
+        const aluno = await ModeloUsuario.findById(alunoId)
+        const invalidAluno = !aluno || aluno.papel !== 'aluno'
+
+        if (invalidAluno) {
+            throw new ServidorError(USER_ERROR.DOESNT_EXIST)
+        }
+
+        const disciplinas = await ModeloAlunos_Disciplina.find({aluno_id: alunoId}, 'disciplina_nome disciplina_id')
+
+        return res.status(200).json(disciplinas)
+    }
+
     async getStudentDataWithDisciplinasById(req, res) {
         const adminId = req.userId
         const admin = await ModeloUsuario.findById(adminId)

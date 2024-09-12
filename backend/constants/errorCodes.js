@@ -71,7 +71,12 @@ export const DISCIPLINA_ERROR = {
         statusCode: 409,
         errorCode: 2410,
         message: `A disciplina ${disciplinaName} já possui um professor cadastrado!`
-    })
+    }),
+    INVALID_PROFESSOR: {
+        statusCode: 422,
+        errorCode: 2423,
+        message: "O professor não está cadastrado a disciplina!"
+    },
 }
 
 export const RELATION_ERROR = {
@@ -79,6 +84,11 @@ export const RELATION_ERROR = {
         statusCode: 400,
         errorCode: 3400,
         message: 'Relação já existe!',
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 3404,
+        message: "Relação entre aluno e disciplina não existe!"        
     },
 }
 
@@ -100,5 +110,23 @@ export const QUIZ_ERROR = {
         statusCode: 409,
         errorCode: 5409,
         message: "Já existe um quiz com esse nome!"
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 5404,
+        message: "Quiz não existe!"        
+    },
+}
+
+export const ANSWER_ERROR = {
+    NO_MORE_ATTEMPTS: {
+        status: 403,
+        errorCode: 6403,
+        message: "O aluno não possui mais tentativas disponíveis."
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 6404,
+        message: "Resposta não existe!"        
     },
 }

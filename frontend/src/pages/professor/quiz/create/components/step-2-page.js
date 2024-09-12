@@ -1,11 +1,12 @@
 // Functions
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { handleGuardarRascunho } from '../functions/handleGuardarRascunho.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { postQuiz } from '../service/postQuiz.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -67,15 +68,28 @@ async function handleSubmit(e) {
         isRascunho: false,
         perguntas: perguntas,
     }
+    const quizData = {
+        disciplina_id: disciplina.id,
+        nome_quiz: nome
+    }
 
     try {
-        await postQuiz(data)
+        const accessToken = localStorage.getItem('accessToken')
+        await postQuiz(data) //TODO: Eliminar função e usar makeRequest
+        await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_ADICIONAR_QUIZ_A_DISCIPLINA, 
+            method: 'PATCH', 
+            token: accessToken, 
+            data: quizData, 
+        })
         localStorage.removeItem('infos')
         localStorage.removeItem('perguntas')
         localStorage.setItem('quizCadastrado', true)
         navigateTo(ROUTES.PROFESSOR.DASHBOARD)
     } catch (error) {
-        if (error.status === 5409) {
+        console.log(error);
+
+        if (error.status === 5409) {            
             openToaster(
                 ErrorToaster({ message: 'Já existe um quiz com esse nome!' })
             )

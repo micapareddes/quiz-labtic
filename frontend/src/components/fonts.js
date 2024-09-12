@@ -26,7 +26,7 @@ export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold'
     return titulo
 }
 
-export function Text({ text='Texto', size='base', tone='s-500', bold='normal', as='p', className }) {
+export function Text({ text='Texto', size='md', tone='s-500', bold='normal', as='p', className }) {
     const font = {
         'sm': 'text-sm',
         'md': 'text-base',
@@ -36,6 +36,7 @@ export function Text({ text='Texto', size='base', tone='s-500', bold='normal', a
     const color = {
         'i-50': 'text-indigo-50',
         'i-700': 'text-indigo-700',
+        'r-500': 'text-red-500',
         's-400': 'text-stone-400',
         's-500': 'text-stone-500',
         's-600': 'text-stone-600',
@@ -51,6 +52,6 @@ export function Text({ text='Texto', size='base', tone='s-500', bold='normal', a
 
     const texto = document.createElement(as)
     texto.textContent = text
-    texto.className = `${font[size]} ${color[tone]} ${weight[bold]} ${className}`
+    texto.classList.add(font[size], color[tone], weight[bold], className)
     return texto
 }

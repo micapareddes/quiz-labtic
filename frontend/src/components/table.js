@@ -97,12 +97,13 @@ export function TableHead(cells=[{ content: 'empty', className: '' }]) {
     const headRow = document.createElement('tr')
     cells.forEach((cell) => {
         const headCol = document.createElement('th')
+        const classStyle = cell.className ? cell.className : 'text-start'
         const content = Text({
             size: 'sm',
             text: cell.content,
             bold: 'regular',
             tone: 's-500',
-            className: `text-start ${cell.className}`
+            className: classStyle,
         })
         headCol.appendChild(content)
         headRow.appendChild(headCol)
