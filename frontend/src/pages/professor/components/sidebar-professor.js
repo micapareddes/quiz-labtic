@@ -9,9 +9,9 @@ export const painelItems = disciplinas.map((disciplina) => {
         linkPainel: ROUTES.PROFESSOR.DISCIPLINA(disciplina._id)
     }
 })
-export function SidebarProfessor() {
+export function SidebarProfessor(size='lg') {
     return Sidebar({
-        size: 'lg',
+        size,
         items: [
             {
                 icon: 'house',

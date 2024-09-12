@@ -7,4 +7,6 @@ const routerResposta = Router()
 
 routerResposta.post("/new", authenticateToken, tryCatch(RespostaController.postResposta))
 
+routerResposta.get("/gabarito/:id", authenticateToken, tryCatch(RespostaController.getGabarito))
+
 export default routerResposta

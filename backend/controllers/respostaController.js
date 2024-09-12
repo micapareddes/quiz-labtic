@@ -14,24 +14,46 @@ class RespostaController {
         
         const { quiz_id, respostas_perguntas } = req.body
 
-        const quiz = await ModeloQuiz.findById(quiz_id, 'tentativas -_id')
+        const quiz = await ModeloQuiz.findById(quiz_id, 'tentativas perguntas.alternativas -_id')
         const totalDeTentativasDoQuiz = Number(quiz.tentativas)
-        console.log('quiz:', quiz);
-        console.log('total:', totalDeTentativasDoQuiz);
-        
         const tentativasAluno = await ModeloResposta.countDocuments({ aluno_id: alunoId, quiz_id })
-        console.log('aluno: ', tentativasAluno);
-        console.log('validacao: ', totalDeTentativasDoQuiz !== 0 );
-
-        
         if (totalDeTentativasDoQuiz !== 0 && tentativasAluno >= totalDeTentativasDoQuiz) throw new ServidorError(ANSWER_ERROR.NO_MORE_ATTEMPTS)
 
+        const perguntas = quiz.perguntas
+        const idsAlternativasCorretas = perguntas.map(pergunta => {
+            const alternativaCorreta = pergunta.alternativas.find(alternativa => alternativa.isCorreta)
+            return alternativaCorreta && alternativaCorreta._id.toString()
+        })
+        const setIdsAlternativasCorretas = new Set(idsAlternativasCorretas)
+        let notaAluno = 0
+        const gabaritoAluno = respostas_perguntas.map((resposta) => {
+            const alternativaId = resposta.alternativa_id ? resposta.alternativa_id.toString() : null
+            const acertou = setIdsAlternativasCorretas.has(alternativaId)
+            if (acertou) notaAluno += 1
+            return {
+                pergunta_id: resposta.pergunta_id,
+                alternativa_id: resposta.alternativa_id,
+                acertou,
+            }
+        })
+        
         await ModeloResposta.create({
             aluno_id: alunoId,
             quiz_id,
-            respostas_perguntas
+            respostas_perguntas,
+            nota: notaAluno,
+            gabarito: gabaritoAluno,
         })
+
         return res.status(204).send()
+    }
+
+    async getGabarito(req, res) {
+        const id = req.params.id
+        const gabarito = await ModeloResposta.findById(id, 'nota gabarito')
+        if (!gabarito) throw new ServidorError(ANSWER_ERROR.DOESNT_EXIST)
+
+        res.status(200).json(gabarito)
     }
 }
 

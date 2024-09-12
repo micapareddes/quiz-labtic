@@ -24,7 +24,6 @@ async function PageDashboard() {
             token: localStorage.getItem('accessToken')
         })
         const quizzes = data.quizes
-        console.log(quizzes);
         
         root.prepend(SidebarAluno())
         main.prepend(

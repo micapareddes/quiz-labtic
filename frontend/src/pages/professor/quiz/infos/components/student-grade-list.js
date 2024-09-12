@@ -3,8 +3,6 @@ import { Button } from '/frontend/src/components/button.js'
 import { Text } from '/frontend/src/components/fonts.js'
 
 export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x' }) {
-    console.log('oi');
-    
     const container = document.createElement('div')
     const answerContainer = document.createElement('div')
 
@@ -25,7 +23,6 @@ export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x'
             tone: 's-600',
         })
     )
-    console.log(container);
     
     container.appendChild(answerContainer)
 

@@ -81,7 +81,7 @@ const schemaQuiz = new Schema({
         required: true,
     },    
     perguntas: [schemaPerguntas]
-})
+} , { timestamps: true })
 
 schemaQuiz.pre('validate', function (next) {
     if (!validarDatas.call(this)) {

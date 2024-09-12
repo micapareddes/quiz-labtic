@@ -76,14 +76,17 @@ export async function Step1Page() {
         const attempts = tentativasAluno.map((tentativa, index) => {
             return {
                 attemptNumber: index + 1,
-                grade: '8',
-                answerLink: ''
+                grade: tentativa.nota,
+                answerLink: ROUTES.ALUNO.GABARITO({
+                    quiz: id,
+                    tentativa: tentativa._id
+                })
             }
 
         })
         
         main.classList.add('flex', 'md:flex-row', 'gap-24')
-        infoContainer.className = 'pl-11'
+        infoContainer.className = 'pl-11 pb-11'
         orientacoesContainer.className = 'my-8'
         quizInfosList.className = 'space-y-4 mb-12'
 

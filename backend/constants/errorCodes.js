@@ -123,5 +123,10 @@ export const ANSWER_ERROR = {
         status: 403,
         errorCode: 6403,
         message: "O aluno não possui mais tentativas disponíveis."
-    }
+    },
+    DOESNT_EXIST: { 
+        statusCode: 404,
+        errorCode: 6404,
+        message: "Resposta não existe!"        
+    },
 }

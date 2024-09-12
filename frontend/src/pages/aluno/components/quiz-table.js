@@ -54,7 +54,7 @@ export function QuizTable(quizzes) {
     ]
     const container = document.createElement('div')
     const header = document.createElement('div')
-    container.className = 'mt-10'
+    container.className = 'mt-10 space-y-2'
     header.className = 'flex w-full justify-between mb-2'
     headerContent.forEach((content) => {
         const container = document.createElement('div')
@@ -76,7 +76,7 @@ export function QuizTable(quizzes) {
                 nome: quiz.nome, 
                 data: formatDate(quiz.quiz_id.data_fim), 
                 tipo: quiz.quiz_id.tipo, 
-                isDateOver: quiz.quiz_id.data_fim < getCurrentDate, 
+                isDateOver: quiz.quiz_id.data_fim < getCurrentDate(), 
                 isEndDateToday: getCurrentDate === quiz.quiz_id.data_fim, 
                 link: ROUTES.ALUNO.QUIZ(quiz.quiz_id._id),
             })

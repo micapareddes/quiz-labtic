@@ -41,7 +41,7 @@ class QuizController {
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
 
-        const tentativas = await ModeloResposta.find({ quiz_id: quizId, aluno_id: alunoId }, '_id')
+        const tentativas = await ModeloResposta.find({ quiz_id: quizId, aluno_id: alunoId }, '_id nota') //TODO: Adicionar logica de timestamp para definir ordem da tentativa
 
         const data = {
             data_fim: info.data_fim,
@@ -73,7 +73,7 @@ class QuizController {
         })
         if (!isProfCadastradoADisciplina) throw new ServidorError(DISCIPLINA_ERROR.INVALID_PROFESSOR)
             
-        const alunosQueResponderam = await ModeloResposta.find({ quiz_id: quizId }, 'nota')
+        const alunosQueResponderam = await ModeloResposta.find({ quiz_id: quizId }, 'nota').populate('aluno_id', 'nome')
             
         const data = {
                 data_fim: info.data_fim,
@@ -104,6 +104,14 @@ class QuizController {
             aluno_id: alunoId
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
+        res.status(200).json(perguntasData)
+    }
+    
+    async getPerguntasQuizForGabarito(req, res) {
+        const quizId = req.params.id
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo perguntas').populate('disciplina_id', 'nome')
+        if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
         res.status(200).json(perguntasData)
     }
 
