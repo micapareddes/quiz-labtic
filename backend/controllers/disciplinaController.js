@@ -48,6 +48,14 @@ class DisciplinaController {
         return res.status(204).send()
     }
 
+    async getName(req, res) {
+        const id = req.params.id
+        const nome = await ModeloDisciplina.findById(id, 'nome -_id')
+        if (!nome) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
+        
+        res.status(200).json(nome)
+    }
+
     async editarDisciplina(req, res) {
         const reqUserId = req.userId
         const reqUser = await ModeloUsuario.findById(reqUserId)
