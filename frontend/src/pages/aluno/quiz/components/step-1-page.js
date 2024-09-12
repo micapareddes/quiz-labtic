@@ -84,10 +84,9 @@ export async function Step1Page() {
             }
 
         })
-        console.log(tentativasAluno);
         
         main.classList.add('flex', 'md:flex-row', 'gap-24')
-        infoContainer.className = 'pl-11'
+        infoContainer.className = 'pl-11 pb-11'
         orientacoesContainer.className = 'my-8'
         quizInfosList.className = 'space-y-4 mb-12'
 
