@@ -1,11 +1,12 @@
 // Functions
-import { handleGuardarRascunho } from '../functions/handleGuardarRascunho.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { getProfessorDisciplinas } from '../../../service/getProfessorDisciplinas.js'
 import { navigateTo} from '/frontend/src/functions/navigateTo.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
-import { painelItems } from '/frontend/src/pages/professor/components/sidebar-professor.js'
 import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
@@ -14,6 +15,117 @@ import { TextArea } from '/frontend/src/components/text-area.js'
 import { Button } from '/frontend/src/components/button.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
+async function handleGuardarRascunho() {
+    const form = document.getElementById('form')
+    const nomeInput = form.querySelector('#nome')
+    const tentativasInput = form.querySelector('#tentativas')
+    const disciplinaInput = form.querySelector('#disciplina')
+    const tipoInput = form.querySelector('#tipo')
+    const tempoMaxInput = form.querySelector('#tempo-max')
+    const dataInicioInput = form.querySelector('#data-inicio').querySelector('input')
+    const dataFinalInput = form.querySelector('#data-final').querySelector('input')
+    const orientacoesInput = form.querySelector('#orientacoes')
+    const nomeInputContainer = form.querySelector('#nome-container')
+    const tentativasInputContainer = form.querySelector('#tentativas-container')
+    const disciplinaSelectContainer = form.querySelector('#disciplina-container')
+    const tipoSelectContainer = form.querySelector('#tipo-container')
+    const tempoMaxSelectContainer = form.querySelector('#tempo-max-container')
+    const dataInicioContainer = form.querySelector('#data-inicio-container')
+    const dataFinalContainer = form.querySelector('#data-final-container')
+    const saveButton = form.querySelector('#guardar-rascunho-button')
+    const perguntas = localStorage.getItem('perguntas')
+    const data = {
+        nome: nomeInput.value.trim(),
+        tentativas: tentativasInput.value.trim(),
+        disciplina: {
+            id: disciplinaInput.value,
+            nome: disciplinaInput.selectedOptions[0].textContent.trim(),
+        },
+        tipo: tipoInput.value,
+        tempoMax: tempoMaxInput.value,
+        dataInicio: dataInicioInput.value,
+        dataFinal: dataFinalInput.value,
+        orientacoes: orientacoesInput.value.trim(),
+    }
+
+    const { success, error } = infoQuizValidation(data)
+    
+    if (!success) {
+        if (error.nameValidation) {
+            nomeInput.classList.add('border-red-500')
+            nomeInputContainer.appendChild(
+                ErrorMessage('O nome deve conter pelo menos 3 caracteres.')
+            )
+        }
+        if (error.disciplinaValidation) {
+            disciplinaInput.classList.add('border-red-500')
+            disciplinaSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }
+        if (error.typeValidation) {
+            tipoInput.classList.add('border-red-500')
+            tipoSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }        
+        if (error.attemptsValidation) {
+            tentativasInput.classList.add('border-red-500')
+            tentativasInputContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }
+        if (error.maxTimeValidation) {
+            tempoMaxInput.classList.add('border-red-500')
+            tempoMaxSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }        
+        if (error.startDateValidation) {
+            dataInicioInput.classList.add('border-b-red-500')
+            dataInicioContainer.appendChild(
+                ErrorMessage('Data inválida.')
+            )
+        }
+        if (error.endDateValidation) {
+            dataFinalInput.classList.add('border-b-red-500')
+            dataFinalContainer.appendChild(
+                ErrorMessage('Data inválida.')
+            )
+        }
+        saveButton.disabled = true
+        return
+    }
+
+    const formatedData = {
+        titulo: data.nome,
+        disciplina_id: data.disciplina.id,
+        tipo: data.tipo,
+        tempo: data.tempoMax,
+        tentativas: data.tentativas,
+        data_inicio: data.dataInicio,
+        data_fim: data.dataFinal,
+        orientacao: data.orientacoes,
+        isRascunho: true,
+        perguntas: perguntas ? JSON.parse(perguntas) : []
+    }
+
+    try {
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_QUIZ, 
+            method: 'POST', 
+            token: localStorage.getItem('accessToken'), 
+            data: formatedData, 
+        })
+        localStorage.setItem('rascunho', true)
+        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina.id))
+
+    } catch (error) {
+        console.log(error)
+        alert('Algo deu errado, tente novamente mais tarde...')
+    }
+
+}
 function handleCriarPerguntas(e) {
     e.preventDefault()
     const form = document.getElementById('form')
@@ -103,7 +215,7 @@ function handleCriarPerguntas(e) {
 
     navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=2')
 }
-function handleFormChange() { //TODO:
+function handleFormChange() {
     const form = document.getElementById('form')
 
     const nomeInputContainer = form.querySelector('#nome-container')

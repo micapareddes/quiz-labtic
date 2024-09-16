@@ -1,6 +1,5 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { handleGuardarRascunho } from '../functions/handleGuardarRascunho.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
