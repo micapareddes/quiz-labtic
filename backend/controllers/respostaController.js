@@ -22,7 +22,6 @@ class RespostaController {
 
         const perguntasQuiz = await ModeloResposta.findById(respostaId, 'perguntas_quiz -_id')
         const perguntas = perguntasQuiz.perguntas_quiz
-        console.log(perguntas);
         
         const idsAlternativasCorretas = perguntas.map(pergunta => {
             const alternativaCorreta = pergunta.alternativas.find(alternativa => alternativa.isCorreta)
@@ -42,17 +41,13 @@ class RespostaController {
         })
         
         await ModeloResposta.findByIdAndUpdate(respostaId, { nota: notaAluno, gabarito: gabaritoAluno })
-        // aluno_id: alunoId,
-        //     quiz_id,
-        //     nota: notaAluno,
-        //     gabarito: gabaritoAluno,
 
         return res.status(204).send()
     }
 
     async getGabarito(req, res) {
         const id = req.params.id
-        const gabarito = await ModeloResposta.findById(id, 'nota gabarito')
+        const gabarito = await ModeloResposta.findById(id, 'nota gabarito perguntas_quiz nome_quiz').populate('disciplina_id', 'nome')
         if (!gabarito) throw new ServidorError(ANSWER_ERROR.DOESNT_EXIST)
 
         res.status(200).json(gabarito)

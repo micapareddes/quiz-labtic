@@ -28,12 +28,7 @@ async function GabaritoPage() {
         if (!tentativaId) navigateTo(ROUTES.ERROR404)
 
         const accessToken = localStorage.getItem('accessToken')
-        const { disciplina_id: disciplina, perguntas, titulo } = await makeRequest({
-            method: 'GET',
-            url: API_ENDPOINTS.GET_QUIZ_FOR_GABARITO_BY_ID(quizId),
-            token: accessToken,
-        })
-        const { nota, gabarito } = await makeRequest({
+        const { nota, gabarito, nome_quiz, disciplina_id:disciplina, perguntas_quiz } = await makeRequest({
             method: 'GET',
             url: API_ENDPOINTS.GET_GABARITO(tentativaId),
             token: accessToken,
@@ -53,7 +48,7 @@ async function GabaritoPage() {
         root.prepend(
             SidebarAluno('sm')
         )
-        perguntas.forEach((perg, index) => {
+        perguntas_quiz.forEach((perg, index) => {
             perguntasContainer.appendChild(
                 PerguntaRespostaGabarito({
                     number: index + 1,
@@ -68,7 +63,7 @@ async function GabaritoPage() {
         main.append(
             Heading({
                 goBack: true, 
-                title: titulo, 
+                title: nome_quiz, 
                 subtitle: disciplina.nome,
                 onGoBack: () => {
                 }
@@ -77,15 +72,17 @@ async function GabaritoPage() {
         )
         gabarito.forEach((item, index) => {
             const alternativa = document.getElementById(`alternativa-${item.alternativa_id}`)
+            console.log(alternativa);
+            
             const colorLetra = item.acertou ? 'green' : 'red'
             
-            if (!item.acertou) {
+            if (alternativa && !item.acertou) {
                 alternativa.classList.add('bg-red-100')
             }
             perguntasQuiz.push({
                 question: `Pergunta ${index + 1}`,
                 questionId: item.pergunta_id,
-                answer: alternativa.getAttribute('letra'),
+                answer: alternativa ? alternativa.getAttribute('letra') : '-',
                 color: colorLetra,
             })
             
