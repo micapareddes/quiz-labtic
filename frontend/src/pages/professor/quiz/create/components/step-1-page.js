@@ -47,54 +47,55 @@ function handleCriarPerguntas(e) {
         dataFinal: dataFinalInput.value,
         orientacoes: orientacoesInput.value.trim(),
     }
+    
     const { success, error } = infoQuizValidation(data)
     
-    // if (!success) {
-    //     if (error.nameValidation) {
-    //         nomeInput.classList.add('border-red-500')
-    //         nomeInputContainer.appendChild(
-    //             ErrorMessage('O nome deve conter pelo menos 3 caracteres.')
-    //         )
-    //     }
-    //     if (error.disciplinaValidation) {
-    //         disciplinaInput.classList.add('border-red-500')
-    //         disciplinaSelectContainer.appendChild(
-    //             ErrorMessage('Este campo é obrigatorio.')
-    //         )
-    //     }
-    //     if (error.typeValidation) {
-    //         tipoInput.classList.add('border-red-500')
-    //         tipoSelectContainer.appendChild(
-    //             ErrorMessage('Este campo é obrigatorio.')
-    //         )
-    //     }        
-    //     if (error.attemptsValidation) {
-    //         tentativasInput.classList.add('border-red-500')
-    //         tentativasInputContainer.appendChild(
-    //             ErrorMessage('Tentativas devem ser maior do que 0.')
-    //         )
-    //     }
-    //     if (error.maxTimeValidation) {
-    //         tempoMaxInput.classList.add('border-red-500')
-    //         tempoMaxSelectContainer.appendChild(
-    //             ErrorMessage('Este campo é obrigatorio.')
-    //         )
-    //     }        
-    //     if (error.startDateValidation) {
-    //         dataInicioInput.classList.add('border-b-red-500')
-    //         dataInicioContainer.appendChild(
-    //             ErrorMessage('Data inválida.')
-    //         )
-    //     }
-    //     if (error.endDateValidation) {
-    //         dataFinalInput.classList.add('border-b-red-500')
-    //         dataFinalContainer.appendChild(
-    //             ErrorMessage('Data inválida.')
-    //         )
-    //     }
-    //     submit.disabled = true
-    //     return
-    // }
+    if (!success) {
+        if (error.nameValidation) {
+            nomeInput.classList.add('border-red-500')
+            nomeInputContainer.appendChild(
+                ErrorMessage('O nome deve conter pelo menos 3 caracteres.')
+            )
+        }
+        if (error.disciplinaValidation) {
+            disciplinaInput.classList.add('border-red-500')
+            disciplinaSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }
+        if (error.typeValidation) {
+            tipoInput.classList.add('border-red-500')
+            tipoSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }        
+        if (error.attemptsValidation) {
+            tentativasInput.classList.add('border-red-500')
+            tentativasInputContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }
+        if (error.maxTimeValidation) {
+            tempoMaxInput.classList.add('border-red-500')
+            tempoMaxSelectContainer.appendChild(
+                ErrorMessage('Este campo é obrigatorio.')
+            )
+        }        
+        if (error.startDateValidation) {
+            dataInicioInput.classList.add('border-b-red-500')
+            dataInicioContainer.appendChild(
+                ErrorMessage('Data inválida.')
+            )
+        }
+        if (error.endDateValidation) {
+            dataFinalInput.classList.add('border-b-red-500')
+            dataFinalContainer.appendChild(
+                ErrorMessage('Data inválida.')
+            )
+        }
+        submit.disabled = true
+        return
+    }
 
     const jsonData = JSON.stringify(data)
     localStorage.setItem('infos', jsonData)
@@ -106,14 +107,67 @@ function handleFormChange() { //TODO:
     const form = document.getElementById('form')
 
     const nomeInputContainer = form.querySelector('#nome-container')
-    const errorNome = nomeInputContainer.querySelector('#error-message')
+    const errorNome = nomeInputContainer.querySelector('.error-message')
+
+    const tentativasInputContainer = form.querySelector('#tentativas-container')
+    const erroTentativas = tentativasInputContainer.querySelector('.error-message')
+
+    const disciplinaSelectContainer = form.querySelector('#disciplina-container')
+    const erroDisciplina = disciplinaSelectContainer.querySelector('.error-message')
+
+    const tipoSelectContainer = form.querySelector('#tipo-container')
+    const erroTipo = tipoSelectContainer.querySelector('.error-message')
+    
+    const tempoMaxSelectContainer = form.querySelector('#tempo-max-container')
+    const erroTempoMax = tempoMaxSelectContainer.querySelector('.error-message')
+
+    const dataInicioContainer = form.querySelector('#data-inicio-container')
+    const erroDataInicio = dataInicioContainer.querySelector('.error-message')
+
+    const dataFinalContainer = form.querySelector('#data-final-container')
+    const erroDataFinal = dataFinalContainer.querySelector('.error-message')
+
+    const submit = form.querySelector('#criar-perguntas-button')
 
     if (errorNome) {
         const nomeInput = form.querySelector('#nome')
         errorNome.remove()
         nomeInput.classList.remove('border-red-500')
-    }    
-
+    } 
+    if (erroTempoMax) {
+        const tempoMaxSelect = form.querySelector('#tempo-max')
+        erroTempoMax.remove()
+        tempoMaxSelect.classList.remove('border-red-500')
+    }  
+    if (erroTentativas) {
+        const tentativas = form.querySelector('#tentativas')
+        erroTentativas.remove()
+        tentativas.classList.remove('border-red-500')
+    } 
+    if (erroDisciplina) {
+        const disciplinaSelect = form.querySelector('#disciplina')
+        erroDisciplina.remove()
+        disciplinaSelect.classList.remove('border-red-500')
+    }   
+    if (erroTipo) {
+        const tipo = form.querySelector('#tipo')
+        erroTipo.remove()
+        tipo.classList.remove('border-red-500')
+    } 
+    if (erroDataInicio) {
+        const dataInicio = form.querySelector('#data-inicio')
+        const input = dataInicio.querySelector('input')
+        erroDataInicio.remove()
+        input.classList.remove('border-b-red-500')
+    }
+    if (erroDataFinal) {
+        const dataFinal = form.querySelector('#data-final')
+        const input = dataFinal.querySelector('input')
+        erroDataFinal.remove()
+        input.classList.remove('border-b-red-500')
+    }  
+     
+    submit.disabled = false
 }
 export async function Step1Page() {
     localStorage.removeItem('step')
@@ -123,6 +177,7 @@ export async function Step1Page() {
     const nameInputContainer = document.createElement('div')
     const disciplinaSelectContainer = document.createElement('div')
     const tipoSelectContainer = document.createElement('div')
+    const tentativasContainer = document.createElement('div')
     const tempoMaxSelectContainer = document.createElement('div')
     const dataInicioContainer = document.createElement('div')
     const dataFinalContainer = document.createElement('div')
@@ -149,6 +204,32 @@ export async function Step1Page() {
         }
     })
     const quizMaxTime = []
+    const tentativasOptions = [
+        {
+            text: 'Aberto',
+            value: 0
+        },
+        {
+            text: '1 Tentativa',
+            value: 1
+        },
+        {
+            text: '2 Tentativas',
+            value: 2
+        },
+        {
+            text: '3 Tentativas',
+            value: 3
+        },
+        {
+            text: '4 Tentativas',
+            value: 4
+        },
+        {
+            text: '5 Tentativas',
+            value: 5
+        },
+    ]
 
     const formatTime = (minutes) => {
         if (minutes < 60) {
@@ -172,6 +253,7 @@ export async function Step1Page() {
     nameInputContainer.className = 'col-span-2'
     disciplinaSelectContainer.id = 'disciplina-container'
     tipoSelectContainer.id = 'tipo-container'
+    tentativasContainer.id = 'tentativas-container'
     tempoMaxSelectContainer.id = 'tempo-max-container'
     dataInicioContainer.id = 'data-inicio-container'
     dataFinalContainer.id = 'data-final-container'
@@ -220,6 +302,13 @@ export async function Step1Page() {
             id: 'tempo-max',
         })
     )
+    tentativasContainer.appendChild(
+        Select({
+            placeholder: 'Tentativas para realizar o quiz', 
+            options: tentativasOptions,
+            id: 'tentativas',
+        })
+    )
     dataInicioContainer.appendChild(
         DataInput({
             labelName: 'Data de inicio',
@@ -236,11 +325,7 @@ export async function Step1Page() {
         nameInputContainer,
         disciplinaSelectContainer,
         tipoSelectContainer,
-        TextInput({
-            type: 'number',
-            placeholder: 'Tentativas para realizar o quiz',
-            id: 'tentativas',
-        }),
+        tentativasContainer,
         tempoMaxSelectContainer,
         dataInicioContainer,
         dataFinalContainer,

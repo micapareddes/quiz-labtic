@@ -53,7 +53,7 @@ const schemaQuiz = new Schema({
         }
     },
     tentativas: {
-        type: String,
+        type: Number,
         required: true,
     },
     tipo: {
