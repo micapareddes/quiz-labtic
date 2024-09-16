@@ -5,7 +5,7 @@ import quizController from "../controllers/quizController.js"
 
 const routerQuiz = Router()
 
-routerQuiz.get("/questions/:id", authenticateToken, tryCatch(quizController.getPerguntasQuiz))
+routerQuiz.get("/embaralha/:id", authenticateToken, tryCatch(quizController.embaralharQuizESalvar))
 
 routerQuiz.get("/questions_gabarito/:id", authenticateToken, tryCatch(quizController.getPerguntasQuizForGabarito))
 

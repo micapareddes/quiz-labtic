@@ -90,14 +90,15 @@ class QuizController {
         res.status(200).json(data)
     }
 
-    async getPerguntasQuiz(req, res) {
+    async embaralharQuizESalvar(req, res) {
         const alunoId = req.userId
         const aluno = await ModeloUsuario.findById(alunoId, 'papel')
         const alunoInvalido = !aluno || aluno.papel !== 'aluno'
         if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
 
         const quizId = req.params.id
-        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo perguntas.pergunta perguntas._id perguntas.alternativas.conteudo perguntas.alternativas._id').populate('disciplina_id', 'nome')
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo disciplina_id perguntas')
+        
         if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         const isAlunoCadastradoADisciplina = await ModeloAlunos_Disciplina.exists({
@@ -116,14 +117,14 @@ class QuizController {
         })
 
         const dataEmbaralhada = {
-            _id: perguntasData._id,
-            disciplina_id: perguntasData.disciplina_id,
-            titulo: perguntasData.titulo,
-            tempo: perguntasData.tempo,
-            perguntas: perguntasComAlternativasEmbaralhadas
+            quiz_id: perguntasData._id,
+            aluno_id: alunoId,
+            perguntas_quiz: perguntasComAlternativasEmbaralhadas
         }
         
-        res.status(200).json(dataEmbaralhada)
+        await ModeloResposta.create(dataEmbaralhada)
+
+        res.status(204).send()
     }
     
     async getPerguntasQuizForGabarito(req, res) {

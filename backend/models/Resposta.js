@@ -6,7 +6,7 @@ const schemaGabarito = new Schema({
     pergunta_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz.perguntas',
-        required: true,     
+        required: false,     
     },
     alternativa_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +15,7 @@ const schemaGabarito = new Schema({
     },
     acertou: {
         type: Boolean,
-        required: true,
+        required: false,
     }
 })
 const schemaResposta = new Schema({
@@ -36,14 +36,10 @@ const schemaResposta = new Schema({
             message: 'O aluno_id deve referenciar um usuário com papel igual a "aluno".'
         }
     },
+    perguntas_quiz: [schemaPerguntas],
     nota: {
         type: Number,
         required: false,
-    },
-    perguntas_quiz: [schemaPerguntas],
-    tempo_quiz: {
-        type: Number,
-        required: true,
     },
     gabarito: [schemaGabarito],
 }, { timestamps: true })
