@@ -1,11 +1,12 @@
 import { Schema, model, mongoose } from "mongoose";
 import { ModeloUsuario } from "./Usuario.js";
+import { schemaPerguntas } from "./Quiz.js";
 
 const schemaGabarito = new Schema({
     pergunta_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz.perguntas',
-        required: true,     
+        required: false,     
     },
     alternativa_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +15,7 @@ const schemaGabarito = new Schema({
     },
     acertou: {
         type: Boolean,
-        required: true,
+        required: false,
     }
 })
 const schemaResposta = new Schema({
@@ -34,6 +35,20 @@ const schemaResposta = new Schema({
             },
             message: 'O aluno_id deve referenciar um usuário com papel igual a "aluno".'
         }
+    },
+    perguntas_quiz: [schemaPerguntas],
+    tempo_quiz: {
+        type: Number,
+        required: true,
+    },
+    nome_quiz: {
+        type: String,
+        required: true,
+    },
+    disciplina_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Disciplina',
+        required: true,
     },
     nota: {
         type: Number,

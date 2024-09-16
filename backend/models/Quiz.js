@@ -25,7 +25,7 @@ const schemaAlternativas = new Schema({
         required: true,
     }, 
 })
-const schemaPerguntas = new Schema({
+export const schemaPerguntas = new Schema({
     pergunta: {
         type: String,
         required: true,

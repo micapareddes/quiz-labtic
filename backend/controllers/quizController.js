@@ -6,6 +6,7 @@ import { ModeloQuiz } from "../models/Quiz.js"
 import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 import { ModeloResposta } from "../models/Resposta.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
+import { embaralhar } from "../utils/embaralhar.js"
 
 class QuizController {
     async postNewQuiz(req, res) {
@@ -89,14 +90,15 @@ class QuizController {
         res.status(200).json(data)
     }
 
-    async getPerguntasQuiz(req, res) {
+    async embaralharQuizESalvar(req, res) {
         const alunoId = req.userId
         const aluno = await ModeloUsuario.findById(alunoId, 'papel')
         const alunoInvalido = !aluno || aluno.papel !== 'aluno'
         if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
 
         const quizId = req.params.id
-        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo perguntas.pergunta perguntas._id perguntas.alternativas.conteudo perguntas.alternativas._id').populate('disciplina_id', 'nome')
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo disciplina_id perguntas')
+        
         if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         const isAlunoCadastradoADisciplina = await ModeloAlunos_Disciplina.exists({
@@ -104,7 +106,28 @@ class QuizController {
             aluno_id: alunoId
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
-        res.status(200).json(perguntasData)
+        
+        const perguntasComAlternativasEmbaralhadas = perguntasData.perguntas.map((perg) =>{
+            const alternativas = perg.alternativas
+            return {
+                _id: perg._id,
+                pergunta: perg.pergunta,
+                alternativas: embaralhar(alternativas),
+            }
+        })
+
+        const dataEmbaralhada = {
+            quiz_id: perguntasData._id,
+            aluno_id: alunoId,
+            nome_quiz: perguntasData.titulo,
+            disciplina_id: perguntasData.disciplina_id,
+            tempo_quiz: perguntasData.tempo,
+            perguntas_quiz: perguntasComAlternativasEmbaralhadas
+        }
+        
+        const resposta  = await ModeloResposta.create(dataEmbaralhada)
+
+        res.status(200).json(resposta._id)
     }
     
     async getPerguntasQuizForGabarito(req, res) {
