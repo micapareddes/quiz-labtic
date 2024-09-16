@@ -1,5 +1,6 @@
 import { Schema, model, mongoose } from "mongoose";
 import { ModeloUsuario } from "./Usuario.js";
+import { schemaPerguntas } from "./Quiz.js";
 
 const schemaGabarito = new Schema({
     pergunta_id: {
@@ -38,6 +39,11 @@ const schemaResposta = new Schema({
     nota: {
         type: Number,
         required: false,
+    },
+    perguntas_quiz: [schemaPerguntas],
+    tempo_quiz: {
+        type: Number,
+        required: true,
     },
     gabarito: [schemaGabarito],
 }, { timestamps: true })
