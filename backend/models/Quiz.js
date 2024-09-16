@@ -10,8 +10,6 @@ function validarDatas() {
     const endDate = this.data_fim
     const isStartDateValid = startDate >= currentDate
     const isEndDateValid = endDate >= startDate
-    console.log('start', startDate);
-    console.log('end', endDate);
     
     if (isStartDateValid && isEndDateValid) return true;
     else return false;

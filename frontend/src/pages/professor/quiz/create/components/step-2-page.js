@@ -74,7 +74,12 @@ async function handleSubmit(e) {
 
     try {
         const accessToken = localStorage.getItem('accessToken')
-        await postQuiz(data) //TODO: Eliminar função e usar makeRequest
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_QUIZ, 
+            method: 'POST', 
+            token: localStorage.getItem('accessToken'), 
+            data, 
+        })
         await makeRequest({ 
             url: API_ENDPOINTS.PATCH_ADICIONAR_QUIZ_A_DISCIPLINA, 
             method: 'PATCH', 
@@ -84,7 +89,7 @@ async function handleSubmit(e) {
         localStorage.removeItem('infos')
         localStorage.removeItem('perguntas')
         localStorage.setItem('quizCadastrado', true)
-        navigateTo(ROUTES.PROFESSOR.DASHBOARD)
+        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina_id))
     } catch (error) {
         console.log(error);
 
