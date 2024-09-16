@@ -6,6 +6,7 @@ import { ModeloQuiz } from "../models/Quiz.js"
 import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 import { ModeloResposta } from "../models/Resposta.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
+import { embaralhar } from "../utils/embaralhar.js"
 
 class QuizController {
     async postNewQuiz(req, res) {
@@ -104,7 +105,25 @@ class QuizController {
             aluno_id: alunoId
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
-        res.status(200).json(perguntasData)
+        
+        const perguntasComAlternativasEmbaralhadas = perguntasData.perguntas.map((perg) =>{
+            const alternativas = perg.alternativas
+            return {
+                _id: perg._id,
+                pergunta: perg.pergunta,
+                alternativas: embaralhar(alternativas),
+            }
+        })
+
+        const dataEmbaralhada = {
+            _id: perguntasData._id,
+            disciplina_id: perguntasData.disciplina_id,
+            titulo: perguntasData.titulo,
+            tempo: perguntasData.tempo,
+            perguntas: perguntasComAlternativasEmbaralhadas
+        }
+        
+        res.status(200).json(dataEmbaralhada)
     }
     
     async getPerguntasQuizForGabarito(req, res) {
