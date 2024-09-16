@@ -30,7 +30,6 @@ try {
         method: 'GET', 
         token: localStorage.getItem('accessToken'), 
     })
-    console.log(alunos);
     
     content.className = 'ml-11 mt-8 space-y-10'
     alunosContainer.className = 'space-y-3'

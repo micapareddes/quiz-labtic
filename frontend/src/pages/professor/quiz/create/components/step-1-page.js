@@ -277,7 +277,6 @@ export async function Step1Page() {
     form.oninput = handleFormChange
 
     const dadosPreenchidos = JSON.parse(localStorage.getItem('infos'))
-    console.log(dadosPreenchidos);
     
     if (dadosPreenchidos) {
         const form = document.getElementById('form')
