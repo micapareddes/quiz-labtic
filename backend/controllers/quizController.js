@@ -119,12 +119,15 @@ class QuizController {
         const dataEmbaralhada = {
             quiz_id: perguntasData._id,
             aluno_id: alunoId,
+            nome_quiz: perguntasData.titulo,
+            disciplina_id: perguntasData.disciplina_id,
+            tempo_quiz: perguntasData.tempo,
             perguntas_quiz: perguntasComAlternativasEmbaralhadas
         }
         
-        await ModeloResposta.create(dataEmbaralhada)
+        const resposta  = await ModeloResposta.create(dataEmbaralhada)
 
-        res.status(204).send()
+        res.status(200).json(resposta._id)
     }
     
     async getPerguntasQuizForGabarito(req, res) {

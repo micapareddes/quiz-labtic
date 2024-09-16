@@ -37,6 +37,19 @@ const schemaResposta = new Schema({
         }
     },
     perguntas_quiz: [schemaPerguntas],
+    tempo_quiz: {
+        type: Number,
+        required: true,
+    },
+    nome_quiz: {
+        type: String,
+        required: true,
+    },
+    disciplina_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Disciplina',
+        required: true,
+    },
     nota: {
         type: Number,
         required: false,

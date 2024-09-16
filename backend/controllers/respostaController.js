@@ -12,14 +12,18 @@ class RespostaController {
         const alunoInvalido = !aluno || aluno.papel !== 'aluno'
         if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
         
+        const respostaId = req.params.id
         const { quiz_id, respostas_perguntas } = req.body
 
-        const quiz = await ModeloQuiz.findById(quiz_id, 'tentativas perguntas.alternativas -_id')
+        const quiz = await ModeloQuiz.findById(quiz_id, 'tentativas -_id')
         const totalDeTentativasDoQuiz = Number(quiz.tentativas)
         const tentativasAluno = await ModeloResposta.countDocuments({ aluno_id: alunoId, quiz_id })
         if (totalDeTentativasDoQuiz !== 0 && tentativasAluno >= totalDeTentativasDoQuiz) throw new ServidorError(ANSWER_ERROR.NO_MORE_ATTEMPTS)
 
-        const perguntas = quiz.perguntas
+        const perguntasQuiz = await ModeloResposta.findById(respostaId, 'perguntas_quiz -_id')
+        const perguntas = perguntasQuiz.perguntas_quiz
+        console.log(perguntas);
+        
         const idsAlternativasCorretas = perguntas.map(pergunta => {
             const alternativaCorreta = pergunta.alternativas.find(alternativa => alternativa.isCorreta)
             return alternativaCorreta && alternativaCorreta._id.toString()
@@ -37,13 +41,11 @@ class RespostaController {
             }
         })
         
-        await ModeloResposta.create({
-            aluno_id: alunoId,
-            quiz_id,
-            respostas_perguntas,
-            nota: notaAluno,
-            gabarito: gabaritoAluno,
-        })
+        await ModeloResposta.findByIdAndUpdate(respostaId, { nota: notaAluno, gabarito: gabaritoAluno })
+        // aluno_id: alunoId,
+        //     quiz_id,
+        //     nota: notaAluno,
+        //     gabarito: gabaritoAluno,
 
         return res.status(204).send()
     }
@@ -54,6 +56,18 @@ class RespostaController {
         if (!gabarito) throw new ServidorError(ANSWER_ERROR.DOESNT_EXIST)
 
         res.status(200).json(gabarito)
+    }
+
+    async getQuizEmbaralhado(req, res) {
+        const alunoId = req.userId
+        const aluno = await ModeloUsuario.findById(alunoId, 'papel')
+        const alunoInvalido = !aluno || aluno.papel !== 'aluno'
+        if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
+
+        const respostaId = req.params.id
+        const quizEmbaralhado = await ModeloResposta.findById(respostaId, 'nome_quiz tempo_quiz perguntas_quiz.pergunta perguntas_quiz._id perguntas_quiz.alternativas.conteudo perguntas_quiz.alternativas._id quiz_id').populate('disciplina_id', 'nome')
+
+        res.status(200).json(quizEmbaralhado)
     }
 }
 

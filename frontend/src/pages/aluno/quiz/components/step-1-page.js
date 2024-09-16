@@ -27,10 +27,11 @@ function convertTime(minutes) {
 export async function Step1Page() {
     try {
         const id = getUrlParam('id')
+        const accessToken = localStorage.getItem('accessToken')
         const data = await makeRequest({
             method: 'GET',
             url: API_ENDPOINTS.GET_QUIZ_INFO_FOR_STRUDENT_BY_ID(id),
-            token: localStorage.getItem('accessToken'),
+            token: accessToken,
         })
         const main = document.getElementById('main')
         const container = document.createElement('div')
@@ -139,7 +140,14 @@ export async function Step1Page() {
                             title: 'Deseja começar agora?', 
                             message: 'Ao clicar no botão o quiz começará imediatamente e deve ser entregue para poder sair.', 
                             confirmarButtonName: 'Começar', 
-                            onConfirm: () => navigateTo(`/frontend/src/pages/aluno/quiz/index.html?step=2&id=${id}`),
+                            onConfirm: async () => {
+                                const respostaId = await makeRequest({
+                                    method: 'POST',
+                                    url: API_ENDPOINTS.EMBARALHA(id),
+                                    token: accessToken,
+                                })
+                                navigateTo(`/frontend/src/pages/aluno/quiz/index.html?step=2&id=${respostaId}`)
+                            },
                         })
                     )
                 },
@@ -161,6 +169,7 @@ export async function Step1Page() {
             sidecardContainer
         )
     
+        localStorage.removeItem('remainingTime')
         saveWindowPath()
     } catch (error) {
         console.log(error);
