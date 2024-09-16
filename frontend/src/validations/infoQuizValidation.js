@@ -1,10 +1,9 @@
 export function infoQuizValidation(data) {
     const name = data.nome.length >= 3
-    const disciplina = !!data.disciplina
+    const disciplina = !!data.disciplina.id
     const type = !!data.tipo
-    const attempts = data.tentativas === '' || (data.tentativas && data.tentativas > 0)
+    const attempts = !!data.tentativas
     const maxTime = !!data.tempoMax
-
     const startDate = data.dataInicio
     const endDate = data.dataFinal
     const currentDate = new Date().toISOString().split('T')[0]
