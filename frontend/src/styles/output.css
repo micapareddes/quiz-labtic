@@ -673,6 +673,10 @@ video {
   }
 }
 
+.fixed{
+  position: fixed;
+}
+
 .absolute{
   position: absolute;
 }
@@ -755,6 +759,10 @@ video {
 
 .right-6{
   right: 1.5rem;
+}
+
+.right-24{
+  right: 6rem;
 }
 
 .col-span-1{

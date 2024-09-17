@@ -103,7 +103,7 @@ export async function Step2Page() {
         const main = document.getElementById('main')
         const form = document.createElement('form')
         const perguntasContainer = document.createElement('div')
-        const header = document.createElement('div')
+        const sidecardContainer = document.createElement('div')
         let perguntas = [];
 
         root.classList.remove('root-container')
@@ -111,8 +111,8 @@ export async function Step2Page() {
         main.classList.add('py-8', 'px-24')
         form.id = quiz_id
         form.className = 'flex flex-row justify-between gap-20'
+        sidecardContainer.className = 'fixed top-8 right-24 flex flex-row items-start gap-6'
         perguntasContainer.className = 'pt-10 space-y-16'
-        header.className = 'flex items-center justify-between'
 
         perguntas_quiz.forEach((perg, index) => {
             perguntasContainer.appendChild(
@@ -129,8 +129,8 @@ export async function Step2Page() {
                 answer: '-'
             })
         })
-        form.append(
-            perguntasContainer,
+        sidecardContainer.append(
+            Timer({ time: tempo_quiz }),
             QuestionSidecard({
                 buttonName: 'Entregar',
                 onClick: () => {
@@ -153,16 +153,16 @@ export async function Step2Page() {
                 questions: perguntas, 
             }),
         )
-        header.append(
+        form.append(
+            perguntasContainer,
+            sidecardContainer,
+        )
+        main.append(
             Heading({
                 goBack: false, 
                 title: nome_quiz, 
                 subtitle: disciplina_id.nome,
             }),
-            Timer({ time: tempo_quiz })
-        )
-        main.append(
-            header,
             form,
         )
 
