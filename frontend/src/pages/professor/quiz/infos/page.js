@@ -3,7 +3,6 @@ import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 
 // Components
@@ -98,6 +97,7 @@ try {
     headingContainer.append(
         Heading({ 
             goBack: true, 
+            onGoBack: () => history.back(),
             title: titulo, 
             subtitle: disciplina.nome,
             subtitleSize: 'lg'

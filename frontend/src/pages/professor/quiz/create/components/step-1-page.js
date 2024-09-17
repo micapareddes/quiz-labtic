@@ -452,12 +452,12 @@ export async function Step1Page() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => goBack()
+                            onConfirm: () => history.back()
                         })
                     )
                     return
                 }
-                goBack()
+                history.back()
             }
         }),
     )

@@ -155,8 +155,6 @@ export async function Step2Page() {
                 goBack: false, 
                 title: nome_quiz, 
                 subtitle: disciplina_id.nome,
-                onGoBack: () => {
-                }
             }),
             Timer({ time: tempo_quiz })
         )

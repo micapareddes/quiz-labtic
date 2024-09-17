@@ -186,7 +186,7 @@ async function EdicaoCadastroPage() {
         Heading({
             goBack: true, 
             title: 'Edição do Professor', 
-            onGoBack: () => goBack() //TODO: adicionar lógica de "alterações não serão salvas"
+            onGoBack: () => history.back() //TODO: adicionar lógica de "alterações não serão salvas"
         }),
         form
     )

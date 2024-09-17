@@ -177,12 +177,12 @@ async function CadastroAlunoPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => goBack()
+                            onConfirm: () => history.back()
                         })
                     )
                     return
                 }
-                goBack()
+                history.back()
             }
         }),
         form

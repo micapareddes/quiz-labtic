@@ -65,8 +65,7 @@ async function GabaritoPage() {
                 goBack: true, 
                 title: titulo, 
                 subtitle: disciplina.nome,
-                onGoBack: () => {
-                }
+                onGoBack: () => history.back()
             }),
             content,
         )

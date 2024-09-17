@@ -4,7 +4,6 @@ import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { parseDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -27,7 +26,7 @@ async function DisciplinasPage() {
     header.append(        
         Heading({
             goBack: true, 
-            onGoBack: () => navigateTo(ROUTES.ADMIN.DASHBOARD),
+            onGoBack: () => history.back(),
             title: 'Disciplinas', 
             subtitle: `${quantidadeDisciplinas} cadastradas`,
             subtitleSize: 'lg',
@@ -63,6 +62,5 @@ async function DisciplinasPage() {
             localStorage.removeItem('disciplinaAlterada')
         }
     }
-    saveWindowPath()
 }
 DisciplinasPage()

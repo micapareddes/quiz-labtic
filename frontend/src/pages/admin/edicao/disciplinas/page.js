@@ -146,7 +146,7 @@ async function EdicaoCadastroPage() {
     main.append(    
         Heading({
             goBack: true, 
-            onGoBack: () => goBack(),
+            onGoBack: () => history.back(),
             title: 'Edição da Disciplina', 
         }),
         form

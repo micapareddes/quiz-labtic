@@ -162,8 +162,7 @@ export async function Step2Page() {
             subtitle: disciplina.nome,
             onGoBack: () => {
                 saveData()
-                if (rascunhoId) navigateTo(`/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${rascunhoId}`)
-                else navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=1')
+                history.back()
             }
         })
     )

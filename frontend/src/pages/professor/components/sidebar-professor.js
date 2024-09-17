@@ -2,7 +2,7 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { Sidebar } from '/frontend/src/components/sidebar.js'
 import { getProfessorDisciplinas } from '../service/getProfessorDisciplinas.js'
 
-const disciplinas = await getProfessorDisciplinas() //TODO: é necessario colocar aqui?
+const disciplinas = await getProfessorDisciplinas()
 export const painelItems = disciplinas.map((disciplina) => {
     return {
         name: disciplina.nome,

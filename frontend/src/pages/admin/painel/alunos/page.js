@@ -2,7 +2,6 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getStudents } from './service/getStudents.js'
 
 // Components
@@ -25,7 +24,7 @@ async function AlunosPage() {
     header.append(        
         Heading({
             goBack: true, 
-            onGoBack: () => navigateTo(ROUTES.ADMIN.DASHBOARD),
+            onGoBack: () => history.back(),
             title: 'Alunos', 
             subtitle: `${quantidadeAlunos} cadastradas`,
             subtitleSize: 'lg',
@@ -61,6 +60,5 @@ async function AlunosPage() {
             localStorage.removeItem('alunoAlterado')
         }
     }
-    saveWindowPath()
 }
 AlunosPage()

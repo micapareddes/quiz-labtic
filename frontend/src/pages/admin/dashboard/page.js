@@ -1,7 +1,6 @@
 // Functions
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getAdminName } from './service/getAdminName.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -40,7 +39,6 @@ async function PageDashboard() {
         )
     })
 
-    saveWindowPath()
 }
 
 PageDashboard()

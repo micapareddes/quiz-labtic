@@ -2,7 +2,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getUrlParam } from '../../admin/edicao/functions/getUrlParam.js'
 import { goBack } from '/frontend/src/functions/goBack.js'
 
@@ -29,7 +28,7 @@ async function PageDashboard() {
         main.prepend(
             Heading({ 
                 goBack: true, 
-                onGoBack: () => goBack(),
+                onGoBack: () => history.back(),
                 title: data.nome, 
                 subtitle: 'Quizzes',
                 subtitleSize: 'lg'
@@ -46,7 +45,6 @@ async function PageDashboard() {
             )
         }
     
-        saveWindowPath()
     } catch (error) {
         console.log(error);
         alert('Algo deu errado... Encerre a sessão e tente novamente.')

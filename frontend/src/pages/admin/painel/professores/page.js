@@ -2,7 +2,6 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getProfessoresWithDisciplinas } from './service/getProfessoresWithDisciplinas.js'
 
 // Components
@@ -25,7 +24,7 @@ async function ProfessoresPage() {
     header.append(        
         Heading({
             goBack: true, 
-            onGoBack: () => navigateTo(ROUTES.ADMIN.DASHBOARD),
+            onGoBack: () => history.back(),
             title: 'Professores', 
             subtitle: `${quantidadeProfessores} cadastrados`,
             subtitleSize: 'lg',
@@ -61,6 +60,5 @@ async function ProfessoresPage() {
             localStorage.removeItem('professorAlterado')
         }
     }
-    saveWindowPath()
 }
 ProfessoresPage()

@@ -3,7 +3,6 @@ import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -40,6 +39,7 @@ async function DisciplinaPage() {
         header.append(
             Heading({ 
                 goBack: true, 
+                onGoBack: () => history.back(),
                 title: nomeDisciplina,
                 subtitle: 'Quizzes',
                 subtitleSize: 'lg'
