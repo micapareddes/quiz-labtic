@@ -12,7 +12,7 @@ import { Empty } from '/frontend/src/components/empty.js'
 import { Button } from '/frontend/src/components/button.js'
 import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
 import { Title } from '/frontend/src/components/fonts.js'
-import { openToaster, SuccessToaster } from '/frontend/src/components/toaster.js'
+import { openToaster, closeToaster, SuccessToaster } from '/frontend/src/components/toaster.js'
 
 async function DisciplinaPage() {
     try {
@@ -125,6 +125,7 @@ async function DisciplinaPage() {
                     message: 'Rascunho salvo com sucesso!'
                 })
             )
+            closeToaster()
         }
         if (localStorage.getItem('quizCadastrado')) {
             localStorage.removeItem('quizCadastrado')
@@ -133,6 +134,7 @@ async function DisciplinaPage() {
                     message: 'Quiz cadastrado com sucesso!'
                 })
             )
+            closeToaster()
         }
         if (localStorage.getItem('rascunhoDeletado')) {
             localStorage.removeItem('rascunhoDeletado')
@@ -149,6 +151,7 @@ async function DisciplinaPage() {
                     message: 'Quiz deletado com sucesso!'
                 })
             )
+            closeToaster()
         }
                 
     } catch (error) {
