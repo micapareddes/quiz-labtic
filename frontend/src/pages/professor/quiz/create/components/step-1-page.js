@@ -505,8 +505,14 @@ export async function Step1Page() {
                 AlertDialog({
                     message: 'Você irá excluir este quiz. Esta ação não pode ser desfeita.', 
                     confirmarButtonName: 'Excluir', 
-                    onConfirm: () => {
-                        console.log('remover'); //TODO: Adicionar endpoint de remoção
+                    onConfirm: async () => {
+                        await makeRequest({ //FIXME: Testar se funciona
+                            url: API_ENDPOINTS.DELETE_QUIZ(rascunhoId), 
+                            method: 'DELETE', 
+                            token: localStorage.getItem('accessToken'), 
+                        })
+                        localStorage.setItem('rascunhoDeletado', true)
+                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id))
                     }
                 })
             )

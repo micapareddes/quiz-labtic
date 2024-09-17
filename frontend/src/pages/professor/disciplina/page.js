@@ -134,6 +134,14 @@ async function DisciplinaPage() {
                 })
             )
         }
+        if (localStorage.getItem('rascunhoDeletado')) {
+            localStorage.removeItem('rascunhoDeletado')
+            openToaster(
+                SuccessToaster({
+                    message: 'Rascunho deletado com sucesso!'
+                })
+            )
+        }
                 
     } catch (error) {
         console.log(error);

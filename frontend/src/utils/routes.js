@@ -76,6 +76,7 @@ export const API_ENDPOINTS = {
     PATCH_STUDENT_DISCIPLINAS: (id) => `http://localhost:3333/api/alunos_disciplinas/student/${id}`,
     POST_STUDENT_RELATIONS: 'http://localhost:3333/api/alunos_disciplinas',
 
+    DELETE_QUIZ: (id) => `http://localhost:3333/api/quiz/quiz/${id}`,
     DELETE_USER: 'http://localhost:3333/api/usuarios',
     DELETE_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     DELETE_PROFESSOR_FROM_DISCIPLINA: 'http://localhost:3333/api/disciplinas/professor',
