@@ -73,7 +73,9 @@ async function handleSubmit(event) {
         
         if (error.status === 2409) {
             openToaster(
-                ErrorToaster('Disciplina já cadastrada!')
+                ErrorToaster({
+                    message: 'Disciplina já cadastrada!'
+                })
             )
             closeToaster()
         } else {
