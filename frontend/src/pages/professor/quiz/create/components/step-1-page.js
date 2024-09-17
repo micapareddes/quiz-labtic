@@ -50,7 +50,6 @@ async function handleGuardarRascunho() {
     }
 
     const { success, error } = infoQuizValidation(data)
-    console.log(error);
     
     if (!success) {
         if (error.nameValidation) {
@@ -298,6 +297,7 @@ export async function Step1Page() {
     const dataInicioContainer = document.createElement('div')
     const dataFinalContainer = document.createElement('div')
     const buttonsContainer = document.createElement('div')
+    const headingContainer = document.createElement('div')
     const tiposDeQuiz = [
         {
             text: 'Prova',
@@ -364,8 +364,8 @@ export async function Step1Page() {
     }
     form.id = 'form'
     form.className = 'pt-6 gap-6 md:gap-8 md:p-10 flex flex-col md:grid md:grid-cols-2'
+    headingContainer.className = 'flex flex-row justify-between'
     buttonsContainer.className = 'md:col-span-2 flex flex-col md:flex-row gap-4 justify-end'
-
     nameInputContainer.className = 'col-span-2'
     disciplinaSelectContainer.id = 'disciplina-container'
     tipoSelectContainer.id = 'tipo-container'
@@ -437,23 +437,7 @@ export async function Step1Page() {
             id: 'data-final'
         })
     )
-    form.append(
-        nameInputContainer,
-        disciplinaSelectContainer,
-        tipoSelectContainer,
-        tentativasContainer,
-        tempoMaxSelectContainer,
-        dataInicioContainer,
-        dataFinalContainer,
-        TextArea({
-            placeholder: 'Escreva aqui as orientações para o aluno...',
-            id: 'orientacoes',
-            size: 'full',
-            className: 'col-span-2',
-        }),
-        buttonsContainer
-    )
-    main.append(
+    headingContainer.appendChild(
         Heading({
             goBack: true, 
             title: 'Informações do quiz', 
@@ -471,6 +455,25 @@ export async function Step1Page() {
                 goBack()
             }
         }),
+    )
+    form.append(
+        nameInputContainer,
+        disciplinaSelectContainer,
+        tipoSelectContainer,
+        tentativasContainer,
+        tempoMaxSelectContainer,
+        dataInicioContainer,
+        dataFinalContainer,
+        TextArea({
+            placeholder: 'Escreva aqui as orientações para o aluno...',
+            id: 'orientacoes',
+            size: 'full',
+            className: 'col-span-2',
+        }),
+        buttonsContainer
+    )
+    main.append(
+        headingContainer,
         form
     )
 
@@ -493,6 +496,24 @@ export async function Step1Page() {
             method: 'GET', 
             token: localStorage.getItem('accessToken'), 
         })
+        const removeButton = document.createElement('button')
+        const removeIcon = document.createElement('i')
+
+        removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
+        removeButton.onclick = () => {
+            openDialog(
+                AlertDialog({
+                    message: 'Você irá excluir este quiz. Esta ação não pode ser desfeita.', 
+                    confirmarButtonName: 'Excluir', 
+                    onConfirm: () => {
+                        console.log('remover'); //TODO: Adicionar endpoint de remoção
+                    }
+                })
+            )
+        }
+        removeButton.appendChild(removeIcon)
+        headingContainer.appendChild(removeButton)
+
         nomeInput.value = titulo
         disciplinaInput.value = disciplina_id
         tentativasInput.value = tentativas

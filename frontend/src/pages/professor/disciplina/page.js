@@ -34,7 +34,6 @@ async function DisciplinaPage() {
             token: accessToken, 
         })
         const nomeDisciplina = reqNomeDisciplina.nome
-        console.log(rascunhos);
         
         contentContainer.className = 'flex w-full justify-between items-start gap-10 mt-10'
         header.className = 'flex w-full justify-between items-center'
@@ -120,7 +119,7 @@ async function DisciplinaPage() {
         }
 
         if (localStorage.getItem('rascunho')) {
-            localStorage.removeItem('quizCadastrado')
+            localStorage.removeItem('rascunho')
             openToaster(
                 SuccessToaster({
                     message: 'Rascunho salvo com sucesso!'
