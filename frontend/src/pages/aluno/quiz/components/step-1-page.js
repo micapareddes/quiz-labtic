@@ -13,16 +13,6 @@ import { Button } from '/frontend/src/components/button.js'
 import { AttemptsSidecard } from './attempts-sidecard.js'
 import { openDialog, ActionDialog } from '/frontend/src/components/dialog.js'
 
-function convertTime(minutes) {
-    if (minutes < 60) {
-      return `${minutes}min`;
-    } else {
-        const hours = Math.floor(minutes / 60);
-        const remainingMinutes = minutes % 60;
-        return `${hours}hs ${remainingMinutes}min`;
-    }
-}
-
 export async function Step1Page() {
     try {
         const id = getUrlParam('id')
@@ -36,8 +26,6 @@ export async function Step1Page() {
         const container = document.createElement('div')
         const infoContainer = document.createElement('div')
         const sidecardContainer = document.createElement('div')
-        const orientacoesContainer = document.createElement('div')
-        const quizInfosList = document.createElement('ul')
         const tentativasAluno = data.tentativas_aluno
         const attempts = tentativasAluno.map((tentativa, index) => {
             return {
@@ -51,7 +39,7 @@ export async function Step1Page() {
 
         })
         const quizExpirou = getCurrentDate() > data.data_fim
-        const alunoEsgotouTentativas = data.tentativas !== '0' && data.tentativas <= tentativasAluno.length
+        const alunoEsgotouTentativas = data.tentativas !== 0 && data.tentativas <= tentativasAluno.length
        
         main.classList.add('flex', 'justify-between', 'md:flex-row', 'gap-24')
         container.className = 'space-y-4'

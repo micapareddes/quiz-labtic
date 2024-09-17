@@ -35,7 +35,7 @@ export function QuizInfo({
     const quizInfos = [
         {
             title: 'Tentativas',
-            value: tentativas === 0 || tentativas === '0' ? 'Aberto' : tentativas, //FIXME: 
+            value: tentativas === 0 ? 'Aberto' : tentativas,
         },            
         {
             title: 'Tempo Máximo',
