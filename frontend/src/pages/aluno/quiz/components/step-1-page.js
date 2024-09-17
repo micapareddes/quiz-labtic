@@ -2,7 +2,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { formatDate } from '/frontend/src/functions/formatDate.js'
 import { getCurrentDate } from '/frontend/src/functions/getCurrentDate.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'

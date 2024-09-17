@@ -1,5 +1,5 @@
 // Functions
-import { API_ENDPOINTS, ROUTES } from '../../../../utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
@@ -10,7 +10,6 @@ import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edica
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
@@ -19,6 +18,7 @@ import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
+import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
@@ -146,7 +146,22 @@ async function EdicaoCadastroPage() {
     main.append(    
         Heading({
             goBack: true, 
-            onGoBack: () => history.back(),
+            onGoBack: () => {
+                const input = form.querySelector('input')
+                const select = form.querySelector('select')
+                
+                if (nome !== input.value.trim()  || professor_id !== select.value.trim()) {
+                    openDialog(
+                        AlertDialog({
+                            message: 'O cadastro não será salvo.',
+                            confirmarButtonName: 'Voltar',
+                            onConfirm: () => history.back()
+                        })
+                    )
+                    return
+                }
+                history.back()
+            },
             title: 'Edição da Disciplina', 
         }),
         form

@@ -2,7 +2,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getUrlParam } from '../../../admin/edicao/functions/getUrlParam.js'

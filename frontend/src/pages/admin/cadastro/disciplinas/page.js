@@ -4,7 +4,6 @@ import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { cadastrar } from '../../service/cadastrar.js'
 
 // Components
