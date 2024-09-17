@@ -4,6 +4,7 @@ import { ModeloDisciplina } from "../models/Disciplina.js"
 import { ModeloQuiz } from "../models/Quiz.js"
 import ServidorError from "../ServidorError.js"
 import { DISCIPLINA_ERROR, TOKEN_ERROR, USER_ERROR } from "../constants/errorCodes.js"
+import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 
 
 class DisciplinaController {
@@ -89,6 +90,21 @@ class DisciplinaController {
 
         const id = req.body.id
         await ModeloDisciplina.findByIdAndDelete(id)
+        
+        res.status(204).send()
+    }
+
+    async eliminarDisciplinaEDependencias(req, res) {
+        const adminId = req.userId
+        const admin = await ModeloUsuario.findById(adminId, 'papel')
+        const adminIvalido = !admin || admin.papel !== 'admin'
+        if (adminIvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const id = req.body.id
+        const objectId = new mongoose.Types.ObjectId(id)
+        await ModeloDisciplina.findByIdAndDelete(id)
+        await ModeloAlunos_Disciplina.deleteMany({ disciplina_id: objectId })
+        await ModeloQuiz.deleteMany({ disciplina_id: objectId })
         
         res.status(204).send()
     }
