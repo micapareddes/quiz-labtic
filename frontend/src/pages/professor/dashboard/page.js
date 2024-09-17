@@ -1,7 +1,6 @@
 // Functions
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessorName } from './service/getProfessorName.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 import { getProfessorDisciplinas } from '../service/getProfessorDisciplinas.js'
 
 // Components
@@ -60,8 +59,6 @@ async function PageDashboard() {
         nav.appendChild(ul)
         main.appendChild(nav)
     }
-
-    saveWindowPath()
 }
 
 PageDashboard()

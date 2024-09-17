@@ -8,6 +8,7 @@ function AttemptItem({ attemptNumber, grade, answerLink, disabledButton=false })
     const seeAnswerButton = Button({
         variant: 'ghost',
         title: 'Gabarito',
+        ariaLabel: 'Botão para ver gabarito',
         link: answerLink,
         disabled: disabledButton,
     })

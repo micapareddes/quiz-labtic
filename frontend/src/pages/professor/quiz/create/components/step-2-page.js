@@ -2,7 +2,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { postQuiz } from '../service/postQuiz.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
@@ -162,8 +161,7 @@ export async function Step2Page() {
             subtitle: disciplina.nome,
             onGoBack: () => {
                 saveData()
-                if (rascunhoId) navigateTo(`/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${rascunhoId}`)
-                else navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=1')
+                history.back()
             }
         })
     )
@@ -172,6 +170,7 @@ export async function Step2Page() {
             variant: 'outline', 
             size:'md', 
             title: 'Guardar como rascunho', 
+            ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
             onClick: () => {}, 
             id: 'button-id',
@@ -180,8 +179,9 @@ export async function Step2Page() {
             variant: 'primary', 
             size:'md', 
             title: 'Postar', 
+            ariaLabel: 'Botão de submit para postar quiz',
             type: 'submit', 
-            onClick: () => {}, 
+            onClick: () => {}, //TODO: Adicionar guardar como rascunho
             id: 'submit',
         }),
     )

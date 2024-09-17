@@ -4,7 +4,6 @@ import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { cadastrar } from '../../service/cadastrar.js'
 
 // Components
@@ -122,6 +121,7 @@ async function CadastroDisciplinaPage() {
             size: 'lg',
             title: 'Cadastrar',
             type: 'submit',
+            ariaLabel: 'Botão de submit para cadastrar'
         })
     )
     form.append(inputsContainer, buttonContainer)
@@ -135,12 +135,12 @@ async function CadastroDisciplinaPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => goBack()
+                            onConfirm: () => history.back()
                         })
                     )
                     return
                 }
-                goBack()
+                history.back()
             }
         }),
         form

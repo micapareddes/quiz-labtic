@@ -18,6 +18,7 @@ export function AuthFormContent() {
         variant: 'ghost',
         title: 'Esqueceu a senha ou deseja trocar?',
         size: 'regular',
+        ariaLabel: 'Botão para trocar a senha'
     })
     container.className = 'flex flex-col gap-8 w-full'
     forgotPasswordButtonContainer.className = 'flex justify-center'

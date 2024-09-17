@@ -6,7 +6,6 @@ import { cadastrar } from '/frontend/src/pages/admin/service/cadastrar.js'
 import { cadastrarAlunoADisciplinas } from './service/cadastrarAlunoADisciplinas.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { resetMultiselect } from '/frontend/src/functions/resetMultiselect.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 
 // Components
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
@@ -164,6 +163,7 @@ async function CadastroAlunoPage() {
             size: 'lg',
             title: 'Cadastrar',
             type: 'submit',
+            ariaLabel: 'Botão de submit para cadastrar'
         })
     )
     form.append(inputsContainer, buttonContainer)
@@ -172,17 +172,23 @@ async function CadastroAlunoPage() {
             goBack: true, 
             title: 'Cadastro do Aluno', 
             onGoBack: () => {
-                if (form.querySelector('input').value) { //TODO: ajustar lógica de inputs preenchidos
+                const multiselect = form.querySelector('#multiselect')
+                const selectedDisciplinas = multiselect.querySelectorAll('#option:checked')
+                const nameInput = form.querySelector('#name')
+                const matriculaInput = form.querySelector('#matricula')
+                const emailInput = form.querySelector('#email')
+                
+                if (selectedDisciplinas.length > 0 || nameInput.value || matriculaInput.value || emailInput.value ) {
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => goBack()
+                            onConfirm: () => history.back()
                         })
                     )
                     return
                 }
-                goBack()
+                history.back()
             }
         }),
         form

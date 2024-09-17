@@ -121,6 +121,7 @@ async function handleGuardarRascunho() {
         localStorage.setItem('rascunho', true)
         localStorage.removeItem('perguntas')
         localStorage.removeItem('infos')
+        localStorage.removeItem('mudou')
         navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina.id))
 
     } catch (error) {
@@ -286,6 +287,8 @@ function handleFormChange() {
      
     submit.disabled = false
     saveButton.disabled = false
+
+    localStorage.setItem('mudou', true)
 }
 export async function Step1Page() {
     try {
@@ -384,6 +387,7 @@ export async function Step1Page() {
             variant: 'outline',
             size: 'md', 
             title: 'Guardar como rascunho', 
+            ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
             onClick: () => handleGuardarRascunho(), 
             id: 'guardar-rascunho-button'
@@ -392,6 +396,7 @@ export async function Step1Page() {
             variant: 'primary',
             size: 'md', 
             title: 'Criar Perguntas', 
+            ariaLabel: 'Botão para criar perguntas do quiz',
             type: 'submit', 
             id: 'criar-perguntas-button'
         }),
@@ -447,17 +452,25 @@ export async function Step1Page() {
             goBack: true, 
             title: 'Informações do quiz', 
             onGoBack: () => {
-                if (form.querySelector('input').value) { //TODO: ajustar lógica de inputs preenchidos
+                if (localStorage.getItem('mudou')) {
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => goBack()
+                            onConfirm: () => {
+                                localStorage.removeItem('infos')
+                                localStorage.removeItem('perguntas')
+                                localStorage.removeItem('mudou')
+                                history.back()
+                            }
                         })
                     )
                     return
                 }
-                goBack()
+                localStorage.removeItem('infos')
+                localStorage.removeItem('perguntas')
+                localStorage.removeItem('mudou')
+                history.back()
             }
         }),
     )
@@ -520,6 +533,7 @@ export async function Step1Page() {
                         })
                         localStorage.removeItem('perguntas')
                         localStorage.removeItem('infos')
+                        localStorage.removeItem('mudou')
                         localStorage.setItem('rascunhoDeletado', true)
                         navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id))
                     }
