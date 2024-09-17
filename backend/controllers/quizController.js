@@ -38,9 +38,13 @@ class QuizController {
         if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
         
         const quizId = req.params.id
+        const quizObjectId = new mongoose.Types.ObjectId(quizId)
         const quiz = await ModeloQuiz.findByIdAndDelete(quizId)
-        await ModeloResposta.deleteMany({ quiz_id: new mongoose.Types.ObjectId(quizId) })
-
+        await ModeloResposta.deleteMany({ quiz_id: quizObjectId })
+        await ModeloDisciplina.updateMany(
+            { 'quizes.quiz_id': quizObjectId },
+            { $pull: { quizes: { quiz_id: quizObjectId } } }
+        )
         if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         res.status(204).send()

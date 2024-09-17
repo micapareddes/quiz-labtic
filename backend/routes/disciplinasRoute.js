@@ -16,7 +16,7 @@ routerDisciplina.patch("/editar/:id", authenticateToken, tryCatch(DisciplinaCont
 routerDisciplina.patch("/", authenticateToken, tryCatch(DisciplinaController.cadastrarProfessorADisciplinas))
 routerDisciplina.patch("/quiz", authenticateToken, tryCatch(DisciplinaController.adicionarQuizADisciplina))
 
-routerDisciplina.delete("/", authenticateToken, tryCatch(DisciplinaController.eliminarDisciplina))
+routerDisciplina.delete("/", authenticateToken, tryCatch(DisciplinaController.eliminarDisciplinaEDependencias))
 routerDisciplina.delete("/professor", authenticateToken, tryCatch(DisciplinaController.removeProfessorFromDisciplinas))
 
 export default routerDisciplina
