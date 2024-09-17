@@ -99,7 +99,10 @@ class QuizController {
         const data = {
                 data_fim: info.data_fim,
                 data_inicio: info.data_inicio,
-                disciplina_nome: info.disciplina_id.nome,
+                disciplina: {
+                    nome: info.disciplina_id.nome,
+                    id: info.disciplina_id._id,
+                },
                 orientacao: info.orientacao,
                 tempo: info.tempo,
                 tentativas: info.tentativas,
