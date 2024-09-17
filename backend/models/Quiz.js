@@ -10,7 +10,7 @@ function validarDatas() {
     const endDate = this.data_fim
     const isStartDateValid = startDate >= currentDate
     const isEndDateValid = endDate >= startDate
-
+    
     if (isStartDateValid && isEndDateValid) return true;
     else return false;
 }
@@ -18,17 +18,17 @@ function validarDatas() {
 const schemaAlternativas = new Schema({
     conteudo: {
         type: String,
-        required: true,
+        required: false,
     },     
     isCorreta: {
         type: Boolean,
-        required: true,
+        required: false,
     }, 
 })
 export const schemaPerguntas = new Schema({
     pergunta: {
         type: String,
-        required: true,
+        required: false,
     },
     alternativas: [schemaAlternativas]
 })

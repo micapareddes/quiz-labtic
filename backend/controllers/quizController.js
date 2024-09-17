@@ -16,14 +16,19 @@ class QuizController {
         if (profInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const quiz = req.body
-        console.log(quiz);
         
         const disciplinaId = new mongoose.Types.ObjectId(quiz.disciplina_id)
-        const nomeDoQuizExiste = await ModeloQuiz.findOne({ titulo: quiz.titulo, disciplina_id: disciplinaId })
-        if (nomeDoQuizExiste) throw new ServidorError(QUIZ_ERROR.NAME_ALREADY_EXIST)
-        await ModeloQuiz.create(quiz)
-        console.log('Novo quiz criado!')
-        return res.status(204).send()
+        const quizExistente = await ModeloQuiz.findOne({ titulo: quiz.titulo, disciplina_id: disciplinaId })
+        if (quizExistente) {
+            if (quizExistente.isRascunho === 'false') throw new ServidorError(QUIZ_ERROR.NAME_ALREADY_EXIST)
+            
+            if (quizExistente.isRascunho) await ModeloQuiz.findByIdAndUpdate(quizExistente._id, quiz)
+
+        } else {
+            await ModeloQuiz.create(quiz)
+        }
+        
+        res.status(204).send()   
     }
 
     async getInfosQuizForStudent(req, res) {
@@ -88,6 +93,19 @@ class QuizController {
             }
             
         res.status(200).json(data)
+    }
+
+    async getQuiz(req, res) {
+        const userId = req.userId
+        const user = await ModeloUsuario.findById(userId, 'papel')
+        const userInvalido = !user || user.papel === 'aluno'
+        if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const quizId = req.params.id
+        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt')
+        if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
+        res.status(200).json(quiz)
     }
 
     async embaralharQuizESalvar(req, res) {
