@@ -4,6 +4,7 @@ import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation
 import { getProfessorDisciplinas } from '../../../service/getProfessorDisciplinas.js'
 import { navigateTo} from '/frontend/src/functions/navigateTo.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -49,6 +50,7 @@ async function handleGuardarRascunho() {
     }
 
     const { success, error } = infoQuizValidation(data)
+    console.log(error);
     
     if (!success) {
         if (error.nameValidation) {
@@ -111,7 +113,7 @@ async function handleGuardarRascunho() {
     }
 
     try {
-        await makeRequest({ 
+        await makeRequest({
             url: API_ENDPOINTS.POST_QUIZ, 
             method: 'POST', 
             token: localStorage.getItem('accessToken'), 
@@ -282,7 +284,9 @@ function handleFormChange() {
     submit.disabled = false
 }
 export async function Step1Page() {
-    localStorage.removeItem('step')
+    try {
+        localStorage.removeItem('step')
+    const rascunhoId = getUrlParam('id')
 
     const main = document.getElementById('main')
     const form = document.createElement('form')
@@ -474,18 +478,32 @@ export async function Step1Page() {
     form.oninput = handleFormChange
 
     const dadosPreenchidos = JSON.parse(localStorage.getItem('infos'))
+    const nomeInput = form.querySelector('#nome')
+    const tentativasInput = form.querySelector('#tentativas')
+    const disciplinaInput = form.querySelector('#disciplina')
+    const tipoInput = form.querySelector('#tipo')
+    const tempoMaxInput = form.querySelector('#tempo-max')
+    const dataInicioInput = form.querySelector('#data-inicio').querySelector('input')
+    const dataFinalInput = form.querySelector('#data-final').querySelector('input')
+    const orientacoesInput = form.querySelector('#orientacoes')
     
-    if (dadosPreenchidos) {
-        const form = document.getElementById('form')
-        const nomeInput = form.querySelector('#nome')
-        const tentativasInput = form.querySelector('#tentativas')
-        const disciplinaInput = form.querySelector('#disciplina')
-        const tipoInput = form.querySelector('#tipo')
-        const tempoMaxInput = form.querySelector('#tempo-max')
-        const dataInicioInput = form.querySelector('#data-inicio').querySelector('input')
-        const dataFinalInput = form.querySelector('#data-final').querySelector('input')
-        const orientacoesInput = form.querySelector('#orientacoes')
+    if (rascunhoId) {
+        const { data_fim, data_inicio, disciplina_id, orientacao, tempo, tentativas, tipo, titulo } = await makeRequest({
+            url: API_ENDPOINTS.GET_QUIZ(rascunhoId),
+            method: 'GET', 
+            token: localStorage.getItem('accessToken'), 
+        })
+        nomeInput.value = titulo
+        disciplinaInput.value = disciplina_id
+        tentativasInput.value = tentativas
+        tempoMaxInput.value = tempo
+        dataInicioInput.value = data_inicio
+        dataFinalInput.value = data_fim
+        orientacoesInput.value = orientacao
+        tipoInput.value = tipo
+    }
 
+    if (dadosPreenchidos) {
         nomeInput.value = dadosPreenchidos.nome
         disciplinaInput.value = dadosPreenchidos.disciplina.id
         tentativasInput.value = dadosPreenchidos.tentativas
@@ -495,5 +513,9 @@ export async function Step1Page() {
         orientacoesInput.value = dadosPreenchidos.orientacoes
         tipoInput.value = dadosPreenchidos.tipo
     }
-
+    } catch (error) {
+        console.log(error);
+        alert('Algo deu errado, tente novamente mais tarde...')
+        
+    }
 }

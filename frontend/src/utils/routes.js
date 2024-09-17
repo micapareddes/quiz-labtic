@@ -30,6 +30,7 @@ export const ROUTES = {
         QUIZ: {
             INFO: (id) => `/frontend/src/pages/professor/quiz/infos/index.html?id=${id}`,
             CREATE: '/frontend/src/pages/professor/quiz/create/index.html?step=1',
+            EDIT: (id) => `/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${id}`,
             GABARITO: ({ quiz, tentativa }) => `/frontend/src/pages/professor/quiz/gabarito/index.html?quiz=${quiz}&tentativa=${tentativa}`,
         }
     },
@@ -48,6 +49,7 @@ export const API_ENDPOINTS = {
     GET_PERGUNTAS_QUIZ: (id) => `http://localhost:3333/api/respostas/quiz/${id}`,
     GET_GABARITO: (id) => `http://localhost:3333/api/respostas/gabarito/${id}`,
     EMBARALHA: (id) => `http://localhost:3333/api/quiz/embaralha/${id}`,
+    GET_QUIZ: (id) => `http://localhost:3333/api/quiz/quiz/${id}`,
     GET_QUIZ_FOR_GABARITO_BY_ID: (id) => `http://localhost:3333/api/quiz/questions_gabarito/${id}`,
     GET_QUIZ_INFO_FOR_STRUDENT_BY_ID: (id) => `http://localhost:3333/api/quiz/student_infos/${id}`,
     GET_QUIZ_INFO_FOR_PROFESSOR_BY_ID: (id) => `http://localhost:3333/api/quiz/professor_infos/${id}`,

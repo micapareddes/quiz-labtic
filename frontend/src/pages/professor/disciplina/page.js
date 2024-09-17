@@ -34,6 +34,7 @@ async function DisciplinaPage() {
             token: accessToken, 
         })
         const nomeDisciplina = reqNomeDisciplina.nome
+        console.log(rascunhos);
         
         contentContainer.className = 'flex w-full justify-between items-start gap-10 mt-10'
         header.className = 'flex w-full justify-between items-center'
@@ -100,7 +101,7 @@ async function DisciplinaPage() {
                 ulRascunhos.appendChild(
                     ListItemBoxWithTitle({ 
                         title: quiz.titulo,
-                        linkPainel: ROUTES.PROFESSOR.QUIZ.INFO(quiz._id),
+                        linkPainel: ROUTES.PROFESSOR.QUIZ.EDIT(quiz._id),
                     })
                 )
             })
