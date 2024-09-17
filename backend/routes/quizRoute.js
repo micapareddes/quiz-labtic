@@ -19,4 +19,6 @@ routerQuiz.post("/embaralha/:id", authenticateToken, tryCatch(quizController.emb
 
 routerQuiz.post("/new", authenticateToken, tryCatch(quizController.postNewQuiz))
 
+routerQuiz.delete("/quiz/:id", authenticateToken, tryCatch(quizController.deleteQuizAndDependencies))
+
 export default routerQuiz

@@ -9,6 +9,7 @@ import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
+import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
 import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { Question } from '/frontend/src/components/question.js'
 import { Button } from '/frontend/src/components/button.js'
@@ -142,15 +143,30 @@ export async function Step2Page() {
     const main = document.getElementById('main')
     const form = document.createElement('form')
     const buttonsContainer = document.createElement('div')
+    const headingContainer = document.createElement('div')
+    const rascunhoId = localStorage.getItem('rascunhoId')
     const { nome, disciplina } = JSON.parse(localStorage.getItem('infos'))
 
     form.className = 'mt-10 md:px-11 space-y-16'
+    headingContainer.className = 'flex flex-row justify-between'
     buttonsContainer.className = 'gap-4 flex justify-end'
     for (let i =1; i <= 10; i++) {
         form.appendChild(
             Question({ number: i })
         )
     }
+    headingContainer.appendChild(
+        Heading({
+            goBack: true, 
+            title: nome, 
+            subtitle: disciplina.nome,
+            onGoBack: () => {
+                saveData()
+                if (rascunhoId) navigateTo(`/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${rascunhoId}`)
+                else navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=1')
+            }
+        })
+    )
     buttonsContainer.append(
         Button({
             variant: 'outline', 
@@ -171,17 +187,40 @@ export async function Step2Page() {
     )
     form.appendChild(buttonsContainer)
     main.append(
-        Heading({
-            goBack: true, 
-            title: nome, 
-            subtitle: disciplina.nome,
-            onGoBack: () => {
-                saveData()
-                navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=1')
-            }
-        }),
+        headingContainer,
         form
     )
+    
+    if (rascunhoId) {
+        const removeButton = document.createElement('button')
+        const removeIcon = document.createElement('i')
+
+        removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
+        removeButton.onclick = () => {
+            openDialog(
+                AlertDialog({
+                    message: 'Você irá excluir este quiz. Esta ação não pode ser desfeita.', 
+                    confirmarButtonName: 'Excluir', 
+                    onConfirm: async () => {
+                        await makeRequest({
+                            url: API_ENDPOINTS.DELETE_QUIZ(rascunhoId), 
+                            method: 'DELETE', 
+                            token: localStorage.getItem('accessToken'), 
+                        })
+                        localStorage.removeItem('perguntas')
+                        localStorage.removeItem('infos')
+                        localStorage.setItem('rascunhoDeletado', true)
+                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina.id))
+                    }
+                })
+            )
+        }
+        removeButton.appendChild(removeIcon)
+        headingContainer.appendChild(removeButton)
+
+        localStorage.removeItem('rascunhoId')
+
+    }
     form.onsubmit = handleSubmit
 
     const perguntas = JSON.parse(localStorage.getItem('perguntas'))

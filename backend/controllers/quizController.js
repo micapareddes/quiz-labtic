@@ -31,6 +31,21 @@ class QuizController {
         res.status(204).send()   
     }
 
+    async deleteQuizAndDependencies(req, res) {
+        const userId = req.userId
+        const user = await ModeloUsuario.findById(userId, 'papel')
+        const userInvalido = !user || user.papel === 'aluno'
+        if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        
+        const quizId = req.params.id
+        const quiz = await ModeloQuiz.findByIdAndDelete(quizId)
+        await ModeloResposta.deleteMany({ quiz_id: new mongoose.Types.ObjectId(quizId) })
+
+        if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
+        res.status(204).send()
+    }
+
     async getInfosQuizForStudent(req, res) {
         const alunoId = req.userId
         const aluno = await ModeloUsuario.findById(alunoId, 'papel')
@@ -84,7 +99,10 @@ class QuizController {
         const data = {
                 data_fim: info.data_fim,
                 data_inicio: info.data_inicio,
-                disciplina_nome: info.disciplina_id.nome,
+                disciplina: {
+                    nome: info.disciplina_id.nome,
+                    id: info.disciplina_id._id,
+                },
                 orientacao: info.orientacao,
                 tempo: info.tempo,
                 tentativas: info.tentativas,
