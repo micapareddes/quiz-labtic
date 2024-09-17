@@ -16,13 +16,12 @@ export function SidebarProfessor(size='lg') {
             {
                 icon: 'house',
                 title: 'Dashboard',
-                link: '/',
+                link: ROUTES.PROFESSOR.DASHBOARD,
                 active: true,
             },
             {
                 icon: 'books',
                 title: 'Painel',
-                link: '/',
                 accordion: true,
                 accordionOptions: painelItems,
             },

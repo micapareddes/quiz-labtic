@@ -21,6 +21,7 @@ export const ROUTES = {
     },
     ALUNO: {
         DASHBOARD: '/frontend/src/pages/aluno/dashboard/index.html',
+        DISCIPLINA: (id) => `/frontend/src/pages/aluno/disciplina/index.html?id=${id}`,
         QUIZ: (id) => `/frontend/src/pages/aluno/quiz/index.html?step=1&id=${id}`,
         GABARITO: ({ quiz, tentativa }) => `/frontend/src/pages/aluno/gabarito/index.html?quiz=${quiz}&tentativa=${tentativa}`,
     },
