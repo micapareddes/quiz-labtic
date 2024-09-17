@@ -156,11 +156,15 @@ async function EdicaoCadastroPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => history.back()
+                            onConfirm: () => {
+                                removeOriginalValuesFromStorage()
+                                history.back()
+                            }
                         })
                     )
                     return
                 }
+                removeOriginalValuesFromStorage()
                 history.back()
             },
             title: 'Edição da Disciplina', 

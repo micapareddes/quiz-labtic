@@ -3,6 +3,7 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { getProfessoresWithDisciplinas } from './service/getProfessoresWithDisciplinas.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 
 // Components
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
@@ -14,6 +15,7 @@ import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/compone
 
 async function ProfessoresPage() {
     verifyUserAccess('admin')
+    removeOriginalValuesFromStorage()
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const header = document.createElement('div')

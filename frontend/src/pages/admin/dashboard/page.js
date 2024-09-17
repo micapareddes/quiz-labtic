@@ -1,6 +1,7 @@
 // Functions
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getAdminName } from './service/getAdminName.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -10,6 +11,7 @@ import { RegisterListItem } from '/frontend/src/pages/admin/dashboard/components
 
 async function PageDashboard() {
     verifyUserAccess('admin')
+    removeOriginalValuesFromStorage()
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const painel = document.getElementById('painel')

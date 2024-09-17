@@ -1,6 +1,7 @@
 import { AlertDialog, openDialog } from './dialog.js'
 import { LogoLado } from './logo-lado.js'
 import { signOut } from '../auth/singOut.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 
 function Item({ 
     phosphor='question', title, link=null, onClick=null, accordion=false, accordionOptions=[], active=false 
@@ -88,7 +89,10 @@ export function Sidebar({ size='lg', items=[], changePassword=true }) {
                 AlertDialog({
                     message: 'Você ira encerrar sua sessão e precisará realizar login para entrar novamente.',
                     confirmarButtonName: 'Encerrar',
-                    onConfirm: () => signOut()
+                    onConfirm: () => {
+                        removeOriginalValuesFromStorage()
+                        signOut()
+                    }
                 })
             )
         },
