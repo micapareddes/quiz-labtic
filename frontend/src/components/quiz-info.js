@@ -14,6 +14,7 @@ function convertTime(minutes) {
 export function QuizInfo({
     orientacao, tentativas, tempo, dataInicio, dataFim
 }) {
+    const orientacaoIsEmpty = orientacao.trim() === ''
     const container = document.createElement('div')
     const orientacoesContainer = document.createElement('div')
     const orientacoesTitulo = Title({
@@ -24,9 +25,9 @@ export function QuizInfo({
             as: 'h4', 
     })
     const orientacoes = Text({
-            text: orientacao, //TODO: Quando nao tem orientação exibir mensagem "nao ha" porem deve ser verificado como salva orientacao vazia no banco 
+            text: orientacaoIsEmpty ? 'Não há orientações' : orientacao,
             size:'md', 
-            tone:'s-700', 
+            tone: orientacaoIsEmpty ? 's-400' : 's-700', 
             bold:'normal', 
             as:'p', 
     })
@@ -34,7 +35,7 @@ export function QuizInfo({
     const quizInfos = [
         {
             title: 'Tentativas',
-            value: tentativas === '0' ? 'Ilimitadas' : tentativas,
+            value: tentativas === 0 || tentativas === '0' ? 'Aberto' : tentativas, //FIXME: 
         },            
         {
             title: 'Tempo Máximo',
