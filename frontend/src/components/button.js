@@ -1,5 +1,5 @@
 export function Button( 
-    { variant='primary', size='md', title='Button', destructive=false, icon=false, disabled=false, type='button', onClick, link=null, id='button-id' }
+    { variant='primary', size='md', title='Button', destructive=false, icon=false, disabled=false, type='button', onClick, link=null, id='button-id', ariaLabel=title }
 ) {
     const isGhost = variant === 'ghost'
     const sizeStyle = {
@@ -17,6 +17,7 @@ export function Button(
     }
 
     const button = link ? document.createElement('a') : document.createElement('button')
+    button.setAttribute('aria-label', ariaLabel)
     button.id = id
     button.dataset.destructive = destructive
     if (!link) button.type = type

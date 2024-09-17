@@ -387,6 +387,7 @@ export async function Step1Page() {
             variant: 'outline',
             size: 'md', 
             title: 'Guardar como rascunho', 
+            ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
             onClick: () => handleGuardarRascunho(), 
             id: 'guardar-rascunho-button'
@@ -395,6 +396,7 @@ export async function Step1Page() {
             variant: 'primary',
             size: 'md', 
             title: 'Criar Perguntas', 
+            ariaLabel: 'Botão para criar perguntas do quiz',
             type: 'submit', 
             id: 'criar-perguntas-button'
         }),

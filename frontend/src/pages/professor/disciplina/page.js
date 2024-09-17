@@ -46,6 +46,7 @@ async function DisciplinaPage() {
             }),
             Button({
                 title: 'Criar quiz',
+                ariaLabel: 'Botão para criar novo quiz',
                 icon: true,
                 id: 'criar-quiz',
                 link: ROUTES.PROFESSOR.QUIZ.CREATE,

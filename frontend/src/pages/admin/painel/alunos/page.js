@@ -33,6 +33,7 @@ async function AlunosPage() {
             variant: 'primary',
             size: 'md',
             title: 'Cadastrar',
+            ariaLabel: 'Botão para cadastrar novo aluno',
             icon: true,
             link: ROUTES.ADMIN.CADASTRO.ALUNOS
         })

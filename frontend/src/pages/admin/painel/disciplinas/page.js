@@ -35,6 +35,7 @@ async function DisciplinasPage() {
             variant: 'primary',
             size: 'md',
             title: 'Cadastrar',
+            ariaLabel: 'Botão para cadastrar nova disciplina',
             icon: true,
             link: ROUTES.ADMIN.CADASTRO.DISCIPLINAS
         })

@@ -12,6 +12,7 @@ export function StudentGradeListItem({ studentName='Nome', answerLink, grade='x'
     answerContainer.append(
         Button({
             title: 'Ver Respostas',
+            ariaLabel: 'Botão para ver respostas do aluno',
             variant: 'ghost',
             size: 'sm',
             link: answerLink,

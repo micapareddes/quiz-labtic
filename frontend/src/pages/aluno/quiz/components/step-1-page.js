@@ -79,6 +79,7 @@ export async function Step1Page() {
                         })
                     )
                 },
+                ariaLabel: quizExpirou ? 'Quiz encerrado' : alunoEsgotouTentativas ? 'Quiz entregue' : 'Botão para começar o quiz',
                 disabled: quizExpirou || alunoEsgotouTentativas,
             })
         )

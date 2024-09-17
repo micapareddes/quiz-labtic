@@ -25,6 +25,7 @@ export function AuthForm({
         variant: 'primary',
         title: buttonName,
         size: buttonSize,
+        ariaLabel: 'Botão de submit'
     })
     container.id = 'auth-form'
     container.className = 'flex flex-col justify-center items-center space-y-8 w-full'

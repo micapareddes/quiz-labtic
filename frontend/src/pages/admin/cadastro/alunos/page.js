@@ -163,6 +163,7 @@ async function CadastroAlunoPage() {
             size: 'lg',
             title: 'Cadastrar',
             type: 'submit',
+            ariaLabel: 'Botão de submit para cadastrar'
         })
     )
     form.append(inputsContainer, buttonContainer)

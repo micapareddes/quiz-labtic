@@ -175,6 +175,7 @@ async function EdicaoCadastroPage() {
             size: 'lg',
             title: 'Salvar alterações',
             type: 'submit',
+            ariaLabel: 'Botão de submit para salvar alterações'
         })
     )
     form.append(inputsContainer, buttonContainer)

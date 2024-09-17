@@ -170,6 +170,7 @@ export async function Step2Page() {
             variant: 'outline', 
             size:'md', 
             title: 'Guardar como rascunho', 
+            ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
             onClick: () => {}, 
             id: 'button-id',
@@ -178,8 +179,9 @@ export async function Step2Page() {
             variant: 'primary', 
             size:'md', 
             title: 'Postar', 
+            ariaLabel: 'Botão de submit para postar quiz',
             type: 'submit', 
-            onClick: () => {}, 
+            onClick: () => {}, //TODO: Adicionar guardar como rascunho
             id: 'submit',
         }),
     )
