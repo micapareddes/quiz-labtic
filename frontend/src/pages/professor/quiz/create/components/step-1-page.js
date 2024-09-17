@@ -119,6 +119,8 @@ async function handleGuardarRascunho() {
             data: formatedData, 
         })
         localStorage.setItem('rascunho', true)
+        localStorage.removeItem('perguntas')
+        localStorage.removeItem('infos')
         navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina.id))
 
     } catch (error) {
@@ -241,6 +243,8 @@ function handleFormChange() {
     const erroDataFinal = dataFinalContainer.querySelector('.error-message')
 
     const submit = form.querySelector('#criar-perguntas-button')
+    const saveButton = form.querySelector('#guardar-rascunho-button')
+
 
     if (errorNome) {
         const nomeInput = form.querySelector('#nome')
@@ -281,6 +285,7 @@ function handleFormChange() {
     }  
      
     submit.disabled = false
+    saveButton.disabled = false
 }
 export async function Step1Page() {
     try {
@@ -499,6 +504,8 @@ export async function Step1Page() {
         const removeButton = document.createElement('button')
         const removeIcon = document.createElement('i')
 
+        localStorage.setItem('rascunhoId', rascunhoId)
+
         removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
         removeButton.onclick = () => {
             openDialog(
@@ -506,11 +513,13 @@ export async function Step1Page() {
                     message: 'Você irá excluir este quiz. Esta ação não pode ser desfeita.', 
                     confirmarButtonName: 'Excluir', 
                     onConfirm: async () => {
-                        await makeRequest({ //FIXME: Testar se funciona
+                        await makeRequest({
                             url: API_ENDPOINTS.DELETE_QUIZ(rascunhoId), 
                             method: 'DELETE', 
                             token: localStorage.getItem('accessToken'), 
                         })
+                        localStorage.removeItem('perguntas')
+                        localStorage.removeItem('infos')
                         localStorage.setItem('rascunhoDeletado', true)
                         navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id))
                     }
