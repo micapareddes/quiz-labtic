@@ -7,7 +7,6 @@ import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuiz
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 
-
 // Components
 import { SidebarAluno } from '../components/sidebar.js'
 import { Heading } from '/frontend/src/components/heading.js'
@@ -37,12 +36,14 @@ async function GabaritoPage() {
         const main = document.getElementById('main')
         const content = document.createElement('div')
         const perguntasContainer = document.createElement('div')
+        const sidecardContainer = document.createElement('div')
         const header = document.createElement('div')
         let perguntasQuiz = [];
 
         content.className = 'flex flex-row gap-20 mt-10 ml-11'
         perguntasContainer.className = 'space-y-16'
         header.className = 'flex items-center justify-between'
+        sidecardContainer.className = 'fixed right-11 top-10'
 
         root.prepend(
             SidebarAluno('sm')
@@ -58,7 +59,6 @@ async function GabaritoPage() {
             ) 
         })
         content.appendChild(perguntasContainer)
-        
         main.append(
             Heading({
                 goBack: true, 
@@ -85,7 +85,7 @@ async function GabaritoPage() {
             })
             
         })
-        content.appendChild(
+        sidecardContainer.appendChild(
             QuestionSidecard({
                 title: `Nota ${nota}`,
                 titleIsGrade: true,
@@ -95,6 +95,7 @@ async function GabaritoPage() {
                 questions: perguntasQuiz, 
             }),
         )
+        content.appendChild(sidecardContainer)
 
     } catch (error) {
         console.log(error)

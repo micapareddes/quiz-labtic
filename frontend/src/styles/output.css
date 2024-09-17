@@ -765,6 +765,10 @@ video {
   right: 6rem;
 }
 
+.right-11{
+  right: 2.75rem;
+}
+
 .col-span-1{
   grid-column: span 1 / span 1;
 }
