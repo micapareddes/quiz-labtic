@@ -3,7 +3,6 @@ import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { getAlunoWithDisciplinas } from './service/getAlunoWithDisciplinas.js'
 import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
@@ -127,6 +126,7 @@ function handleChange(event) { //TODO: Testar se elimina todos os erros
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
     if (!getUrlParam('id')) {
         navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS)
@@ -139,7 +139,11 @@ async function EdicaoCadastroPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinasCadastradas = await getDisciplinas()
-    const { nome, matricula, email, disciplinas } = await getAlunoWithDisciplinas()
+    const { nome, matricula, email, disciplinas } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_STUDENT_WITH_DISCIPLINA(getUrlParam('id')), 
+        method:'GET', 
+        token: localStorage.getItem('accessToken') 
+    })
     const disciplinasAlunoIds = new Set(disciplinas.map(disciplina => disciplina.id))
 
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
@@ -243,5 +247,16 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+
+} catch (error) {
+    console.log(error);
+    if (error.status === 403) {
+        alert('Acesso Proibido')
+        navigateTo(ROUTES.ERROR404)
+    }
+    else {
+        alert('Algo deu errado, tente novamente mais tarde...')
+    }
+}
 }
 EdicaoCadastroPage()
