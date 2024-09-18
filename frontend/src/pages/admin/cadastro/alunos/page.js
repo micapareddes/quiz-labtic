@@ -1,9 +1,8 @@
 // Functions
 import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
-import { cadastrar } from '/frontend/src/pages/admin/service/cadastrar.js'
-import { cadastrarAlunoADisciplinas } from './service/cadastrarAlunoADisciplinas.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { resetMultiselect } from '/frontend/src/functions/resetMultiselect.js'
 
@@ -91,11 +90,19 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrar({
-            url: API_ENDPOINTS.POST_USER,
-            data,
+        const accessToken = localStorage.getItem('accessToken')
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_USER, 
+            method: 'POST', 
+            token: accessToken, 
+            data, 
         })
-        if (hasDisciplinas) await cadastrarAlunoADisciplinas(disciplinasData)
+        if (hasDisciplinas) await makeRequest({ 
+            url: API_ENDPOINTS.POST_STUDENT_RELATIONS, 
+            method: 'POST', 
+            token: accessToken, 
+            data: disciplinasData, 
+        })
         form.reset()
         resetMultiselect(selectedDisciplinas)
         openToaster(
@@ -114,6 +121,8 @@ async function handleSubmit(event) {
             
             submitButton.disabled = true
         } else {
+            console.log(error);
+            
             alert('Algo deu errado, tente novamente mais tarde...')
         }
     }

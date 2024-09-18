@@ -1,10 +1,10 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { cadastrar } from '../../service/cadastrar.js'
 
 // Components
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
@@ -54,8 +54,10 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrar({
-            url: API_ENDPOINTS.POST_DISCIPLINA,
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_DISCIPLINA, 
+            method: 'POST', 
+            token: localStorage.getItem('accessToken'), 
             data,
         })
         form.reset()
