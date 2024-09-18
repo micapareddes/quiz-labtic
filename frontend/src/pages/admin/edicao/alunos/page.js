@@ -8,9 +8,9 @@ import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserVa
 // Functions
 import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
-import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/functions/saveOriginalValues.js'
+import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/obtainOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'

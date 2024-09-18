@@ -1,7 +1,7 @@
 import { AlertDialog, openDialog } from './dialog.js'
 import { LogoLado } from './logo-lado.js'
 import { signOut } from '../auth/singOut.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 
 function Item({ 
     phosphor='question', title, link=null, onClick=null, accordion=false, accordionOptions=[], active=false 

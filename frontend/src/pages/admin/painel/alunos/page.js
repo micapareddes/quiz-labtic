@@ -3,7 +3,7 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { getStudents } from './service/getStudents.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 
 // Components
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'

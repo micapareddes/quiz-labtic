@@ -48,7 +48,7 @@ export const API_ENDPOINTS = {
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA_NAME: (id) => `http://localhost:3333/api/disciplinas/name/${id}`,
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
-    GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`, //FIXME:
     GET_PERGUNTAS_QUIZ: (id) => `http://localhost:3333/api/respostas/quiz/${id}`,
     GET_GABARITO: (id) => `http://localhost:3333/api/respostas/gabarito/${id}`,
     EMBARALHA: (id) => `http://localhost:3333/api/quiz/embaralha/${id}`,
