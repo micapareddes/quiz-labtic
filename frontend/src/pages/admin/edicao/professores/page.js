@@ -11,7 +11,6 @@ import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveOriginalValues } from '/frontend/src/pages/admin/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/obtainOriginalValuesFromStorage.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
-import { editProfessorOfDisciplinas } from './service/editProfessorOfDisciplinas.js'
 import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -89,7 +88,12 @@ async function handleSubmit(e) {
 
     try {
         if (dataMudou) await editUser(editedData)
-        if (disciplinasMudaram) await editProfessorOfDisciplinas(editedDisciplinas)
+        if (disciplinasMudaram) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_DISCIPLINA_POFESSOR_BY_ID(getUrlParam('id')), 
+            method:'PATCH', 
+            token: localStorage.getItem('accessToken'),
+            data: editedDisciplinas 
+        })
         removeOriginalValuesFromStorage()
         localStorage.setItem('professorAlterado', editedData.nome)
         navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES) 
