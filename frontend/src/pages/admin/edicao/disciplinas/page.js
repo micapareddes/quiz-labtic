@@ -108,14 +108,18 @@ try {
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
+    const accessToken = localStorage.getItem('accessToken')
     const professores = await makeRequest( { 
         url: API_ENDPOINTS.GET_PROFESSORES, 
         method:'GET', 
-        token: localStorage.getItem('accessToken')
+        token: accessToken,
     })
     const professoresFormatados = parseProfessores(professores)
-    const { nome, professor_id } = await getDisciplina()
-
+    const { nome, professor_id } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_DISCIPLINA(getUrlParam('id')), 
+        method:'GET', 
+        token: accessToken, 
+    })
     inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'h-full grid'

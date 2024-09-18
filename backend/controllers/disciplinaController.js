@@ -151,7 +151,7 @@ class DisciplinaController {
 
         if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
 
-        res.status(200).json({ disciplina })
+        res.status(200).json(disciplina)
     }
 
     async cadastrarProfessorADisciplinas(req, res) {
