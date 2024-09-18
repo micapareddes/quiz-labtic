@@ -1,7 +1,7 @@
 // Functions
 import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
+import { parseProfessores } from '/frontend/src/functions/parseProfessores.js'
 import { getDisciplina } from '/frontend/src/pages/admin/edicao/disciplinas/service/getDisciplina.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
