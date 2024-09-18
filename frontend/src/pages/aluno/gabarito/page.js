@@ -5,7 +5,7 @@ import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 
 // Components
 import { SidebarAluno } from '../components/sidebar.js'

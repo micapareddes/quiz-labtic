@@ -2,7 +2,7 @@
 import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 
 // Components
 import { SidebarProfessor } from '/frontend/src/pages/professor/components/sidebar-professor.js'

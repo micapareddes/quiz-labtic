@@ -4,7 +4,7 @@ import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation
 import { getProfessorDisciplinas } from '../../../service/getProfessorDisciplinas.js'
 import { navigateTo} from '/frontend/src/functions/navigateTo.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'

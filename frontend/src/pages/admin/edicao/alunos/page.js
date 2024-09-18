@@ -6,7 +6,7 @@ import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas
 import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'

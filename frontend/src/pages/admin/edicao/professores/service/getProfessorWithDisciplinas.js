@@ -1,4 +1,4 @@
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
