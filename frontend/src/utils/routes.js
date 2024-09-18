@@ -38,6 +38,7 @@ export const ROUTES = {
 }
 
 export const API_ENDPOINTS = {
+    LOGIN: 'http://localhost:3333/api/usuarios/login',
     POST_USER: 'http://localhost:3333/api/usuarios',
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     POST_QUIZ: 'http://localhost:3333/api/quiz/new',
