@@ -36,7 +36,7 @@ async function ProfessoresPage() {
             size: 'md',
             title: 'Cadastrar',
             ariaLabel: 'Botão para cadastrar novo professor',
-            icon: true,
+            icon: 'file-plus',
             link: ROUTES.ADMIN.CADASTRO.PROFESSORES
         })
     )
