@@ -146,7 +146,7 @@ class UsuarioController {
         const userData = await ModeloUsuario.findById(reqUserId)
         if (!userData) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
-        return res.status(200).json({ name: userData.nome })
+        return res.status(200).json(userData.nome)
     }
 
     async listarInformacoesPorId(req, res) {

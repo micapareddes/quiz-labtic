@@ -1,6 +1,7 @@
 // Functions
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getAdminName } from './service/getAdminName.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 
 // Components
@@ -19,11 +20,16 @@ async function PageDashboard() {
     root.prepend(SidebarAdmin())
     
     try {
+        const name = await makeRequest( { 
+            url: API_ENDPOINTS.GET_USER_NAME, 
+            method:'GET', 
+            token: localStorage.getItem('accessToken')
+        })
         main.prepend(
             Heading({ 
                 goBack: false, 
                 title: 'Dashboard', 
-                subtitle: `Bem vindo, ${await getAdminName()}!`,
+                subtitle: `Bem vindo, ${name}!`,
                 subtitleSize: '2xl'
             })
         )
