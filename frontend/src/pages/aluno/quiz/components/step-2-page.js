@@ -72,11 +72,17 @@ async function handleSubmit(e) {
         openDialog(
             SuccessDialog({
                 title: 'Entregue',
+                message: `O quiz foi entregue com sucesso.`, 
+                buttonName: 'Ver Gabarito', 
+                link: ROUTES.ALUNO.GABARITO({
+                    quiz: form.id,
+                    tentativa: respostaId,
+                }),
+                allowClose: false,
             })
         )
     } catch (error) {
         console.log(error);
-        
     }
 }
 

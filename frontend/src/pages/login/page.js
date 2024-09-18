@@ -4,7 +4,7 @@ import { reqLogin } from '/frontend/src/pages/login/service/login.js'
 import { LoginForm } from '/frontend/src/pages/login/components/login-form.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
-export async function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault()
 
     const form = event.target
@@ -60,6 +60,22 @@ export async function handleSubmit(event) {
     }
 }
 
+function handleInput() {
+    const form = document.getElementById('auth-form')
+    const inputCredentials = form.querySelector('#credentials')
+    const passwordContainer = form.querySelector('#field-password')
+    const inputPassword = form.querySelector('#password-container')
+    const submitButton = form.querySelector('#submit')
+    const passwordErrorMessage = passwordContainer.querySelector('#error-message')
+
+    inputCredentials.classList.remove('border-red-500')
+    inputPassword.classList.remove('border-red-500')
+
+    if (passwordErrorMessage) passwordErrorMessage.remove()
+
+    submitButton.disabled = false
+}
+
 function PageLogin() {
     checkAndRedirectUser()
     const main = document.getElementById('main')
@@ -67,6 +83,7 @@ function PageLogin() {
     const form = formContainer.querySelector('form')
 
     form.onsubmit = handleSubmit
+    form.oninput = handleInput
 
     main.appendChild(formContainer)
 }
