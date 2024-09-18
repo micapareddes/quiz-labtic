@@ -1,6 +1,6 @@
 export const ROUTES = {
     LOGIN: '/frontend/src/pages/login/index.html',
-    ERROR404: '/frontend/src/old-pages/404.html',
+    ERROR404: '/frontend/src/pages/404/index.html',
     ADMIN: {
         DASHBOARD: '/frontend/src/pages/admin/dashboard/index.html',
         PAINEL: {
@@ -43,6 +43,7 @@ export const API_ENDPOINTS = {
     POST_QUIZ: 'http://localhost:3333/api/quiz/new',
     POST_RESPOSTA: (id) => `http://localhost:3333/api/respostas/new/${id}`,
 
+    GET_USER_TYPE: 'http://localhost:3333/api/usuarios/me',
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA_NAME: (id) => `http://localhost:3333/api/disciplinas/name/${id}`,
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
