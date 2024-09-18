@@ -2,7 +2,6 @@
 import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
 
@@ -92,7 +91,11 @@ async function CadastroDisciplinaPage() {
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
-    const professores = await getProfessores()
+    const professores = await makeRequest( { 
+        url: API_ENDPOINTS.GET_PROFESSORES, 
+        method:'GET', 
+        token: localStorage.getItem('accessToken')
+    })
     const professoresFormatados = parseProfessores(professores)
 
     inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'

@@ -170,7 +170,7 @@ class UsuarioController {
         const professoresCadastrados = await ModeloUsuario.find({papel: 'professor'}, 'nome _id')
 
 
-        return res.status(200).json({ professoresCadastrados })
+        return res.status(200).json(professoresCadastrados)
     }
 
     async listarTodosProfessoresComDisciplinas(req, res) {

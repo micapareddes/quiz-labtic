@@ -1,7 +1,6 @@
 // Functions
 import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
 import { getDisciplina } from '/frontend/src/pages/admin/edicao/disciplinas/service/getDisciplina.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
@@ -97,6 +96,7 @@ function handleChange(event) {
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
     if (!getUrlParam('id')) {
         navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
@@ -108,7 +108,11 @@ async function EdicaoCadastroPage() {
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
-    const professores = await getProfessores()
+    const professores = await makeRequest( { 
+        url: API_ENDPOINTS.GET_PROFESSORES, 
+        method:'GET', 
+        token: localStorage.getItem('accessToken')
+    })
     const professoresFormatados = parseProfessores(professores)
     const { nome, professor_id } = await getDisciplina()
 
@@ -173,7 +177,6 @@ async function EdicaoCadastroPage() {
         form
     )
  
-    // Mostra em form nome da disciplina e professor
     const input =  form.querySelector('input')
     const select = form.querySelector('select')
     input.value = nome
@@ -183,5 +186,10 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+    
+} catch (error) {
+    console.log(error);
+    alert('Algo deu errado, tente novamente mais tarde...')
+}
 }
 EdicaoCadastroPage()
