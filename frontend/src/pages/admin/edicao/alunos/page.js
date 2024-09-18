@@ -1,6 +1,7 @@
 // Services and others
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { getAlunoWithDisciplinas } from './service/getAlunoWithDisciplinas.js'
 import { editUser } from '../service/editUser.js'
@@ -11,7 +12,6 @@ import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
-import { editedDisciplinasDoAluno } from './service/editDisciplinasDoAluno.js'
 import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -93,7 +93,12 @@ async function handleSubmit(e) {
 
     try {
         await editUser(editedData)
-        if (disciplinasMudaram) await editedDisciplinasDoAluno(editedDisciplinas)
+        if (disciplinasMudaram) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_STUDENT_DISCIPLINAS(getUrlParam('id')), 
+            method:'PATCH', 
+            token: localStorage.getItem('accessToken'),
+            data: editedDisciplinas
+        })
         removeOriginalValuesFromStorage()
         localStorage.setItem('alunoAlterado', editedData.nome)
         navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS) 
