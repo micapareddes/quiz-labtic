@@ -4,10 +4,12 @@ export function formatDate(dateString) {
       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
     ];
   
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
+    const [year, month, day] = dateString.split('-');
+    const date = new Date(year, month - 1, day);
+
+    const dayFormatted = String(date.getDate()).padStart(2, '0');
+    const monthFormatted = months[date.getMonth()];
+    const yearFormatted = date.getFullYear();
   
-    return `${day} de ${month}`;
+    return `${dayFormatted} de ${monthFormatted}`;
 }

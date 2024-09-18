@@ -11,6 +11,7 @@ export function RegisterListItem({ name='Text', registerLink, linkPainel }) {
             variant: 'ghost',
             size: 'md',
             link: registerLink,
+            ariaLabel: 'Botão para cadastrar novo'
         })
     )
 

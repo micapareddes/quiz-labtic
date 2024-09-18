@@ -41,10 +41,6 @@ export function DisciplinasTable(rows) {
                         id: row.id, 
                         url: API_ENDPOINTS.DELETE_DISCIPLINA,
                     })
-                    await removeFromDatabaseById({
-                        id: row.id, 
-                        url: API_ENDPOINTS.DELETE_RELATION_BY_DISCIPLINA_ID,
-                    })
                 },
             })
         )

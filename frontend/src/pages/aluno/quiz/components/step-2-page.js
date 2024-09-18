@@ -2,7 +2,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getUrlParam } from '../../../admin/edicao/functions/getUrlParam.js'
@@ -44,7 +43,6 @@ function handleInput(e) {
             answer.textContent = letra.toUpperCase()
         }
     })
-    console.log(perguntas);
     
     localStorage.setItem('respostas', JSON.stringify(respostasAluno))
 }
@@ -60,22 +58,31 @@ async function handleSubmit(e) {
     
     try {
         const accessToken = localStorage.getItem('accessToken')
+        const respostaId = getUrlParam('id')
         await makeRequest({
             method: 'POST',
-            url: API_ENDPOINTS.POST_RESPOSTA,
+            url: API_ENDPOINTS.POST_RESPOSTA(respostaId),
             data,
             token: accessToken,
 
         })
         localStorage.removeItem('respostas')
+        localStorage.removeItem('step')
+
         openDialog(
             SuccessDialog({
                 title: 'Entregue',
+                message: `O quiz foi entregue com sucesso.`, 
+                buttonName: 'Ver Gabarito', 
+                link: ROUTES.ALUNO.GABARITO({
+                    quiz: form.id,
+                    tentativa: respostaId,
+                }),
+                allowClose: false,
             })
         )
     } catch (error) {
         console.log(error);
-        
     }
 }
 
@@ -84,27 +91,36 @@ export async function Step2Page() {
         const step = localStorage.getItem('step')
         if (!step) navigateTo(ROUTES.ERROR404)
     
-        const quizId = getUrlParam('id')
-        if (!quizId) navigateTo(ROUTES.ERROR404)
+        const respostaId = getUrlParam('id')
+        if (!respostaId) navigateTo(ROUTES.ERROR404)
+
+        const initialAnswers = [{"pergunta_id":"66e323adf22837795ac5fc9c","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fca1","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fca6","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcab","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcb0","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcb5","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcba","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcbf","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcc4","alternativa_id":null},{"pergunta_id":"66e323adf22837795ac5fcc9","alternativa_id":null}]
+
+        localStorage.setItem('respostas', JSON.stringify(initialAnswers))
 
         const accessToken = localStorage.getItem('accessToken')
-        const quiz = await makeRequest({
+        const { perguntas_quiz, nome_quiz, tempo_quiz, disciplina_id, quiz_id } = await makeRequest({
             method: 'GET',
-            url: API_ENDPOINTS.GET_QUIZ_BY_ID(quizId),
+            url: API_ENDPOINTS.GET_PERGUNTAS_QUIZ(respostaId),
             token: accessToken,
         })
+        
+        const root = document.getElementById('root')
         const main = document.getElementById('main')
         const form = document.createElement('form')
         const perguntasContainer = document.createElement('div')
-        const header = document.createElement('div')
+        const sidecardContainer = document.createElement('div')
         let perguntas = [];
 
-        form.id = quiz._id
-        form.className = 'flex flex-row gap-20'
+        root.classList.remove('root-container')
+        main.classList.remove('main-container')
+        main.classList.add('py-8', 'px-24')
+        form.id = quiz_id
+        form.className = 'flex flex-row justify-between gap-20'
+        sidecardContainer.className = 'fixed top-8 right-24 flex flex-row items-start gap-6'
         perguntasContainer.className = 'pt-10 space-y-16'
-        header.className = 'flex items-center justify-between'
 
-        quiz.perguntas.forEach((perg, index) => {
+        perguntas_quiz.forEach((perg, index) => {
             perguntasContainer.appendChild(
                 PerguntaResposta({
                     number: index + 1,
@@ -119,8 +135,8 @@ export async function Step2Page() {
                 answer: '-'
             })
         })
-        form.append(
-            perguntasContainer,
+        sidecardContainer.append(
+            Timer({ time: tempo_quiz }),
             QuestionSidecard({
                 buttonName: 'Entregar',
                 onClick: () => {
@@ -143,18 +159,16 @@ export async function Step2Page() {
                 questions: perguntas, 
             }),
         )
-        header.append(
-            Heading({
-                goBack: false, 
-                title: quiz.titulo, 
-                subtitle: quiz.disciplina_id.nome,
-                onGoBack: () => {
-                }
-            }),
-            Timer({ time: quiz.tempo })
+        form.append(
+            perguntasContainer,
+            sidecardContainer,
         )
         main.append(
-            header,
+            Heading({
+                goBack: false, 
+                title: nome_quiz, 
+                subtitle: disciplina_id.nome,
+            }),
             form,
         )
 

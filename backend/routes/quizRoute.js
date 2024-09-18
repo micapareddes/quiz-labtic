@@ -5,7 +5,7 @@ import quizController from "../controllers/quizController.js"
 
 const routerQuiz = Router()
 
-routerQuiz.get("/questions/:id", authenticateToken, tryCatch(quizController.getPerguntasQuiz))
+routerQuiz.get("/quiz/:id", authenticateToken, tryCatch(quizController.getQuiz))
 
 routerQuiz.get("/questions_gabarito/:id", authenticateToken, tryCatch(quizController.getPerguntasQuizForGabarito))
 
@@ -15,6 +15,10 @@ routerQuiz.get("/professor_infos/:id", authenticateToken, tryCatch(quizControlle
 
 routerQuiz.get("/prof/disciplina/:id", authenticateToken, tryCatch(quizController.getQuizzesPorDisciplinaIdParaProfessor))
 
+routerQuiz.post("/embaralha/:id", authenticateToken, tryCatch(quizController.embaralharQuizESalvar))
+
 routerQuiz.post("/new", authenticateToken, tryCatch(quizController.postNewQuiz))
+
+routerQuiz.delete("/quiz/:id", authenticateToken, tryCatch(quizController.deleteQuizAndDependencies))
 
 export default routerQuiz

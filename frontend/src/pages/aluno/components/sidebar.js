@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { Sidebar } from '/frontend/src/components/sidebar.js'
 
@@ -11,7 +11,7 @@ const disciplinas = await makeRequest({
 export const painelItems = disciplinas.map((disciplina) => {
     return {
         name: disciplina.disciplina_nome,
-        linkPainel: `/frontend/src/pages/aluno/disciplina/index.html?id=${disciplina.disciplina_id}`
+        linkPainel: ROUTES.ALUNO.DISCIPLINA(disciplina.disciplina_id)
     }
 })
 
@@ -22,7 +22,7 @@ export function SidebarAluno(size='lg') {
             {
                 icon: 'house',
                 title: 'Dashboard',
-                link: '/frontend/src/pages/aluno/dashboard/index.html',
+                link: ROUTES.ALUNO.DASHBOARD,
                 active: true,
             },
             {

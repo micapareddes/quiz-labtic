@@ -1,15 +1,14 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { handleGuardarRascunho } from '../functions/handleGuardarRascunho.js'
 import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
 import { postQuiz } from '../service/postQuiz.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
+import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
 import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { Question } from '/frontend/src/components/question.js'
 import { Button } from '/frontend/src/components/button.js'
@@ -75,7 +74,12 @@ async function handleSubmit(e) {
 
     try {
         const accessToken = localStorage.getItem('accessToken')
-        await postQuiz(data) //TODO: Eliminar função e usar makeRequest
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_QUIZ, 
+            method: 'POST', 
+            token: localStorage.getItem('accessToken'), 
+            data, 
+        })
         await makeRequest({ 
             url: API_ENDPOINTS.PATCH_ADICIONAR_QUIZ_A_DISCIPLINA, 
             method: 'PATCH', 
@@ -85,7 +89,7 @@ async function handleSubmit(e) {
         localStorage.removeItem('infos')
         localStorage.removeItem('perguntas')
         localStorage.setItem('quizCadastrado', true)
-        navigateTo(ROUTES.PROFESSOR.DASHBOARD)
+        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina_id))
     } catch (error) {
         console.log(error);
 
@@ -138,20 +142,35 @@ export async function Step2Page() {
     const main = document.getElementById('main')
     const form = document.createElement('form')
     const buttonsContainer = document.createElement('div')
+    const headingContainer = document.createElement('div')
+    const rascunhoId = localStorage.getItem('rascunhoId')
     const { nome, disciplina } = JSON.parse(localStorage.getItem('infos'))
 
     form.className = 'mt-10 md:px-11 space-y-16'
+    headingContainer.className = 'flex flex-row justify-between'
     buttonsContainer.className = 'gap-4 flex justify-end'
     for (let i =1; i <= 10; i++) {
         form.appendChild(
             Question({ number: i })
         )
     }
+    headingContainer.appendChild(
+        Heading({
+            goBack: true, 
+            title: nome, 
+            subtitle: disciplina.nome,
+            onGoBack: () => {
+                saveData()
+                history.back()
+            }
+        })
+    )
     buttonsContainer.append(
         Button({
             variant: 'outline', 
             size:'md', 
             title: 'Guardar como rascunho', 
+            ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
             onClick: () => {}, 
             id: 'button-id',
@@ -160,24 +179,48 @@ export async function Step2Page() {
             variant: 'primary', 
             size:'md', 
             title: 'Postar', 
+            ariaLabel: 'Botão de submit para postar quiz',
             type: 'submit', 
-            onClick: () => {}, 
+            onClick: () => {}, //TODO: Adicionar guardar como rascunho
             id: 'submit',
         }),
     )
     form.appendChild(buttonsContainer)
     main.append(
-        Heading({
-            goBack: true, 
-            title: nome, 
-            subtitle: disciplina.nome,
-            onGoBack: () => {
-                saveData()
-                navigateTo('/frontend/src/pages/professor/quiz/create/index.html?step=1')
-            }
-        }),
+        headingContainer,
         form
     )
+    
+    if (rascunhoId) {
+        const removeButton = document.createElement('button')
+        const removeIcon = document.createElement('i')
+
+        removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
+        removeButton.onclick = () => {
+            openDialog(
+                AlertDialog({
+                    message: 'Você irá excluir este quiz. Esta ação não pode ser desfeita.', 
+                    confirmarButtonName: 'Excluir', 
+                    onConfirm: async () => {
+                        await makeRequest({
+                            url: API_ENDPOINTS.DELETE_QUIZ(rascunhoId), 
+                            method: 'DELETE', 
+                            token: localStorage.getItem('accessToken'), 
+                        })
+                        localStorage.removeItem('perguntas')
+                        localStorage.removeItem('infos')
+                        localStorage.setItem('rascunhoDeletado', true)
+                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina.id))
+                    }
+                })
+            )
+        }
+        removeButton.appendChild(removeIcon)
+        headingContainer.appendChild(removeButton)
+
+        localStorage.removeItem('rascunhoId')
+
+    }
     form.onsubmit = handleSubmit
 
     const perguntas = JSON.parse(localStorage.getItem('perguntas'))

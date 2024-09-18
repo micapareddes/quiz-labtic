@@ -6,6 +6,7 @@ import { ModeloQuiz } from "../models/Quiz.js"
 import { ModeloAlunos_Disciplina } from "../models/Alunos_Disciplina.js"
 import { ModeloResposta } from "../models/Resposta.js"
 import { ModeloDisciplina } from "../models/Disciplina.js"
+import { embaralhar } from "../utils/embaralhar.js"
 
 class QuizController {
     async postNewQuiz(req, res) {
@@ -15,14 +16,38 @@ class QuizController {
         if (profInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const quiz = req.body
-        console.log(quiz);
         
         const disciplinaId = new mongoose.Types.ObjectId(quiz.disciplina_id)
-        const nomeDoQuizExiste = await ModeloQuiz.findOne({ titulo: quiz.titulo, disciplina_id: disciplinaId })
-        if (nomeDoQuizExiste) throw new ServidorError(QUIZ_ERROR.NAME_ALREADY_EXIST)
-        await ModeloQuiz.create(quiz)
-        console.log('Novo quiz criado!')
-        return res.status(204).send()
+        const quizExistente = await ModeloQuiz.findOne({ titulo: quiz.titulo, disciplina_id: disciplinaId })
+        if (quizExistente) {
+            if (quizExistente.isRascunho === 'false') throw new ServidorError(QUIZ_ERROR.NAME_ALREADY_EXIST)
+            
+            if (quizExistente.isRascunho) await ModeloQuiz.findByIdAndUpdate(quizExistente._id, quiz)
+
+        } else {
+            await ModeloQuiz.create(quiz)
+        }
+        
+        res.status(204).send()   
+    }
+
+    async deleteQuizAndDependencies(req, res) {
+        const userId = req.userId
+        const user = await ModeloUsuario.findById(userId, 'papel')
+        const userInvalido = !user || user.papel === 'aluno'
+        if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+        
+        const quizId = req.params.id
+        const quizObjectId = new mongoose.Types.ObjectId(quizId)
+        const quiz = await ModeloQuiz.findByIdAndDelete(quizId)
+        await ModeloResposta.deleteMany({ quiz_id: quizObjectId })
+        await ModeloDisciplina.updateMany(
+            { 'quizes.quiz_id': quizObjectId },
+            { $pull: { quizes: { quiz_id: quizObjectId } } }
+        )
+        if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
+        res.status(204).send()
     }
 
     async getInfosQuizForStudent(req, res) {
@@ -78,7 +103,10 @@ class QuizController {
         const data = {
                 data_fim: info.data_fim,
                 data_inicio: info.data_inicio,
-                disciplina_nome: info.disciplina_id.nome,
+                disciplina: {
+                    nome: info.disciplina_id.nome,
+                    id: info.disciplina_id._id,
+                },
                 orientacao: info.orientacao,
                 tempo: info.tempo,
                 tentativas: info.tentativas,
@@ -89,14 +117,28 @@ class QuizController {
         res.status(200).json(data)
     }
 
-    async getPerguntasQuiz(req, res) {
+    async getQuiz(req, res) {
+        const userId = req.userId
+        const user = await ModeloUsuario.findById(userId, 'papel')
+        const userInvalido = !user || user.papel === 'aluno'
+        if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const quizId = req.params.id
+        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt')
+        if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
+
+        res.status(200).json(quiz)
+    }
+
+    async embaralharQuizESalvar(req, res) {
         const alunoId = req.userId
         const aluno = await ModeloUsuario.findById(alunoId, 'papel')
         const alunoInvalido = !aluno || aluno.papel !== 'aluno'
         if (alunoInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS) 
 
         const quizId = req.params.id
-        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo perguntas.pergunta perguntas._id perguntas.alternativas.conteudo perguntas.alternativas._id').populate('disciplina_id', 'nome')
+        const perguntasData = await ModeloQuiz.findById(quizId, 'titulo tempo disciplina_id perguntas')
+        
         if (!perguntasData) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         const isAlunoCadastradoADisciplina = await ModeloAlunos_Disciplina.exists({
@@ -104,7 +146,28 @@ class QuizController {
             aluno_id: alunoId
         })
         if (!isAlunoCadastradoADisciplina) throw new ServidorError(RELATION_ERROR.DOESNT_EXIST)
-        res.status(200).json(perguntasData)
+        
+        const perguntasComAlternativasEmbaralhadas = perguntasData.perguntas.map((perg) =>{
+            const alternativas = perg.alternativas
+            return {
+                _id: perg._id,
+                pergunta: perg.pergunta,
+                alternativas: embaralhar(alternativas),
+            }
+        })
+
+        const dataEmbaralhada = {
+            quiz_id: perguntasData._id,
+            aluno_id: alunoId,
+            nome_quiz: perguntasData.titulo,
+            disciplina_id: perguntasData.disciplina_id,
+            tempo_quiz: perguntasData.tempo,
+            perguntas_quiz: perguntasComAlternativasEmbaralhadas
+        }
+        
+        const resposta  = await ModeloResposta.create(dataEmbaralhada)
+
+        res.status(200).json(resposta._id)
     }
     
     async getPerguntasQuizForGabarito(req, res) {

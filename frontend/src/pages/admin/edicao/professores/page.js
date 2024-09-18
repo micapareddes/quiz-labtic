@@ -12,7 +12,7 @@ import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/s
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
 import { editProfessorOfDisciplinas } from './service/editProfessorOfDisciplinas.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
+import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
@@ -72,10 +72,6 @@ async function handleSubmit(e) {
         return
     }
 
-    const arraysSaoIguais = (a1, a2) => {
-        if (a1.length !== a2.length) return false
-        return a1.every(id => a2.some(obj2 => id === obj2.id))
-    }
     const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
     const dataMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula
     const formMudou = dataMudou || disciplinasMudaram
@@ -179,6 +175,7 @@ async function EdicaoCadastroPage() {
             size: 'lg',
             title: 'Salvar alterações',
             type: 'submit',
+            ariaLabel: 'Botão de submit para salvar alterações'
         })
     )
     form.append(inputsContainer, buttonContainer)
@@ -186,7 +183,31 @@ async function EdicaoCadastroPage() {
         Heading({
             goBack: true, 
             title: 'Edição do Professor', 
-            onGoBack: () => goBack() //TODO: adicionar lógica de "alterações não serão salvas"
+            onGoBack: () => {
+                const nameInput = form.querySelector('#name')
+                const matriculaInput = form.querySelector('#matricula')
+                const emailInput = form.querySelector('#email')
+                const selectedDisciplinas = multiselect.querySelectorAll('#option:checked')
+                const selectedDisciplinasArray = Array.from(selectedDisciplinas)
+                const editedDisciplinas = selectedDisciplinasArray.map((disciplina) => {
+                    return {
+                        nome: disciplina.getAttribute('data-label'),
+                        id: disciplina.value,
+                    }
+                })
+                const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
+                if (nome !== nameInput.value.trim()  || email !== emailInput.value.trim()  || matricula !== matriculaInput.value.trim() || disciplinasMudaram) {
+                    openDialog(
+                        AlertDialog({
+                            message: 'O cadastro não será salvo.',
+                            confirmarButtonName: 'Voltar',
+                            onConfirm: () => history.back()
+                        })
+                    )
+                    return
+                }
+                history.back()
+            }
         }),
         form
     )

@@ -38,12 +38,14 @@ async function GabaritoPage() {
         const main = document.getElementById('main')
         const content = document.createElement('div')
         const perguntasContainer = document.createElement('div')
+        const sidecardContainer = document.createElement('div')
         const header = document.createElement('div')
         let perguntasQuiz = [];
 
         content.className = 'flex flex-row gap-20 mt-10 ml-11'
         perguntasContainer.className = 'space-y-16'
         header.className = 'flex items-center justify-between'
+        sidecardContainer.className = 'fixed right-11 top-10'
 
         root.prepend(
             SidebarProfessor('sm')
@@ -65,8 +67,7 @@ async function GabaritoPage() {
                 goBack: true, 
                 title: titulo, 
                 subtitle: disciplina.nome,
-                onGoBack: () => {
-                }
+                onGoBack: () => history.back()
             }),
             content,
         )
@@ -85,7 +86,7 @@ async function GabaritoPage() {
             })
             
         })
-        content.appendChild(
+        sidecardContainer.appendChild(
             QuestionSidecard({
                 title: `Nota ${nota}`,
                 titleIsGrade: true,
@@ -93,8 +94,9 @@ async function GabaritoPage() {
                 buttonVariant: 'outline',
                 disabledButton: true,
                 questions: perguntasQuiz, 
-            }),
+            })
         )
+        content.appendChild(sidecardContainer)
 
     } catch (error) {
         console.log(error)

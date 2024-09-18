@@ -52,6 +52,7 @@ export function QuestionSidecard({
         size:'md', 
         disabled: disabledButton,
         onClick,
+        ariaLabel: `Botão de ${buttonName}`,
     })
 
     container.id = 'sidecard'

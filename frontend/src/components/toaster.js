@@ -65,6 +65,8 @@ export function ErrorToaster({ message }) {
 // Métodos
 export function openToaster(toaster) {
     const root = document.getElementById('root')
+    const toasterId = document.getElementById('toaster')
+    if (toasterId) toasterId.remove()
     root.appendChild(toaster)
 }
 

@@ -3,7 +3,6 @@ import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { saveWindowPath } from '/frontend/src/functions/saveWindowPath.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -12,6 +11,7 @@ import { Empty } from '/frontend/src/components/empty.js'
 import { Button } from '/frontend/src/components/button.js'
 import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
 import { Title } from '/frontend/src/components/fonts.js'
+import { openToaster, closeToaster, SuccessToaster } from '/frontend/src/components/toaster.js'
 
 async function DisciplinaPage() {
     try {
@@ -21,22 +21,32 @@ async function DisciplinaPage() {
         const main = document.getElementById('main')
         const contentContainer = document.createElement('div')
         const header = document.createElement('div')
+        const accessToken = localStorage.getItem('accessToken')
         const { postados, rascunhos } = await makeRequest({ 
             url: API_ENDPOINTS.GET_QUIZZES_FOR_PROFESSOR_BY_DISCIPLINA_ID(disciplinaId), 
             method: 'GET', 
-            token: localStorage.getItem('accessToken'), 
+            token: accessToken, 
         })
+        const reqNomeDisciplina = await makeRequest({ 
+            url: API_ENDPOINTS.GET_DISCIPLINA_NAME(disciplinaId), 
+            method: 'GET', 
+            token: accessToken, 
+        })
+        const nomeDisciplina = reqNomeDisciplina.nome
+        
         contentContainer.className = 'flex w-full justify-between items-start gap-10 mt-10'
         header.className = 'flex w-full justify-between items-center'
         header.append(
             Heading({ 
                 goBack: true, 
-                title: postados[0].disciplina_id.nome, //TODO: Melhorar lógica para nao puxar nome em todos os quizzes 
+                onGoBack: () => history.back(),
+                title: nomeDisciplina,
                 subtitle: 'Quizzes',
                 subtitleSize: 'lg'
             }),
             Button({
                 title: 'Criar quiz',
+                ariaLabel: 'Botão para criar novo quiz',
                 icon: true,
                 id: 'criar-quiz',
                 link: ROUTES.PROFESSOR.QUIZ.CREATE,
@@ -91,7 +101,7 @@ async function DisciplinaPage() {
                 ulRascunhos.appendChild(
                     ListItemBoxWithTitle({ 
                         title: quiz.titulo,
-                        linkPainel: ROUTES.PROFESSOR.QUIZ.INFO(quiz._id),
+                        linkPainel: ROUTES.PROFESSOR.QUIZ.EDIT(quiz._id),
                     })
                 )
             })
@@ -107,6 +117,42 @@ async function DisciplinaPage() {
                 navRascunhos,
             )
             contentContainer.appendChild(rascunhosContainer)
+        }
+
+        if (localStorage.getItem('rascunho')) {
+            localStorage.removeItem('rascunho')
+            openToaster(
+                SuccessToaster({
+                    message: 'Rascunho salvo com sucesso!'
+                })
+            )
+            closeToaster()
+        }
+        if (localStorage.getItem('quizCadastrado')) {
+            localStorage.removeItem('quizCadastrado')
+            openToaster(
+                SuccessToaster({
+                    message: 'Quiz cadastrado com sucesso!'
+                })
+            )
+            closeToaster()
+        }
+        if (localStorage.getItem('rascunhoDeletado')) {
+            localStorage.removeItem('rascunhoDeletado')
+            openToaster(
+                SuccessToaster({
+                    message: 'Rascunho deletado com sucesso!'
+                })
+            )
+        }
+        if (localStorage.getItem('quizDeletado')) {
+            localStorage.removeItem('quizDeletado')
+            openToaster(
+                SuccessToaster({
+                    message: 'Quiz deletado com sucesso!'
+                })
+            )
+            closeToaster()
         }
                 
     } catch (error) {

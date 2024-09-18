@@ -1,5 +1,5 @@
 // Functions
-import { API_ENDPOINTS, ROUTES } from '../../../../utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
 import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
@@ -10,7 +10,6 @@ import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edica
 import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
 import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
-import { goBack } from '/frontend/src/functions/goBack.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
@@ -19,6 +18,7 @@ import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin
 import { Button } from '/frontend/src/components/button.js'
 import { TextInput } from '/frontend/src/components/text-input.js'
 import { Select } from '/frontend/src/components/select.js'
+import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 
@@ -31,7 +31,7 @@ async function handleSubmit(e) {
     const select = form.querySelector('select')
     const submitButton = form.querySelector('#submit')
     const { nome, professorId } = obtainOriginalValuesFromStorage()
-
+    const professor_id = professorId === null ? 'null' : professorId
     let editedData = {
         nome: input.value.trim(),
         professor_id: !select.value.trim() ? 'null' : select.value.trim()
@@ -46,8 +46,8 @@ async function handleSubmit(e) {
         submitButton.disabled = true
         return
     }
-
-    const formMudou = nome !== editedData.nome  || professorId !== editedData.professor_id
+    
+    const formMudou = nome !== editedData.nome  || professor_id !== editedData.professor_id
 
     if (!formMudou) {
         openToaster(
@@ -140,13 +140,34 @@ async function EdicaoCadastroPage() {
             size: 'lg',
             title: 'Salvar alterações',
             type: 'submit',
+            ariaLabel: 'Botão de submit para salvar alterações'
         })
     )
     form.append(inputsContainer, buttonContainer)
     main.append(    
         Heading({
             goBack: true, 
-            onGoBack: () => goBack(),
+            onGoBack: () => {
+                const input = form.querySelector('input')
+                const select = form.querySelector('select')
+                const professorId = professor_id === null ? 'null' : professor_id
+                
+                if (nome !== input.value.trim()  || professorId !== select.value.trim()) {
+                    openDialog(
+                        AlertDialog({
+                            message: 'O cadastro não será salvo.',
+                            confirmarButtonName: 'Voltar',
+                            onConfirm: () => {
+                                removeOriginalValuesFromStorage()
+                                history.back()
+                            }
+                        })
+                    )
+                    return
+                }
+                removeOriginalValuesFromStorage()
+                history.back()
+            },
             title: 'Edição da Disciplina', 
         }),
         form
