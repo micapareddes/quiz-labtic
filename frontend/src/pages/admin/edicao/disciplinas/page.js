@@ -31,7 +31,7 @@ async function handleSubmit(e) {
     const select = form.querySelector('select')
     const submitButton = form.querySelector('#submit')
     const { nome, professorId } = obtainOriginalValuesFromStorage()
-
+    const professor_id = professorId === null ? 'null' : professorId
     let editedData = {
         nome: input.value.trim(),
         professor_id: !select.value.trim() ? 'null' : select.value.trim()
@@ -46,8 +46,8 @@ async function handleSubmit(e) {
         submitButton.disabled = true
         return
     }
-
-    const formMudou = nome !== editedData.nome  || professorId !== editedData.professor_id
+    
+    const formMudou = nome !== editedData.nome  || professor_id !== editedData.professor_id
 
     if (!formMudou) {
         openToaster(
@@ -150,8 +150,9 @@ async function EdicaoCadastroPage() {
             onGoBack: () => {
                 const input = form.querySelector('input')
                 const select = form.querySelector('select')
+                const professorId = professor_id === null ? 'null' : professor_id
                 
-                if (nome !== input.value.trim()  || professor_id !== select.value.trim()) {
+                if (nome !== input.value.trim()  || professorId !== select.value.trim()) {
                     openDialog(
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
