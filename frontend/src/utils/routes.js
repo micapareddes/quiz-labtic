@@ -17,6 +17,7 @@ export const ROUTES = {
             DISCIPLINAS: (id) => `/frontend/src/pages/admin/edicao/disciplinas/index.html?id=${id}`,
             ALUNOS: (id) => `/frontend/src/pages/admin/edicao/alunos/index.html?id=${id}`,
             PROFESSORES: (id) => `/frontend/src/pages/admin/edicao/professores/index.html?id=${id}`,
+            QUIZZES: (id) => `/frontend/src/pages/admin/edicao/quizzes/index.html?id=${id}`,
         },
     },
     ALUNO: {

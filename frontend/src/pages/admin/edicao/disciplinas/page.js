@@ -19,6 +19,8 @@ import { Select } from '/frontend/src/components/select.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
+import { QuizTable } from './components/quiz-table.js'
+import { Title } from '../../../../components/fonts.js'
 
 async function handleSubmit(e) {
     e.preventDefault()
@@ -97,7 +99,8 @@ function handleChange(event) {
 async function EdicaoCadastroPage() {
 try {
     verifyUserAccess('admin')
-    if (!getUrlParam('id')) {
+    const id = getUrlParam('id')
+    if (!id) {
         navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
         return
     }
@@ -107,6 +110,7 @@ try {
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
+    const contentContainer = document.createElement('div')
     const accessToken = localStorage.getItem('accessToken')
     const professores = await makeRequest( { 
         url: API_ENDPOINTS.GET_PROFESSORES, 
@@ -114,14 +118,17 @@ try {
         token: accessToken,
     })
     const professoresFormatados = parseProfessores(professores)
-    const { nome, professor_id } = await makeRequest({ 
-        url: API_ENDPOINTS.GET_DISCIPLINA(getUrlParam('id')), 
+    const { nome, professor_id, quizes } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_DISCIPLINA(id), 
         method:'GET', 
         token: accessToken, 
     })
+    console.log(quizes);
+    
     inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'h-full grid'
+    contentContainer.className = ''
 
     root.prepend(SidebarAdmin())
     inputsContainer.append(
@@ -150,7 +157,19 @@ try {
             ariaLabel: 'Botão de submit para salvar alterações'
         })
     )
-    form.append(inputsContainer, buttonContainer)
+    contentContainer.append(
+        inputsContainer, 
+        Title({
+            title: 'Quizzes', 
+            size: 'md', 
+            tone: 's-900', 
+            bold: 'regular', 
+            as: 'h3', 
+            className: 'mt-8' 
+        }), 
+        QuizTable(quizes)
+    )
+    form.append(contentContainer, buttonContainer)
     main.append(    
         Heading({
             goBack: true, 
