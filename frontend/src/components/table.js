@@ -1,5 +1,4 @@
 // Components
-import { countDown } from "../functions/counter.js"
 import { openDialog, AlertDialog } from "./dialog.js"
 import { openToaster, closeToaster, SuccessToaster } from "./toaster.js"
 import { Text } from "./fonts.js"
