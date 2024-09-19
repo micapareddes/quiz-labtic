@@ -135,7 +135,7 @@ try {
                 message: `Você irá remover o quiz ${titulo}. Esta ação não pode ser desfeita.`, 
                 confirmarButtonName: 'Remover', 
                 onConfirm: async () => {
-                    await makeRequest({
+                    await makeRequest({ //TODO: Adicionar try catch
                         url: API_ENDPOINTS.DELETE_QUIZ(quizId), 
                         method: 'DELETE', 
                         token: accessToken, 
