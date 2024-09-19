@@ -291,8 +291,8 @@ function handleFormChange() {
     localStorage.setItem('mudou', true)
 }
 export async function Step1Page() {
-    try {
-        localStorage.removeItem('step')
+try {
+    localStorage.removeItem('step')
     const rascunhoId = getUrlParam('id')
 
     const main = document.getElementById('main')
@@ -535,7 +535,7 @@ export async function Step1Page() {
                         localStorage.removeItem('infos')
                         localStorage.removeItem('mudou')
                         localStorage.setItem('rascunhoDeletado', true)
-                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id))
+                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id._id))
                     }
                 })
             )
@@ -544,7 +544,7 @@ export async function Step1Page() {
         headingContainer.appendChild(removeButton)
 
         nomeInput.value = titulo
-        disciplinaInput.value = disciplina_id
+        disciplinaInput.value = disciplina_id._id
         tentativasInput.value = tentativas
         tempoMaxInput.value = tempo
         dataInicioInput.value = data_inicio
@@ -563,9 +563,9 @@ export async function Step1Page() {
         orientacoesInput.value = dadosPreenchidos.orientacoes
         tipoInput.value = dadosPreenchidos.tipo
     }
-    } catch (error) {
-        console.log(error);
-        alert('Algo deu errado, tente novamente mais tarde...')
+} catch (error) {
+    console.log(error);
+    alert('Algo deu errado, tente novamente mais tarde...')
         
-    }
+}
 }

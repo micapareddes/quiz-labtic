@@ -124,7 +124,7 @@ class QuizController {
         if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const quizId = req.params.id
-        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt')
+        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt').populate('disciplina_id', 'nome')
         if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         res.status(200).json(quiz)

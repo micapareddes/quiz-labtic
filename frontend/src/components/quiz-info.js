@@ -1,7 +1,7 @@
 import { Title, Text } from '/frontend/src/components/fonts.js'
 import { formatDate } from '/frontend/src/functions/formatDate.js'
 
-function convertTime(minutes) {
+function convertTime(minutes) { //TODO: Excluir e usar FormatTime
     if (minutes < 60) {
       return `${minutes}min`;
     } else {

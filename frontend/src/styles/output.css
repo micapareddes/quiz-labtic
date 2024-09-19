@@ -909,6 +909,10 @@ video {
   height: 100vh;
 }
 
+.h-2{
+  height: 0.5rem;
+}
+
 .max-h-44{
   max-height: 11rem;
 }
