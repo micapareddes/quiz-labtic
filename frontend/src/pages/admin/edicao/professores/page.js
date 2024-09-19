@@ -3,7 +3,6 @@ import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
 import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
@@ -92,11 +91,18 @@ async function handleSubmit(e) {
     }
 
     try {
-        if (dataMudou) await editUser(editedData)
-        if (disciplinasMudaram) await makeRequest({ 
-            url: API_ENDPOINTS.PATCH_DISCIPLINA_POFESSOR_BY_ID(getUrlParam('id')), 
+        const id = getUrlParam('id')
+        const accessToken = localStorage.getItem('accessToken')
+        if (dataMudou) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_USER(id), 
             method:'PATCH', 
-            token: localStorage.getItem('accessToken'),
+            token: accessToken,
+            data: editedData,
+        })
+        if (disciplinasMudaram) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_DISCIPLINA_POFESSOR_BY_ID(id), 
+            method:'PATCH', 
+            token: accessToken,
             data: editedDisciplinas 
         })
         removeOriginalValuesFromStorage()
