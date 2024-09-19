@@ -1,6 +1,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
-import { removeFromDatabaseById } from '/frontend/src/pages/admin/service/removeFromDatabaseById.js'
 
 export function AlunoTable(rows) {
     const headerContent = [
@@ -33,18 +33,26 @@ export function AlunoTable(rows) {
                 toEdit: ROUTES.ADMIN.EDICAO.ALUNOS(row._id),
                 onRemove: async () => {
                     try {
-                        await removeFromDatabaseById({
-                            id: row._id, 
-                            url: API_ENDPOINTS.DELETE_USER,
+                        const accessToken = localStorage.getItem('accessToken')
+                        await makeRequest( { 
+                            url: API_ENDPOINTS.DELETE_USER, 
+                            method:'DELETE', 
+                            token: accessToken, 
+                            data: { "id": row._id }
                         })
-                        await removeFromDatabaseById({
-                            id: row._id, 
-                            url: API_ENDPOINTS.DELETE_RELATION_BY_ALUNO_ID,
+                        await makeRequest( { 
+                            url: API_ENDPOINTS.DELETE_RELATION_BY_ALUNO_ID, 
+                            method:'DELETE', 
+                            token: accessToken, 
+                            data: { "id": row._id }
                         })
                     } catch (error) {
                         console.log(error);
                         if (error.status === 403) {
                             alert('Acesso Proibido')
+                        } 
+                        if (error.status === 403) {
+                            alert('Ação Proibida')
                         } else {
                             alert('Algo deu errado, tente novamente mais tarde...')
                         }

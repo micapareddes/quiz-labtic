@@ -1,3 +1,5 @@
+import { getCurrentDate } from '/frontend/src/functions/getCurrentDate.js'
+
 export function infoQuizValidation(data) {
     const name = data.nome.length >= 3
     const disciplina = !!data.disciplina.id
@@ -6,11 +8,7 @@ export function infoQuizValidation(data) {
     const maxTime = !!data.tempoMax
     const startDate = data.dataInicio
     const endDate = data.dataFinal
-    const currentDate = new Date().toLocaleDateString('pt-BR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }).split('/').reverse().join('-');
+    const currentDate = getCurrentDate()
 
     const isStartDateValid = startDate >= currentDate
     const isEndDateValid = endDate > startDate

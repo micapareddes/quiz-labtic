@@ -2,7 +2,7 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getUrlParam } from '../../admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'

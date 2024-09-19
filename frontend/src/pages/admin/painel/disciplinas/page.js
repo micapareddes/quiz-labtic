@@ -3,7 +3,7 @@ import { ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { parseDisciplinas } from '/frontend/src/pages/admin/painel/disciplinas/functions/parseDisciplinas.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 
 // Components
@@ -38,7 +38,7 @@ async function DisciplinasPage() {
             size: 'md',
             title: 'Cadastrar',
             ariaLabel: 'Botão para cadastrar nova disciplina',
-            icon: true,
+            icon: 'file-plus',
             link: ROUTES.ADMIN.CADASTRO.DISCIPLINAS
         })
     )

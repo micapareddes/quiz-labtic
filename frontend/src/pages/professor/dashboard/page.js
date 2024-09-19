@@ -1,8 +1,7 @@
 // Functions
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getProfessorName } from './service/getProfessorName.js'
-import { getProfessorDisciplinas } from '../service/getProfessorDisciplinas.js'
-
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarProfessor, painelItems } from '/frontend/src/pages/professor/components/sidebar-professor.js'
@@ -21,11 +20,16 @@ async function PageDashboard() {
     root.prepend(SidebarProfessor())
     
     try {
+        const name = await makeRequest( { 
+            url: API_ENDPOINTS.GET_USER_NAME, 
+            method:'GET', 
+            token: localStorage.getItem('accessToken')
+        })
         main.prepend(
             Heading({ 
                 goBack: false, 
                 title: 'Dashboard', 
-                subtitle: `Bem vindo, ${await getProfessorName()}!`,
+                subtitle: `Bem vindo, ${name}!`,
                 subtitleSize: '2xl'
             })
         )

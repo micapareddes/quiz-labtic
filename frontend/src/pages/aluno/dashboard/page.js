@@ -1,7 +1,7 @@
 // Functions
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getAlunoName } from './service/getAlunoName.js'
-
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarAluno, painelItems } from '/frontend/src/pages/aluno/components/sidebar.js'
@@ -19,11 +19,16 @@ async function PageDashboard() {
     root.prepend(SidebarAluno())
     
     try {
+        const name = await makeRequest( { 
+            url: API_ENDPOINTS.GET_USER_NAME, 
+            method:'GET', 
+            token: localStorage.getItem('accessToken')
+        })
         main.prepend(
             Heading({ 
                 goBack: false, 
                 title: 'Dashboard', 
-                subtitle: `Bem vindo, ${await getAlunoName()}!`,
+                subtitle: `Bem vindo, ${name}!`,
                 subtitleSize: '2xl'
             })
         )

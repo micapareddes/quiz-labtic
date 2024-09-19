@@ -1,6 +1,6 @@
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
-import { removeFromDatabaseById } from '/frontend/src/pages/admin/service/removeFromDatabaseById.js'
 
 export function DisciplinasTable(rows) {
     const headerContent = [
@@ -37,10 +37,24 @@ export function DisciplinasTable(rows) {
                 array: row.quizzes,
                 toEdit: ROUTES.ADMIN.EDICAO.DISCIPLINAS(row.id),
                 onRemove: async () => {
-                    await removeFromDatabaseById({
-                        id: row.id, 
-                        url: API_ENDPOINTS.DELETE_DISCIPLINA,
-                    })
+                    try {
+                        await makeRequest( { 
+                            url: API_ENDPOINTS.DELETE_DISCIPLINA, 
+                            method:'DELETE', 
+                            token: localStorage.getItem('accessToken'), 
+                            data: { "id": row.id }
+                        })
+                    } catch (error) {
+                        console.log(error);
+                        if (error.status === 403) {
+                            alert('Acesso Proibido')
+                        } 
+                        if (error.status === 403) {
+                            alert('Ação Proibida')
+                        } else {
+                            alert('Algo deu errado, tente novamente mais tarde...')
+                        }
+                    }
                 },
             })
         )

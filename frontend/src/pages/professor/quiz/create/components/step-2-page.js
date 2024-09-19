@@ -1,9 +1,7 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
-import { postQuiz } from '../service/postQuiz.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
@@ -53,7 +51,6 @@ async function handleSubmit(e) {
                 ]
             }
         })
-    
     
     const data = {
         titulo: nome,

@@ -29,10 +29,8 @@ export function Button(
     }
 
     if (icon) {
-        const iconImg = document.createElement('img')
-        iconImg.src = '/frontend/src/img/icones/file-plus.svg'
-        iconImg.width = 32
-        iconImg.height = 32
+        const iconImg = document.createElement('i')
+        iconImg.className = `ph ph-${icon}`
   
         button.prepend(iconImg)
         button.classList.add('flex', 'items-center', 'justify-center', 'gap-2')
