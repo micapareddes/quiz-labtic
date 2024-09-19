@@ -1,8 +1,8 @@
 // Services and others
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { getProfessorWithDisciplinas } from './service/getProfessorWithDisciplinas.js'
 import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
@@ -70,10 +70,15 @@ async function handleSubmit(e) {
         submitButton.disabled = true
         return
     }
+    
+    const disciplinasMudaram = () => {
+        if (disciplinas.length !== editedDisciplinas.length) return true
+        return disciplinas.every(i1 => editedDisciplinas.some(i2 => i1.id !== i2))
+    }
 
-    const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
     const dataMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula
-    const formMudou = dataMudou || disciplinasMudaram
+    const formMudou = dataMudou || disciplinasMudaram()
+
 
     if (!formMudou) {
         openToaster(
@@ -129,8 +134,10 @@ function handleChange(event) { //TODO: reset error handler
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
-    if (!getUrlParam('id')) {
+    const id = getUrlParam('id')
+    if (!id) {
         navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES)
         return
     }
@@ -141,7 +148,11 @@ async function EdicaoCadastroPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinasCadastradas = await getDisciplinas()
-    const { nome, matricula, email, disciplinas } = await getProfessorWithDisciplinas()
+    const { nome, matricula, email, disciplinas } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_PROFESSOR_WITH_DISCIPLINA(id), 
+        method:'GET', 
+        token: localStorage.getItem('accessToken') 
+    })
     const disciplinasIds = new Set(disciplinas.map(disciplina => disciplina.id))
 
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
@@ -241,5 +252,8 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+} catch (error) {
+    
+}
 }
 EdicaoCadastroPage()
