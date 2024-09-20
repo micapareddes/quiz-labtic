@@ -4,7 +4,7 @@ import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation
 import { getProfessorDisciplinas } from '../../../service/getProfessorDisciplinas.js'
 import { navigateTo} from '/frontend/src/functions/navigateTo.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -46,7 +46,7 @@ async function handleGuardarRascunho() {
         tempoMax: tempoMaxInput.value,
         dataInicio: dataInicioInput.value,
         dataFinal: dataFinalInput.value,
-        orientacoes: orientacoesInput.value.trim(),
+        orientacoes: orientacoesInput.value,
     }
 
     const { success, error } = infoQuizValidation(data)
@@ -161,7 +161,7 @@ function handleCriarPerguntas(e) {
         tempoMax: tempoMaxInput.value,
         dataInicio: dataInicioInput.value,
         dataFinal: dataFinalInput.value,
-        orientacoes: orientacoesInput.value.trim(),
+        orientacoes: orientacoesInput.value,
     }
     
     const { success, error } = infoQuizValidation(data)
@@ -291,8 +291,8 @@ function handleFormChange() {
     localStorage.setItem('mudou', true)
 }
 export async function Step1Page() {
-    try {
-        localStorage.removeItem('step')
+try {
+    localStorage.removeItem('step')
     const rascunhoId = getUrlParam('id')
 
     const main = document.getElementById('main')
@@ -509,7 +509,7 @@ export async function Step1Page() {
     const orientacoesInput = form.querySelector('#orientacoes')
     
     if (rascunhoId) {
-        const { data_fim, data_inicio, disciplina_id, orientacao, tempo, tentativas, tipo, titulo } = await makeRequest({
+        const { data_fim, data_inicio, disciplina_id, orientacao, tempo, tentativas, tipo, titulo, perguntas } = await makeRequest({
             url: API_ENDPOINTS.GET_QUIZ(rascunhoId),
             method: 'GET', 
             token: localStorage.getItem('accessToken'), 
@@ -518,6 +518,10 @@ export async function Step1Page() {
         const removeIcon = document.createElement('i')
 
         localStorage.setItem('rascunhoId', rascunhoId)
+        console.log(perguntas);
+        
+        const jsonData = JSON.stringify(perguntas)
+        localStorage.setItem('perguntasRascunho', jsonData)
 
         removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
         removeButton.onclick = () => {
@@ -535,7 +539,7 @@ export async function Step1Page() {
                         localStorage.removeItem('infos')
                         localStorage.removeItem('mudou')
                         localStorage.setItem('rascunhoDeletado', true)
-                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id))
+                        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(disciplina_id._id))
                     }
                 })
             )
@@ -544,7 +548,7 @@ export async function Step1Page() {
         headingContainer.appendChild(removeButton)
 
         nomeInput.value = titulo
-        disciplinaInput.value = disciplina_id
+        disciplinaInput.value = disciplina_id._id
         tentativasInput.value = tentativas
         tempoMaxInput.value = tempo
         dataInicioInput.value = data_inicio
@@ -563,9 +567,9 @@ export async function Step1Page() {
         orientacoesInput.value = dadosPreenchidos.orientacoes
         tipoInput.value = dadosPreenchidos.tipo
     }
-    } catch (error) {
-        console.log(error);
-        alert('Algo deu errado, tente novamente mais tarde...')
+} catch (error) {
+    console.log(error);
+    alert('Algo deu errado, tente novamente mais tarde...')
         
-    }
+}
 }

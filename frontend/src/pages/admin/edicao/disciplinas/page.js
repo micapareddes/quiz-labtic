@@ -1,14 +1,12 @@
 // Functions
 import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/service/getProfessores.js'
-import { parseProfessores } from '/frontend/src/pages/admin/cadastro/disciplinas/functions/parseProfessores.js'
-import { getDisciplina } from '/frontend/src/pages/admin/edicao/disciplinas/service/getDisciplina.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { parseProfessores } from '/frontend/src/functions/parseProfessores.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
-import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
-import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/functions/saveOriginalValues.js'
+import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/obtainOriginalValuesFromStorage.js'
 import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
@@ -21,6 +19,8 @@ import { Select } from '/frontend/src/components/select.js'
 import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
+import { QuizTable } from './components/quiz-table.js'
+import { Title } from '../../../../components/fonts.js'
 
 async function handleSubmit(e) {
     e.preventDefault()
@@ -97,8 +97,10 @@ function handleChange(event) {
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
-    if (!getUrlParam('id')) {
+    const id = getUrlParam('id')
+    if (!id) {
         navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
         return
     }
@@ -108,13 +110,24 @@ async function EdicaoCadastroPage() {
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
-    const professores = await getProfessores()
+    const contentContainer = document.createElement('div')
+    const accessToken = localStorage.getItem('accessToken')
+    const professores = await makeRequest( { 
+        url: API_ENDPOINTS.GET_PROFESSORES, 
+        method:'GET', 
+        token: accessToken,
+    })
     const professoresFormatados = parseProfessores(professores)
-    const { nome, professor_id } = await getDisciplina()
-
+    const { nome, professor_id, quizes } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_DISCIPLINA(id), 
+        method:'GET', 
+        token: accessToken, 
+    })
+    
     inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'h-full grid'
+    contentContainer.className = ''
 
     root.prepend(SidebarAdmin())
     inputsContainer.append(
@@ -143,7 +156,19 @@ async function EdicaoCadastroPage() {
             ariaLabel: 'Botão de submit para salvar alterações'
         })
     )
-    form.append(inputsContainer, buttonContainer)
+    contentContainer.append(
+        inputsContainer, 
+        Title({
+            title: 'Quizzes', 
+            size: 'md', 
+            tone: 's-900', 
+            bold: 'regular', 
+            as: 'h3', 
+            className: 'mt-8' 
+        }), 
+        QuizTable(quizes)
+    )
+    form.append(contentContainer, buttonContainer)
     main.append(    
         Heading({
             goBack: true, 
@@ -172,8 +197,7 @@ async function EdicaoCadastroPage() {
         }),
         form
     )
- 
-    // Mostra em form nome da disciplina e professor
+
     const input =  form.querySelector('input')
     const select = form.querySelector('select')
     input.value = nome
@@ -183,5 +207,10 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+    
+} catch (error) {
+    console.log(error);
+    alert('Algo deu errado, tente novamente mais tarde...')
+}
 }
 EdicaoCadastroPage()

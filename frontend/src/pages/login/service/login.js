@@ -1,12 +1,20 @@
+import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { reqUserType } from '/frontend/src/auth/reqUserType.js'
 import { redirectToUserDashboard } from '/frontend/src/functions/redirectToUserDashboard.js'
 
 export async function reqLogin(userData) {
-    const url = 'http://localhost:3333/api/usuarios/login' //TODO: adicionar em API_ENDPOINTS
-    const { accessToken } = await makeRequest({ url, method: 'POST', data: userData })
+    const { accessToken } = await makeRequest({ 
+        url: API_ENDPOINTS.LOGIN, 
+        method: 'POST', 
+        data: userData 
+    })
 
     localStorage.setItem('accessToken', accessToken)
-    const { userType } = await reqUserType()
+    
+    const { userType } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_USER_TYPE, 
+        method: 'GET', 
+        token: localStorage.getItem('accessToken'), 
+    })
     redirectToUserDashboard(userType)
 }

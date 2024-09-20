@@ -1,6 +1,6 @@
 export const ROUTES = {
     LOGIN: '/frontend/src/pages/login/index.html',
-    ERROR404: '/frontend/src/old-pages/404.html',
+    ERROR404: '/frontend/src/pages/404/index.html',
     ADMIN: {
         DASHBOARD: '/frontend/src/pages/admin/dashboard/index.html',
         PAINEL: {
@@ -17,6 +17,7 @@ export const ROUTES = {
             DISCIPLINAS: (id) => `/frontend/src/pages/admin/edicao/disciplinas/index.html?id=${id}`,
             ALUNOS: (id) => `/frontend/src/pages/admin/edicao/alunos/index.html?id=${id}`,
             PROFESSORES: (id) => `/frontend/src/pages/admin/edicao/professores/index.html?id=${id}`,
+            QUIZZES: (id) => `/frontend/src/pages/admin/edicao/quizzes/index.html?id=${id}`,
         },
     },
     ALUNO: {
@@ -31,22 +32,25 @@ export const ROUTES = {
         QUIZ: {
             INFO: (id) => `/frontend/src/pages/professor/quiz/infos/index.html?id=${id}`,
             CREATE: '/frontend/src/pages/professor/quiz/create/index.html?step=1',
-            EDIT: (id) => `/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${id}`,
+            EDIT: (id) => `/frontend/src/pages/professor/quiz/edicao/index.html?id=${id}`,
+            RASCUNHO: (id) => `/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${id}`,
             GABARITO: ({ quiz, tentativa }) => `/frontend/src/pages/professor/quiz/gabarito/index.html?quiz=${quiz}&tentativa=${tentativa}`,
         }
     },
 }
 
 export const API_ENDPOINTS = {
+    LOGIN: 'http://localhost:3333/api/usuarios/login',
     POST_USER: 'http://localhost:3333/api/usuarios',
     POST_DISCIPLINA: 'http://localhost:3333/api/disciplinas',
     POST_QUIZ: 'http://localhost:3333/api/quiz/new',
     POST_RESPOSTA: (id) => `http://localhost:3333/api/respostas/new/${id}`,
 
+    GET_USER_TYPE: 'http://localhost:3333/api/usuarios/me',
     GET_DISCIPLINAS: 'http://localhost:3333/api/disciplinas/cadastradas',
     GET_DISCIPLINA_NAME: (id) => `http://localhost:3333/api/disciplinas/name/${id}`,
     GET_DISCIPLINA: (id) => `http://localhost:3333/api/disciplinas/${id}`,
-    GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`,
+    GET_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/${id}`, //FIXME:
     GET_PERGUNTAS_QUIZ: (id) => `http://localhost:3333/api/respostas/quiz/${id}`,
     GET_GABARITO: (id) => `http://localhost:3333/api/respostas/gabarito/${id}`,
     EMBARALHA: (id) => `http://localhost:3333/api/quiz/embaralha/${id}`,
@@ -57,6 +61,7 @@ export const API_ENDPOINTS = {
     GET_QUIZ_INFO_BY_DISCIPLINA_ID: (id) => `http://localhost:3333/api/disciplinas/quiz/${id}`,
     GET_QUIZZES_FOR_PROFESSOR_BY_DISCIPLINA_ID: (id) => `http://localhost:3333/api/quiz/prof/disciplina/${id}`,
 
+    PATCH_QUIZ: (id) => `http://localhost:3333/api/quiz/${id}`,
     PATCH_ADICIONAR_QUIZ_A_DISCIPLINA: 'http://localhost:3333/api/disciplinas/quiz',
     PATCH_DISCIPLINA_BY_ID: (id) => `http://localhost:3333/api/disciplinas/editar/${id}`,
     PATCH_DISCIPLINA_POFESSOR_BY_ID: (id) => `http://localhost:3333/api/disciplinas/professor/${id}`,

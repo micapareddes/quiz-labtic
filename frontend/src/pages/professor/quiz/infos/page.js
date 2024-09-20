@@ -1,7 +1,7 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 
@@ -9,6 +9,7 @@ import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { Heading } from '/frontend/src/components/heading.js'
 import { SidebarProfessor } from '/frontend/src/pages/professor/components/sidebar-professor.js'
 import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
+import { openToaster, closeToaster, SuccessToaster } from '/frontend/src/components/toaster.js'
 import { Empty } from '/frontend/src/components/empty.js'
 import { Button } from '/frontend/src/components/button.js'
 import { Title } from '/frontend/src/components/fonts.js'
@@ -86,8 +87,8 @@ try {
     editButton.prepend(editIcon)
     dotMenu.appendChild(dotMenuIcon)
     dotMenuOptions.append(
+        editButton,
         removeButton,
-        editButton
     )
     dotMenuContainer.append(
         dotMenu,
@@ -135,7 +136,7 @@ try {
                 message: `Você irá remover o quiz ${titulo}. Esta ação não pode ser desfeita.`, 
                 confirmarButtonName: 'Remover', 
                 onConfirm: async () => {
-                    await makeRequest({
+                    await makeRequest({ //TODO: Adicionar try catch
                         url: API_ENDPOINTS.DELETE_QUIZ(quizId), 
                         method: 'DELETE', 
                         token: accessToken, 
@@ -145,6 +146,10 @@ try {
                 } 
             })
         )
+    }
+
+    editButton.onclick = () => {
+        navigateTo(ROUTES.PROFESSOR.QUIZ.EDIT(quizId))
     }
 
     dotMenu.onclick = () => {
@@ -157,6 +162,16 @@ try {
             dotMenuOptions.classList.add('hidden')
         }
     })
+
+    if (localStorage.getItem('quizEditado')) {
+        localStorage.removeItem('quizEditado')
+        openToaster(
+            SuccessToaster({
+                message: 'Edicoes de quiz salvas!'
+            })
+        )
+        closeToaster()
+    }
 
 } catch (error) {
     

@@ -22,14 +22,12 @@ export function Heading({ title='Titulo', subtitle='', subtitleSize='lg', goBack
         eSubtitle.classList.add('row-start-2', 'col-start-2')
 
         const goBackButton = document.createElement('button')
-        const leftArrow = document.createElement('img')
+        const leftArrow = document.createElement('i')
         const div = document.createElement('div')
 
         div.className = 'flex justify-start w-8 h-8 mr-3'
 
-        leftArrow.src = '/frontend/src/img/icones/caret-left.svg'
-        leftArrow.height = 32
-        leftArrow.width = 32
+        leftArrow.className = 'ph ph-caret-left text-2xl'
 
         goBackButton.className = 'row-span-2 hover:bg-neutral-200 rounded-md p-1'
         goBackButton.appendChild(leftArrow)

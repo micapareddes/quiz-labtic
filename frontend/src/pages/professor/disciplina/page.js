@@ -1,7 +1,7 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
@@ -47,7 +47,7 @@ async function DisciplinaPage() {
             Button({
                 title: 'Criar quiz',
                 ariaLabel: 'Botão para criar novo quiz',
-                icon: true,
+                icon: 'file-plus',
                 id: 'criar-quiz',
                 link: ROUTES.PROFESSOR.QUIZ.CREATE,
             })
@@ -101,7 +101,7 @@ async function DisciplinaPage() {
                 ulRascunhos.appendChild(
                     ListItemBoxWithTitle({ 
                         title: quiz.titulo,
-                        linkPainel: ROUTES.PROFESSOR.QUIZ.EDIT(quiz._id),
+                        linkPainel: ROUTES.PROFESSOR.QUIZ.RASCUNHO(quiz._id),
                     })
                 )
             })

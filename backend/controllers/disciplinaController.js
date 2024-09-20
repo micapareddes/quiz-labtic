@@ -147,11 +147,11 @@ class DisciplinaController {
 
         const id = req.params.id
         
-        const disciplina = await ModeloDisciplina.findOne({_id: id})
+        const disciplina = await ModeloDisciplina.findOne({_id: id}, 'nome professor_id quizes')
 
         if (!disciplina) throw new ServidorError(DISCIPLINA_ERROR.DOESNT_EXIST)
 
-        res.status(200).json({ disciplina })
+        res.status(200).json(disciplina)
     }
 
     async cadastrarProfessorADisciplinas(req, res) {

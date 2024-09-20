@@ -1,17 +1,15 @@
 // Services and others
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { getAlunoWithDisciplinas } from './service/getAlunoWithDisciplinas.js'
-import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
-import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
-import { editedDisciplinasDoAluno } from './service/editDisciplinasDoAluno.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/functions/saveOriginalValues.js'
+import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/obtainOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -76,9 +74,10 @@ async function handleSubmit(e) {
         return
     }
 
+    const dataMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula
     const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
     
-    const formMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula || disciplinasMudaram
+    const formMudou = dataMudou || disciplinasMudaram
 
     if (!formMudou) {
         openToaster(
@@ -92,8 +91,20 @@ async function handleSubmit(e) {
     }
 
     try {
-        await editUser(editedData)
-        if (disciplinasMudaram) await editedDisciplinasDoAluno(editedDisciplinas)
+        const id = getUrlParam('id')
+        const accessToken = localStorage.getItem('accessToken')
+        if (dataMudou) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_USER(id), 
+            method:'PATCH', 
+            token: accessToken,
+            data: editedData,
+        })
+        if (disciplinasMudaram) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_STUDENT_DISCIPLINAS(id), 
+            method:'PATCH', 
+            token: accessToken,
+            data: editedDisciplinas
+        })
         removeOriginalValuesFromStorage()
         localStorage.setItem('alunoAlterado', editedData.nome)
         navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS) 
@@ -122,6 +133,7 @@ function handleChange(event) { //TODO: Testar se elimina todos os erros
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
     if (!getUrlParam('id')) {
         navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS)
@@ -134,7 +146,11 @@ async function EdicaoCadastroPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinasCadastradas = await getDisciplinas()
-    const { nome, matricula, email, disciplinas } = await getAlunoWithDisciplinas()
+    const { nome, matricula, email, disciplinas } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_STUDENT_WITH_DISCIPLINA(getUrlParam('id')), 
+        method:'GET', 
+        token: localStorage.getItem('accessToken') 
+    })
     const disciplinasAlunoIds = new Set(disciplinas.map(disciplina => disciplina.id))
 
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
@@ -238,5 +254,16 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+
+} catch (error) {
+    console.log(error);
+    if (error.status === 403) {
+        alert('Acesso Proibido')
+        navigateTo(ROUTES.ERROR404)
+    }
+    else {
+        alert('Algo deu errado, tente novamente mais tarde...')
+    }
+}
 }
 EdicaoCadastroPage()

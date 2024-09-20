@@ -1,9 +1,9 @@
 // Functions
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { getProfessoresWithDisciplinas } from './service/getProfessoresWithDisciplinas.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 
 // Components
 import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
@@ -14,12 +14,18 @@ import { Empty } from '/frontend/src/components/empty.js'
 import { SuccessToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 
 async function ProfessoresPage() {
+try {
     verifyUserAccess('admin')
     removeOriginalValuesFromStorage()
     const root = document.getElementById('root')
     const main = document.getElementById('main')
     const header = document.createElement('div')
-    const professores = await getProfessoresWithDisciplinas()
+    const accessToken = localStorage.getItem('accessToken')
+    const professores = await makeRequest( { 
+        url: API_ENDPOINTS.GET_ALL_PROFESSORES_WITH_DISCIPLINAS, 
+        method:'GET', 
+        token: accessToken
+    })
     const quantidadeProfessores = professores.length
     
     header.className = 'flex flex-row justify-between items-start mb-10'
@@ -36,7 +42,7 @@ async function ProfessoresPage() {
             size: 'md',
             title: 'Cadastrar',
             ariaLabel: 'Botão para cadastrar novo professor',
-            icon: true,
+            icon: 'file-plus',
             link: ROUTES.ADMIN.CADASTRO.PROFESSORES
         })
     )
@@ -63,5 +69,15 @@ async function ProfessoresPage() {
             localStorage.removeItem('professorAlterado')
         }
     }
+} catch (error) {
+    console.log(error);
+    
+    if (error.status === 403) {
+        alert('Acesso Proibido')
+        redirectTo404()
+    } else {
+        alert('Algo deu errado...')
+    }
+}
 }
 ProfessoresPage()

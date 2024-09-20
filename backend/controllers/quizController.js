@@ -31,6 +31,42 @@ class QuizController {
         res.status(204).send()   
     }
 
+    async editarQuiz(req, res) {
+        const userId = req.userId
+        const user = await ModeloUsuario.findById(userId, 'papel')
+        const userInvalido = !user || user.papel === 'aluno'
+        if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const quizId = req.params.id
+        const newData = req.body
+        if (newData.disciplina_id) throw new ServidorError(QUIZ_ERROR.FORBIDDEN_EDIT)
+        
+        let newRespostaData = {};
+
+        if (newData.titulo) {
+            newRespostaData.nome_quiz = newData.titulo
+        }
+        if (newData.tempo) {
+            newRespostaData.tempo_quiz = newData.tempo
+        }
+        if (newData.perguntas) {
+            newRespostaData.perguntas_quiz = newData.perguntas
+        }
+
+        await ModeloQuiz.findByIdAndUpdate(quizId, newData)
+
+        await ModeloResposta.updateMany({quiz_id: quizId}, newRespostaData)
+
+        if (newData.titulo) {
+            await ModeloDisciplina.updateOne(
+                { 'quizes.quiz_id': quizId },
+                { $set: {'quizes.$.nome': newData.titulo} }
+            )
+        }
+        
+        res.status(204).send()
+    }
+
     async deleteQuizAndDependencies(req, res) {
         const userId = req.userId
         const user = await ModeloUsuario.findById(userId, 'papel')
@@ -124,7 +160,7 @@ class QuizController {
         if (userInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
 
         const quizId = req.params.id
-        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt')
+        const quiz = await ModeloQuiz.findById(quizId, '-createdAt -updatedAt').populate('disciplina_id', 'nome')
         if (!quiz) throw new ServidorError(QUIZ_ERROR.DOESNT_EXIST)
 
         res.status(200).json(quiz)

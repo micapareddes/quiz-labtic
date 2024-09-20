@@ -1,9 +1,7 @@
 // Functions
 import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
 import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
-import { postQuiz } from '../service/postQuiz.js'
 import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 
 // Components
@@ -13,6 +11,69 @@ import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/component
 import { Question } from '/frontend/src/components/question.js'
 import { Button } from '/frontend/src/components/button.js'
 
+async function handleGuardarRascunho() {
+    const form = document.querySelector('form')
+    const info = JSON.parse(localStorage.getItem('infos'))
+    const perguntasContainer = Array.from(form.querySelectorAll('.pergunta-container'))
+    const perguntas = 
+        perguntasContainer.map((pergunta) => {
+            const alternativasIncorretas = Array.from(pergunta.querySelectorAll('.incorreta'))
+            const incorretasArray = alternativasIncorretas.map((i) => {
+                return {
+                    conteudo: i.value.trim(),
+                    isCorreta: false
+                }
+            })
+            
+            return {
+                pergunta: pergunta.querySelector('.pergunta').value.trim(),
+                alternativas: [
+                    {
+                        conteudo: pergunta.querySelector('.correta').value.trim(),
+                        isCorreta: true
+                    },  
+                    incorretasArray[0],
+                    incorretasArray[1],
+                    incorretasArray[2]          
+                ]
+            }
+        })
+    console.log(info);
+
+    const formatedData = {
+        titulo: info.nome,
+        disciplina_id: info.disciplina.id,
+        tipo: info.tipo,
+        tempo: info.tempoMax,
+        tentativas: info.tentativas,
+        data_inicio: info.dataInicio,
+        data_fim: info.dataFinal,
+        orientacao: info.orientacoes,
+        isRascunho: true,
+        perguntas: perguntas
+    }
+    
+    try {
+        await makeRequest({
+            url: API_ENDPOINTS.POST_QUIZ, 
+            method: 'POST', 
+            token: localStorage.getItem('accessToken'), 
+            data: formatedData, 
+        })
+        localStorage.setItem('rascunho', true)
+        localStorage.removeItem('infos')
+        localStorage.removeItem('perguntas')
+        localStorage.removeItem('perguntasRascunho')
+        localStorage.removeItem('rascunhoId')
+        localStorage.removeItem('mudou')
+        navigateTo(ROUTES.PROFESSOR.DISCIPLINA(info.disciplina.id))
+
+    } catch (error) {
+        console.log(error)
+        alert('Algo deu errado, tente novamente mais tarde...')
+    }
+
+}
 async function handleSubmit(e) {
     e.preventDefault()
     const form = document.querySelector('form')
@@ -54,7 +115,6 @@ async function handleSubmit(e) {
             }
         })
     
-    
     const data = {
         titulo: nome,
         disciplina_id: disciplina.id,
@@ -88,6 +148,8 @@ async function handleSubmit(e) {
         })
         localStorage.removeItem('infos')
         localStorage.removeItem('perguntas')
+        localStorage.removeItem('perguntasRascunho')
+        localStorage.removeItem('rascunhoId')
         localStorage.setItem('quizCadastrado', true)
         navigateTo(ROUTES.PROFESSOR.DISCIPLINA(data.disciplina_id))
     } catch (error) {
@@ -172,7 +234,7 @@ export async function Step2Page() {
             title: 'Guardar como rascunho', 
             ariaLabel: 'Botão para guardar quiz como rascunho',
             type: 'button', 
-            onClick: () => {}, 
+            onClick: () => handleGuardarRascunho(), 
             id: 'button-id',
         }),        
         Button({
@@ -181,7 +243,6 @@ export async function Step2Page() {
             title: 'Postar', 
             ariaLabel: 'Botão de submit para postar quiz',
             type: 'submit', 
-            onClick: () => {}, //TODO: Adicionar guardar como rascunho
             id: 'submit',
         }),
     )
@@ -217,13 +278,11 @@ export async function Step2Page() {
         }
         removeButton.appendChild(removeIcon)
         headingContainer.appendChild(removeButton)
-
-        localStorage.removeItem('rascunhoId')
-
     }
-    form.onsubmit = handleSubmit
 
-    const perguntas = JSON.parse(localStorage.getItem('perguntas'))
+    const perguntasAlteradas = JSON.parse(localStorage.getItem('perguntas'))
+    const perguntasRascunho = JSON.parse(localStorage.getItem('perguntasRascunho'))
+    const perguntas = perguntasRascunho || perguntasAlteradas
     if (perguntas) {
         const perguntasContainer = form.querySelectorAll('.pergunta-container')
         perguntasContainer.forEach((container) => {
@@ -252,4 +311,6 @@ export async function Step2Page() {
 
         })
     }
+
+    form.onsubmit = handleSubmit
 }

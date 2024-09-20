@@ -1,10 +1,9 @@
 // Functions
 import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
-import { cadastrar } from '/frontend/src/pages/admin/service/cadastrar.js'
-import { cadastrarProfessorADisciplinas } from './service/cadastrarProfessorADisciplinas.js'
 
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -74,11 +73,19 @@ async function handleSubmit(event) {
     }
 
     try {
-        await cadastrar({
-            url: API_ENDPOINTS.POST_USER,
-            data,
+        const accessToken = localStorage.getItem('accessToken')
+        await makeRequest({ 
+            url: API_ENDPOINTS.POST_USER, 
+            method: 'POST', 
+            token: accessToken, 
+            data, 
         })
-        if (selectedDisciplinasArray.length > 0) await cadastrarProfessorADisciplinas(disciplinasData)
+        if (selectedDisciplinasArray.length > 0) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_PROFESSORES_TO_DISCIPLINAS, 
+            method: 'PATCH', 
+            token: accessToken, 
+            data: disciplinasData, 
+        })
         form.reset()
         selectedDisciplinasOnContainer.forEach((selected) => selected.remove())
         openToaster(

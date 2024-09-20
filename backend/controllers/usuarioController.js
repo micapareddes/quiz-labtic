@@ -146,7 +146,7 @@ class UsuarioController {
         const userData = await ModeloUsuario.findById(reqUserId)
         if (!userData) throw new ServidorError(USER_ERROR.DOESNT_EXIST)
 
-        return res.status(200).json({ name: userData.nome })
+        return res.status(200).json(userData.nome)
     }
 
     async listarInformacoesPorId(req, res) {
@@ -170,7 +170,7 @@ class UsuarioController {
         const professoresCadastrados = await ModeloUsuario.find({papel: 'professor'}, 'nome _id')
 
 
-        return res.status(200).json({ professoresCadastrados })
+        return res.status(200).json(professoresCadastrados)
     }
 
     async listarTodosProfessoresComDisciplinas(req, res) {

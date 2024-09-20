@@ -1,17 +1,15 @@
 // Services and others
-import { ROUTES } from '/frontend/src/utils/routes.js'
+import { API_ENDPOINTS, ROUTES } from '/frontend/src/utils/routes.js'
 import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/frontend/src/functions/makeRequest.js'
 import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { getProfessorWithDisciplinas } from './service/getProfessorWithDisciplinas.js'
-import { editUser } from '../service/editUser.js'
 import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
 // Functions
-import { getUrlParam } from '/frontend/src/pages/admin/edicao/functions/getUrlParam.js'
+import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
 import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { saveOriginalValues } from '/frontend/src/pages/admin/edicao/functions/saveOriginalValues.js'
-import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/obtainOriginalValuesFromStorage.js'
-import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/edicao/functions/removeOriginalValuesFromStorage.js'
-import { editProfessorOfDisciplinas } from './service/editProfessorOfDisciplinas.js'
+import { saveOriginalValues } from '/frontend/src/pages/admin/functions/saveOriginalValues.js'
+import { obtainOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/obtainOriginalValuesFromStorage.js'
+import { removeOriginalValuesFromStorage } from '/frontend/src/pages/admin/functions/removeOriginalValuesFromStorage.js'
 import { arraysSaoIguais } from '/frontend/src/functions/arraysSaoIguais.js'
 // Components
 import { Heading } from '/frontend/src/components/heading.js'
@@ -71,10 +69,15 @@ async function handleSubmit(e) {
         submitButton.disabled = true
         return
     }
+    
+    const disciplinasMudaram = () => {
+        if (disciplinas.length !== editedDisciplinas.length) return true
+        return disciplinas.every(i1 => editedDisciplinas.some(i2 => i1.id !== i2))
+    }
 
-    const disciplinasMudaram = !arraysSaoIguais(editedDisciplinas, disciplinas)
     const dataMudou = nome !== editedData.nome  || email !== editedData.email  || matricula !== editedData.matricula
-    const formMudou = dataMudou || disciplinasMudaram
+    const formMudou = dataMudou || disciplinasMudaram()
+
 
     if (!formMudou) {
         openToaster(
@@ -88,8 +91,20 @@ async function handleSubmit(e) {
     }
 
     try {
-        if (dataMudou) await editUser(editedData)
-        if (disciplinasMudaram) await editProfessorOfDisciplinas(editedDisciplinas)
+        const id = getUrlParam('id')
+        const accessToken = localStorage.getItem('accessToken')
+        if (dataMudou) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_USER(id), 
+            method:'PATCH', 
+            token: accessToken,
+            data: editedData,
+        })
+        if (disciplinasMudaram) await makeRequest({ 
+            url: API_ENDPOINTS.PATCH_DISCIPLINA_POFESSOR_BY_ID(id), 
+            method:'PATCH', 
+            token: accessToken,
+            data: editedDisciplinas 
+        })
         removeOriginalValuesFromStorage()
         localStorage.setItem('professorAlterado', editedData.nome)
         navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES) 
@@ -125,8 +140,10 @@ function handleChange(event) { //TODO: reset error handler
 }
 
 async function EdicaoCadastroPage() {
+try {
     verifyUserAccess('admin')
-    if (!getUrlParam('id')) {
+    const id = getUrlParam('id')
+    if (!id) {
         navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES)
         return
     }
@@ -137,7 +154,11 @@ async function EdicaoCadastroPage() {
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
     const disciplinasCadastradas = await getDisciplinas()
-    const { nome, matricula, email, disciplinas } = await getProfessorWithDisciplinas()
+    const { nome, matricula, email, disciplinas } = await makeRequest({ 
+        url: API_ENDPOINTS.GET_PROFESSOR_WITH_DISCIPLINA(id), 
+        method:'GET', 
+        token: localStorage.getItem('accessToken') 
+    })
     const disciplinasIds = new Set(disciplinas.map(disciplina => disciplina.id))
 
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
@@ -237,5 +258,8 @@ async function EdicaoCadastroPage() {
 
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+} catch (error) {
+    
+}
 }
 EdicaoCadastroPage()

@@ -116,6 +116,11 @@ export const QUIZ_ERROR = {
         errorCode: 5404,
         message: "Quiz não existe!"        
     },
+    FORBIDDEN_EDIT: {
+        statusCode: 403,
+        errorCode: 5403,
+        message: "Ação não permitida!"
+    },
 }
 
 export const ANSWER_ERROR = {
