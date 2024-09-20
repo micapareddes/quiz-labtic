@@ -61,3 +61,8 @@ O design deste projeto foi criado com o objetivo de desenvolver uma plataforma e
 Escolhi as cores roxo e amarelo, inspirada na paleta da universidade (Polvo), mas fiz algumas adaptações para dar um toque mais leve e lúdico, alinhando com a identidade visual minimalista que eu buscava. O design foi pensado para ser funcional e visualmente atraente, sem sobrecarregar o usuário com elementos desnecessários.
 
 Durante o processo, enfrentei o desafio de equilibrar a simplicidade técnica com um design visualmente interessante. Evitei detalhes complexos e mantive o foco na clareza da navegação e no uso prático. O resultado final reflete essa busca por um equilíbrio entre a criatividade e a simplicidade, oferecendo uma experiência intuitiva e agradável para o usuário, sem comprometer o foco no aprendizado.
+
+## Links
+[Documentação](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) •
+[Presentação do projeto](https://www.behance.net/gallery/202116443/Polvo) • 
+[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1)
