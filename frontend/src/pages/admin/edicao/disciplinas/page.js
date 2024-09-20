@@ -123,7 +123,6 @@ try {
         method:'GET', 
         token: accessToken, 
     })
-    console.log(quizes);
     
     inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
@@ -198,7 +197,7 @@ try {
         }),
         form
     )
- 
+
     const input =  form.querySelector('input')
     const select = form.querySelector('select')
     input.value = nome

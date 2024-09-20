@@ -97,7 +97,7 @@ async function handleSubmit(e) { //TODO: Validação de erro e form mudou
             data,
         })
         localStorage.setItem('quizEditado', true)
-        navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
+        navigateTo(ROUTES.PROFESSOR.QUIZ.INFO(quizId))
     } catch (error) {
         console.log(error);
         alert('Algo deu errado, tente novamente mais tarde.')
@@ -107,9 +107,9 @@ async function handleSubmit(e) { //TODO: Validação de erro e form mudou
 
 async function EditQuizPage() {
 try {
-    verifyUserAccess('admin')
+    verifyUserAccess('professor')
     const id = getUrlParam('id')
-    if (!id) navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
+    if (!id) history.back()
 
     const root = document.getElementById('root')
     const main = document.getElementById('main')

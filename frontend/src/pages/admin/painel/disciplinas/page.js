@@ -65,5 +65,15 @@ async function DisciplinasPage() {
             localStorage.removeItem('disciplinaAlterada')
         }
     }
+
+    if (localStorage.getItem('quizEditado')) {
+        localStorage.removeItem('quizEditado')
+        openToaster(
+            SuccessToaster({
+                message: 'Edições de quiz salvas!'
+            })
+        ) 
+        closeToaster()
+    }
 }
 DisciplinasPage()

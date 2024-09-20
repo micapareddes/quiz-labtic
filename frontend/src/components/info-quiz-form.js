@@ -67,7 +67,7 @@ export function InfoQuizForm(disciplinas=[]) {
         })
     }
 
-    container.className = 'pt-6 gap-6 md:gap-8 md:p-10 flex flex-col md:grid md:grid-cols-2'
+    container.className = 'gap-6 md:gap-8 flex flex-col md:grid md:grid-cols-2 w-full'
     nameInputContainer.className = 'col-span-2'
     disciplinaSelectContainer.id = 'disciplina-container'
     tipoSelectContainer.id = 'tipo-container'
