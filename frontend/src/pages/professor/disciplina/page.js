@@ -101,7 +101,7 @@ async function DisciplinaPage() {
                 ulRascunhos.appendChild(
                     ListItemBoxWithTitle({ 
                         title: quiz.titulo,
-                        linkPainel: ROUTES.PROFESSOR.QUIZ.EDIT(quiz._id),
+                        linkPainel: ROUTES.PROFESSOR.QUIZ.RASCUNHO(quiz._id),
                     })
                 )
             })

@@ -509,7 +509,7 @@ try {
     const orientacoesInput = form.querySelector('#orientacoes')
     
     if (rascunhoId) {
-        const { data_fim, data_inicio, disciplina_id, orientacao, tempo, tentativas, tipo, titulo } = await makeRequest({
+        const { data_fim, data_inicio, disciplina_id, orientacao, tempo, tentativas, tipo, titulo, perguntas } = await makeRequest({
             url: API_ENDPOINTS.GET_QUIZ(rascunhoId),
             method: 'GET', 
             token: localStorage.getItem('accessToken'), 
@@ -518,6 +518,10 @@ try {
         const removeIcon = document.createElement('i')
 
         localStorage.setItem('rascunhoId', rascunhoId)
+        console.log(perguntas);
+        
+        const jsonData = JSON.stringify(perguntas)
+        localStorage.setItem('perguntasRascunho', jsonData)
 
         removeIcon.className = 'ph ph-trash-simple text-xl text-stone-400'
         removeButton.onclick = () => {

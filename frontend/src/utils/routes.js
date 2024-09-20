@@ -33,6 +33,7 @@ export const ROUTES = {
             INFO: (id) => `/frontend/src/pages/professor/quiz/infos/index.html?id=${id}`,
             CREATE: '/frontend/src/pages/professor/quiz/create/index.html?step=1',
             EDIT: (id) => `/frontend/src/pages/professor/quiz/edicao/index.html?id=${id}`,
+            RASCUNHO: (id) => `/frontend/src/pages/professor/quiz/create/index.html?step=1&id=${id}`,
             GABARITO: ({ quiz, tentativa }) => `/frontend/src/pages/professor/quiz/gabarito/index.html?quiz=${quiz}&tentativa=${tentativa}`,
         }
     },
