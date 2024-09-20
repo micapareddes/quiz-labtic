@@ -46,7 +46,7 @@ async function handleGuardarRascunho() {
         tempoMax: tempoMaxInput.value,
         dataInicio: dataInicioInput.value,
         dataFinal: dataFinalInput.value,
-        orientacoes: orientacoesInput.value.trim(),
+        orientacoes: orientacoesInput.value,
     }
 
     const { success, error } = infoQuizValidation(data)
@@ -161,7 +161,7 @@ function handleCriarPerguntas(e) {
         tempoMax: tempoMaxInput.value,
         dataInicio: dataInicioInput.value,
         dataFinal: dataFinalInput.value,
-        orientacoes: orientacoesInput.value.trim(),
+        orientacoes: orientacoesInput.value,
     }
     
     const { success, error } = infoQuizValidation(data)

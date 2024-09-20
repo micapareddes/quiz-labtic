@@ -81,5 +81,5 @@ export function closeToaster() {
 
     setTimeout(() => {
         toasterId.remove()
-    }, 5000)
+    }, 3000)
 }
