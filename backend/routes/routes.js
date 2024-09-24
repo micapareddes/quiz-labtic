@@ -12,5 +12,5 @@ export const router = Router()
 router.use("/usuarios", routerUsuario)
 router.use("/disciplinas", routerDisciplina)
 router.use("/alunos_disciplinas", routerAlunoDisciplina)
-router.use("/quiz", routerQuiz) //TODO: mudar para quizzes
+router.use("/quiz", routerQuiz) //TODO: mudar para quizzes 
 router.use("/respostas", routerResposta)

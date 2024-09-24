@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import 'dotenv/config.js'
 import express from "express";
 import cors from "cors"
 import { banco } from "./db/conn.js"
@@ -16,6 +16,6 @@ servidor.use(errorHandler)
 
 banco() // conexão com banco pelo mongoose
 
-servidor.listen(3333, () => {
+servidor.listen(process.env.PORT, () => {
     console.log('Servidor ativo na porta 3333')
 })
