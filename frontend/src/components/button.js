@@ -4,7 +4,7 @@ export function Button(
     const isGhost = variant === 'ghost'
     const sizeStyle = {
         'sm': isGhost ? 'text-xs md:text-sm' : 'px-5 py-2',
-        'md': isGhost ? 'text-sm md:text-base' : 'px-7 py-3',
+        'md': isGhost ? 'text-sm md:text-base' : 'px-5 py-2 md:px-7 md:py-3',
         'lg': isGhost ? 'text-base md:text-lg' : 'w-64 py-3',
         'full': isGhost ? 'text-lg md:text-xl' : 'w-full py-3'
     }
