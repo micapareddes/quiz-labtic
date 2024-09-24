@@ -2051,6 +2051,16 @@ body{
     line-height: 1.75rem;
   }
 
+  .md\:text-2xl{
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .md\:text-3xl{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
   .md\:data-\[active\=true\]\:border-l-yellow-200[data-active=true]{
     --tw-border-opacity: 1;
     border-left-color: rgb(254 240 138 / var(--tw-border-opacity));

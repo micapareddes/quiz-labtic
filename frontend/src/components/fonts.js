@@ -2,9 +2,9 @@ export function Title({ title='Titulo', size='xl', tone='s-900', bold='semibold'
     const font = {
         'md': 'text-base',
         'lg': 'text-lg',
-        'xl': 'text-xl',
-        '2xl': 'text-2xl',
-        '3xl': 'text-3xl',
+        'xl': 'text-lg md:text-xl',
+        '2xl': 'text-xl md:text-2xl',
+        '3xl': 'text-2xl md:text-3xl',
     }
     const color = {
         's-500': 'text-stone-500',
