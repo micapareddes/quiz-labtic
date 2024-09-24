@@ -98,7 +98,7 @@ async function CadastroDisciplinaPage() {
     })
     const professoresFormatados = parseProfessores(professores)
 
-    inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
+    inputsContainer.className = 'md:grid md:grid-cols-2 gap-8 space-y-8 md:space-y-0 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'h-full grid'
 

@@ -3,17 +3,17 @@ export function Button(
 ) {
     const isGhost = variant === 'ghost'
     const sizeStyle = {
-        'sm': isGhost ? 'text-sm' : 'px-5 py-2',
-        'md': isGhost ? 'text-base' : 'px-7 py-3',
-        'lg': isGhost ? 'text-lg' : 'w-64 py-3',
-        'full': isGhost ? 'text-xl' : 'w-full py-3'
+        'sm': isGhost ? 'text-xs md:text-sm' : 'px-5 py-2',
+        'md': isGhost ? 'text-sm md:text-base' : 'px-5 py-2 md:px-7 md:py-3',
+        'lg': isGhost ? 'text-base md:text-lg' : 'w-64 py-3',
+        'full': isGhost ? 'text-lg md:text-xl' : 'w-full py-3'
     }
     const variantStyle = {
-        'primary': 'bg-indigo-500 enabled:hover:bg-indigo-400 transition-all duration-100 text-neutral-50 data-[destructive="true"]:bg-red-500 enabled:data-[destructive="true"]:hover:bg-red-400',
+        'primary': 'bg-indigo-500 hover:bg-indigo-400 transition-all duration-100 text-neutral-50 data-[destructive="true"]:bg-red-500 data-[destructive="true"]:hover:bg-red-400',
 
-        'outline': 'border border-stone-400 enabled:hover:bg-stone-400 enabled:hover:bg-opacity-10 text-stone-500 transition-all duration-100 data-[destructive="true"]:border-red-500 data-[destructive="true"]:text-red-500 enabled:data-[destructive="true"]:hover:bg-red-500 enabled:data-[destructive="true"]:hover:bg-opacity-10',
+        'outline': 'border border-stone-400 hover:bg-stone-400 hover:bg-opacity-10 text-stone-500 transition-all duration-100 data-[destructive="true"]:border-red-500 data-[destructive="true"]:text-red-500 data-[destructive="true"]:hover:bg-red-500 data-[destructive="true"]:hover:bg-opacity-10',
 
-        'ghost': 'text-indigo-700 data-[destructive="true"]:text-red-500 enabled:hover:underline underline-offset-4'
+        'ghost': 'text-indigo-700 data-[destructive="true"]:text-red-500 hover:underline underline-offset-4'
     }
 
     const button = link ? document.createElement('a') : document.createElement('button')
@@ -26,6 +26,7 @@ export function Button(
 
     if (disabled) {
        button.disabled = true
+       button.classList.remove('hover:underline', 'data-[destructive="true"]:hover:bg-opacity-10', 'data-[destructive="true"]:hover:bg-red-500', 'hover:bg-stone-400', 'hover:bg-opacity-10', 'data-[destructive="true"]:hover:bg-red-400', 'hover:bg-indigo-400')
     }
 
     if (icon) {

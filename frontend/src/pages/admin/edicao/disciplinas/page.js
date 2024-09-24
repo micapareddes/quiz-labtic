@@ -20,7 +20,7 @@ import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
 import { InfoToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
 import { ErrorMessage } from '/frontend/src/components/error-message.js'
 import { QuizTable } from './components/quiz-table.js'
-import { Title } from '../../../../components/fonts.js'
+import { Title, Text } from '/frontend/src/components/fonts.js'
 
 async function handleSubmit(e) {
     e.preventDefault()
@@ -124,7 +124,7 @@ try {
         token: accessToken, 
     })
     
-    inputsContainer.className = 'grid grid-cols-2 gap-8 items-start mt-10'
+    inputsContainer.className = 'md:grid md:grid-cols-2 gap-8 space-y-8 md:space-y-0 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
     form.className = 'h-full grid'
     contentContainer.className = ''
@@ -165,9 +165,22 @@ try {
             bold: 'regular', 
             as: 'h3', 
             className: 'mt-8' 
-        }), 
-        QuizTable(quizes)
+        })
     )
+
+    if (quizes.length > 0) {
+        contentContainer.appendChild(
+            QuizTable(quizes)
+        )
+    } else {
+        contentContainer.appendChild(
+            Text({
+                text: 'Nenhum quiz cadastrado.',
+                className: 'pt-6',
+                tone: 's-400'
+            })
+        )  
+    }
     form.append(contentContainer, buttonContainer)
     main.append(    
         Heading({

@@ -24,7 +24,7 @@ async function DisciplinasPage() {
     const disciplinasFormatadas = parseDisciplinas(disciplinas)
     const quantidadeDisciplinas = disciplinas.length
 
-    header.className = 'flex flex-row justify-between items-start mb-10'
+    header.className = 'flex flex-col gap-4 md:flex-row justify-between items-start mb-10'
     header.append(        
         Heading({
             goBack: true, 
