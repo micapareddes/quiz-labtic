@@ -1,6 +1,7 @@
 </div>
     <div align=center>
     <img src="/frontend/src/img/logo-light.svg" width=100px>
+    </div>
 </div>
 
 ![Polvo Capa](/frontend/src/img/capa.png)
@@ -65,4 +66,5 @@ Durante o processo, enfrentei o desafio de equilibrar a simplicidade técnica co
 ## Links
 [Documentação](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) •
 [Presentação do projeto](https://www.behance.net/gallery/202116443/Polvo) • 
-[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1)
+[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1) •
+[Site](https://polvinho.netlify.app)
