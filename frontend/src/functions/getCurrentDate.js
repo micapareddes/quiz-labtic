@@ -3,5 +3,5 @@ export function getCurrentDate() {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
-      }).split('/').reverse().join('-');
+      }).split('/').reverse().join('-')
 }

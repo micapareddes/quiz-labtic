@@ -1,16 +1,17 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { getUrlParam } from '/src/functions/getUrlParam.js'
 
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { PerguntaRespostaGabarito } from '/frontend/src/components/pergunta-resposta-gabarito.js'
-import { QuestionSidecard } from '/frontend/src/components/sidecard.js'
+import { Heading } from '/src/components/heading.js'
+import { PerguntaRespostaGabarito } from '/src/components/pergunta-resposta-gabarito.js'
+import { QuestionSidecard } from '/src/components/sidecard.js'
 import { SidebarProfessor } from "../../components/sidebar-professor.js"
+import { Text } from '/src/components/fonts.js'
 
 async function GabaritoPage() {
     try {
@@ -23,12 +24,7 @@ async function GabaritoPage() {
         if (!tentativaId) navigateTo(ROUTES.ERROR404)
 
         const accessToken = localStorage.getItem('accessToken')
-        const { disciplina_id: disciplina, perguntas, titulo } = await makeRequest({
-            method: 'GET',
-            url: API_ENDPOINTS.GET_QUIZ_FOR_GABARITO_BY_ID(quizId),
-            token: accessToken,
-        })
-        const { nota, gabarito } = await makeRequest({
+        const { nota, gabarito, nome_quiz:titulo, disciplina_id:disciplina, perguntas_quiz:perguntas } = await makeRequest({
             method: 'GET',
             url: API_ENDPOINTS.GET_GABARITO(tentativaId),
             token: accessToken,
@@ -36,6 +32,7 @@ async function GabaritoPage() {
         
         const root = document.getElementById('root')
         const main = document.getElementById('main')
+        const loader = document.querySelector('.loader-container')
         const content = document.createElement('div')
         const perguntasContainer = document.createElement('div')
         const sidecardContainer = document.createElement('div')
@@ -71,20 +68,28 @@ async function GabaritoPage() {
             }),
             content,
         )
+        
         gabarito.forEach((item, index) => {
+            const questoes = document.querySelectorAll('.question-container')
             const alternativa = document.getElementById(`alternativa-${item.alternativa_id}`)
             const colorLetra = item.acertou ? 'green' : 'red'
-            
             if (!item.acertou) {
-                alternativa.classList.add('bg-red-100')
+                if (alternativa) alternativa.classList.add('bg-red-100')
+                questoes[index].appendChild(
+                    Text({
+                        text: 'Não pontuou nesta questão',
+                        tone: 'r-500',
+                        size: 'sm',
+                        bold: 'semibold',
+                    })
+                )
             }
             perguntasQuiz.push({
                 question: `Pergunta ${index + 1}`,
                 questionId: item.pergunta_id,
-                answer: alternativa.getAttribute('letra'),
+                answer: alternativa ? alternativa.getAttribute('letra') : '-',
                 color: colorLetra,
             })
-            
         })
         sidecardContainer.appendChild(
             QuestionSidecard({
@@ -97,8 +102,10 @@ async function GabaritoPage() {
             })
         )
         content.appendChild(sidecardContainer)
+        loader.classList.add('hidden')
 
     } catch (error) {
         console.log(error)
+        alert('Algo deu errado...')
     }
 } GabaritoPage()

@@ -1,6 +1,6 @@
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { Sidebar } from '/frontend/src/components/sidebar.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { Sidebar } from '/src/components/sidebar.js'
 
 const disciplinas = await makeRequest({
     url: API_ENDPOINTS.GET_DISCIPLINAS_ALUNO, 
@@ -16,6 +16,7 @@ export const painelItems = disciplinas.map((disciplina) => {
 })
 
 export function SidebarAluno(size='lg') {
+    const currentUrl = window.location.href
     return Sidebar({
         size: size,
         items: [
@@ -23,13 +24,14 @@ export function SidebarAluno(size='lg') {
                 icon: 'house',
                 title: 'Dashboard',
                 link: ROUTES.ALUNO.DASHBOARD,
-                active: true,
+                active: currentUrl.includes('dashboard'),
             },
             {
                 icon: 'books',
                 title: 'Disciplinas',
                 accordion: true,
                 accordionOptions: painelItems,
+                active: currentUrl.includes('disciplina'),
             },
         ],
         changePassword: true,

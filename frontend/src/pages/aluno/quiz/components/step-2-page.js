@@ -1,21 +1,19 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { infoQuizValidation } from '/src/validations/infoQuizValidation.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { perguntasQuizValidation } from '/src/validations/perguntasQuizValidation.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { getUrlParam } from '/src/functions/getUrlParam.js'
 
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { openDialog, ActionDialog, SuccessDialog } from '/frontend/src/components/dialog.js'
-import { Question } from '/frontend/src/components/question.js'
-import { Button } from '/frontend/src/components/button.js'
-import { PerguntaResposta } from '/frontend/src/components/pergunta-resposta.js'
+import { Heading } from '/src/components/heading.js'
+import { openDialog, ActionDialog, SuccessDialog } from '/src/components/dialog.js'
+import { Button } from '/src/components/button.js'
+import { PerguntaResposta } from '/src/components/pergunta-resposta.js'
 import { Timer } from './timer.js'
-import { QuestionSidecard } from '/frontend/src/components/sidecard.js'
+import { QuestionSidecard } from '/src/components/sidecard.js'
 
 function handleInput(e) {
     e.preventDefault()
@@ -107,6 +105,7 @@ export async function Step2Page() {
         
         const root = document.getElementById('root')
         const main = document.getElementById('main')
+        const loader = document.querySelector('.loader-container')
         const form = document.createElement('form')
         const perguntasContainer = document.createElement('div')
         const sidecardContainer = document.createElement('div')
@@ -183,6 +182,7 @@ export async function Step2Page() {
                 }
             )
         })
+        loader.classList.add('hidden')
 
     } catch (error) {
         console.log(error)

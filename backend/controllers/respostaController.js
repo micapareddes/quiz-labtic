@@ -18,8 +18,8 @@ class RespostaController {
         const quiz = await ModeloQuiz.findById(quiz_id, 'tentativas -_id')
         const totalDeTentativasDoQuiz = Number(quiz.tentativas)
         const tentativasAluno = await ModeloResposta.countDocuments({ aluno_id: alunoId, quiz_id })
-        if (totalDeTentativasDoQuiz !== 0 && tentativasAluno >= totalDeTentativasDoQuiz) throw new ServidorError(ANSWER_ERROR.NO_MORE_ATTEMPTS)
-
+        if (totalDeTentativasDoQuiz !== 0 && tentativasAluno > totalDeTentativasDoQuiz) throw new ServidorError(ANSWER_ERROR.NO_MORE_ATTEMPTS)
+        
         const perguntasQuiz = await ModeloResposta.findById(respostaId, 'perguntas_quiz -_id')
         const perguntas = perguntasQuiz.perguntas_quiz
         

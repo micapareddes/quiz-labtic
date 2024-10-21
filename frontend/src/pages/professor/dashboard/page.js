@@ -1,19 +1,20 @@
 // Functions
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+import { API_ENDPOINTS } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { SidebarProfessor, painelItems } from '/frontend/src/pages/professor/components/sidebar-professor.js'
-import { RegisterListItem } from '/frontend/src/pages/admin/dashboard/components/registerListItem.js'
-import { Title } from '/frontend/src/components/fonts.js'
-import { Empty } from '/frontend/src/components/empty.js'
-import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
+import { Heading } from '/src/components/heading.js'
+import { SidebarProfessor, painelItems } from '/src/pages/professor/components/sidebar-professor.js'
+import { RegisterListItem } from '/src/pages/admin/dashboard/components/registerListItem.js'
+import { Title } from '/src/components/fonts.js'
+import { Empty } from '/src/components/empty.js'
+import { ListItemBoxWithTitle } from '/src/components/list.js'
 
 async function PageDashboard() {
     verifyUserAccess('professor')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const nav = document.createElement('nav')
     const ul = document.createElement('ul')
 
@@ -63,6 +64,9 @@ async function PageDashboard() {
         nav.appendChild(ul)
         main.appendChild(nav)
     }
+
+    loader.classList.add('hidden')
+
 }
 
 PageDashboard()

@@ -1,23 +1,24 @@
 // Functions
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+import { API_ENDPOINTS } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { SidebarAluno, painelItems } from '/frontend/src/pages/aluno/components/sidebar.js'
-import { Title } from '/frontend/src/components/fonts.js'
-import { Empty } from '/frontend/src/components/empty.js'
-import { ListItemBoxWithTitle } from '/frontend/src/components/list.js'
+import { Heading } from '/src/components/heading.js'
+import { SidebarAluno, painelItems } from '/src/pages/aluno/components/sidebar.js'
+import { Title } from '/src/components/fonts.js'
+import { Empty } from '/src/components/empty.js'
+import { ListItemBoxWithTitle } from '/src/components/list.js'
 
 async function PageDashboard() {
     verifyUserAccess('aluno')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const nav = document.createElement('nav')
     const ul = document.createElement('ul')
 
     root.prepend(SidebarAluno())
-    
+
     try {
         const name = await makeRequest( { 
             url: API_ENDPOINTS.GET_USER_NAME, 
@@ -33,6 +34,8 @@ async function PageDashboard() {
             })
         )
     } catch (error) {
+        console.log(error);
+        
         alert('Algo deu errado... Encerre a sessão e tente novamente.')
     }
 
@@ -62,7 +65,7 @@ async function PageDashboard() {
         nav.appendChild(ul)
         main.appendChild(nav)
     }
-
+    loader.classList.add('hidden')
 }
 
 PageDashboard()

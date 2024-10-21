@@ -1,9 +1,9 @@
 </div>
     <div align=center>
-    <img src="/frontend/src/img/logo-light.svg" width=100px>
+    <img src="/src/img/logo-light.svg" width=100px>
 </div>
 
-![Polvo Capa](/frontend/src/img/capa.png)
+![Polvo Capa](/src/img/capa.png)
 
 ## Objetivos do Software
 
@@ -63,6 +63,7 @@ Escolhi as cores roxo e amarelo, inspirada na paleta da universidade (Polvo), ma
 Durante o processo, enfrentei o desafio de equilibrar a simplicidade técnica com um design visualmente interessante. Evitei detalhes complexos e mantive o foco na clareza da navegação e no uso prático. O resultado final reflete essa busca por um equilíbrio entre a criatividade e a simplicidade, oferecendo uma experiência intuitiva e agradável para o usuário, sem comprometer o foco no aprendizado.
 
 ## Links
+
 [Documentação](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) •
-[Presentação do projeto](https://www.behance.net/gallery/202116443/Polvo) • 
-[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1)
+[Presentação do projeto](https://www.behance.net/gallery/202116443/Polvo) •
+[Design](<https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1>)

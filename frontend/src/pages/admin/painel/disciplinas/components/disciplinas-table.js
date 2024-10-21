@@ -1,6 +1,6 @@
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { TableHead, CadastrosTableRow } from '/frontend/src/components/table.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { TableHead, CadastrosTableRow } from '/src/components/table.js'
 
 export function DisciplinasTable(rows) {
     const headerContent = [
@@ -9,15 +9,12 @@ export function DisciplinasTable(rows) {
         },
         {
             content: 'Professor',
-            className: 'pl-4'
         },
         {
             content: 'Quiz',
-            className: 'pl-4'
         },
         {
             content: 'Ações',
-            className: 'pl-4'
         },
     ]
     const table = document.createElement('table')

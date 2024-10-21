@@ -137,6 +137,19 @@ class DisciplinaController {
         return res.status(200).json(disciplinasCadastradas)
     }
 
+    async listarDisciplinasSemProfessor(req, res) {
+        const adminId = req.userId
+
+        const admin = await ModeloUsuario.findById(adminId)
+        const adminInvalido = !admin || admin.papel !== 'admin'
+
+        if (adminInvalido) throw new ServidorError(TOKEN_ERROR.FORBIDDEN_ACCESS)
+
+        const disciplinasSemProfessor = await ModeloDisciplina.find({professor_id: null})
+
+        return res.status(200).json(disciplinasSemProfessor)
+    }
+
     async listarInformaçõesPorId(req, res) {
         const adminId = req.userId
 

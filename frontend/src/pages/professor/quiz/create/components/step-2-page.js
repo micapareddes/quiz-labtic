@@ -1,15 +1,15 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { perguntasQuizValidation } from '/src/validations/perguntasQuizValidation.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
-import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { Question } from '/frontend/src/components/question.js'
-import { Button } from '/frontend/src/components/button.js'
+import { Heading } from '/src/components/heading.js'
+import { AlertDialog, openDialog } from '/src/components/dialog.js'
+import { ErrorToaster, openToaster, closeToaster } from '/src/components/toaster.js'
+import { Question } from '/src/components/question.js'
+import { Button } from '/src/components/button.js'
 
 async function handleGuardarRascunho() {
     const form = document.querySelector('form')
@@ -202,6 +202,7 @@ export async function Step2Page() {
     if (!step) navigateTo(ROUTES.ERROR404)
 
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const form = document.createElement('form')
     const buttonsContainer = document.createElement('div')
     const headingContainer = document.createElement('div')
@@ -283,9 +284,12 @@ export async function Step2Page() {
     const perguntasAlteradas = JSON.parse(localStorage.getItem('perguntas'))
     const perguntasRascunho = JSON.parse(localStorage.getItem('perguntasRascunho'))
     const perguntas = perguntasRascunho || perguntasAlteradas
-    if (perguntas) {
+    if (perguntas && perguntas.length > 0) {
         const perguntasContainer = form.querySelectorAll('.pergunta-container')
+
         perguntasContainer.forEach((container) => {
+            console.log(container);
+            
             const pergunta = container.querySelector('.pergunta')
             const correta = container.querySelector('.correta')
             const incorretas = container.querySelectorAll('.incorreta')
@@ -313,4 +317,6 @@ export async function Step2Page() {
     }
 
     form.onsubmit = handleSubmit
+
+    loader.classList.add('hidden')
 }

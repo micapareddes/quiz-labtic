@@ -1,21 +1,22 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { infoQuizValidation } from '/frontend/src/validations/infoQuizValidation.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
-import { perguntasQuizValidation } from '/frontend/src/validations/perguntasQuizValidation.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { infoQuizValidation } from '/src/validations/infoQuizValidation.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { perguntasQuizValidation } from '/src/validations/perguntasQuizValidation.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { getUrlParam } from '/src/functions/getUrlParam.js'
 
 // Components
 import { SidebarAluno } from '../components/sidebar.js'
-import { Heading } from '/frontend/src/components/heading.js'
-import { ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { openDialog, ActionDialog, SuccessDialog } from '/frontend/src/components/dialog.js'
-import { Question } from '/frontend/src/components/question.js'
-import { Button } from '/frontend/src/components/button.js'
-import { PerguntaRespostaGabarito } from '/frontend/src/components/pergunta-resposta-gabarito.js'
-import { QuestionSidecard } from '/frontend/src/components/sidecard.js'
+import { Heading } from '/src/components/heading.js'
+import { ErrorToaster, openToaster, closeToaster } from '/src/components/toaster.js'
+import { openDialog, ActionDialog, SuccessDialog } from '/src/components/dialog.js'
+import { Question } from '/src/components/question.js'
+import { Button } from '/src/components/button.js'
+import { PerguntaRespostaGabarito } from '/src/components/pergunta-resposta-gabarito.js'
+import { QuestionSidecard } from '/src/components/sidecard.js'
+import { Text } from '/src/components/fonts.js'
 
 async function GabaritoPage() {
     try {
@@ -34,6 +35,7 @@ async function GabaritoPage() {
         
         const root = document.getElementById('root')
         const main = document.getElementById('main')
+        const loader = document.querySelector('.loader-container')
         const content = document.createElement('div')
         const perguntasContainer = document.createElement('div')
         const sidecardContainer = document.createElement('div')
@@ -58,6 +60,7 @@ async function GabaritoPage() {
                 })
             ) 
         })
+        
         content.appendChild(perguntasContainer)
         main.append(
             Heading({
@@ -69,13 +72,21 @@ async function GabaritoPage() {
             content,
         )
         gabarito.forEach((item, index) => {
+            const questoes = document.querySelectorAll('.question-container')
             const alternativa = document.getElementById(`alternativa-${item.alternativa_id}`)
-            console.log(alternativa);
-            
             const colorLetra = item.acertou ? 'green' : 'red'
+            console.log(questoes[index]);
             
-            if (alternativa && !item.acertou) {
-                alternativa.classList.add('bg-red-100')
+            if (!item.acertou) {
+                if (alternativa) alternativa.classList.add('bg-red-100')
+                questoes[index].appendChild(
+                    Text({
+                        text: 'Não pontuou nesta questão',
+                        tone: 'r-500',
+                        size: 'sm',
+                        bold: 'semibold',
+                    })
+                )
             }
             perguntasQuiz.push({
                 question: `Pergunta ${index + 1}`,
@@ -96,6 +107,7 @@ async function GabaritoPage() {
             }),
         )
         content.appendChild(sidecardContainer)
+        loader.classList.add('hidden')
 
     } catch (error) {
         console.log(error)

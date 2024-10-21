@@ -1,19 +1,20 @@
 // Functions
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { parseProfessores } from '/frontend/src/functions/parseProfessores.js'
-import { cadastroDisciplinaValidation } from '/frontend/src/validations/cadastroDisciplinaValidation.js'
+import { API_ENDPOINTS, ROUTES } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { parseProfessores } from '/src/functions/parseProfessores.js'
+import { cadastroDisciplinaValidation } from '/src/validations/cadastroDisciplinaValidation.js'
 
 // Components
-import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { Heading } from '/frontend/src/components/heading.js'
-import { Button } from '/frontend/src/components/button.js'
-import { TextInput } from '/frontend/src/components/text-input.js'
-import { Select } from '/frontend/src/components/select.js'
-import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
-import { ErrorMessage } from '/frontend/src/components/error-message.js'
+import { SidebarAdmin } from '/src/pages/admin/components/sidebar-admin.js'
+import { Heading } from '/src/components/heading.js'
+import { Button } from '/src/components/button.js'
+import { TextInput } from '/src/components/text-input.js'
+import { Select } from '/src/components/select.js'
+import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/src/components/toaster.js'
+import { openDialog, AlertDialog } from '/src/components/dialog.js'
+import { ErrorMessage } from '/src/components/error-message.js'
 
 function handleChange(event) {
     const form = event.target.form
@@ -88,6 +89,7 @@ async function CadastroDisciplinaPage() {
     verifyUserAccess('admin')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
@@ -140,12 +142,12 @@ async function CadastroDisciplinaPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => history.back()
+                            onConfirm: () => navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
                         })
                     )
                     return
                 }
-                history.back()
+                navigateTo(ROUTES.ADMIN.PAINEL.DISCIPLINAS)
             }
         }),
         form
@@ -153,5 +155,7 @@ async function CadastroDisciplinaPage() {
     
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+    loader.classList.add('hidden')
+
 }
 CadastroDisciplinaPage()

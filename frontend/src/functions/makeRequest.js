@@ -17,7 +17,7 @@ export async function makeRequest({ url, method, token = null, data = null } ) {
 
     if (!response.ok) {
         const json = await response.json()
-        throw { status: json.code, message: json.message };
+        throw { status: json.code, message: json.message }
     }
     
     if (response.status === 204) return response

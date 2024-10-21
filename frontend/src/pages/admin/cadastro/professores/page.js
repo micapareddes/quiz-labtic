@@ -1,20 +1,36 @@
 // Functions
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
+import { API_ENDPOINTS, ROUTES } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { cadastroUserValidation } from '/src/validations/cadastroUserValidation.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { Button } from '/frontend/src/components/button.js'
-import { TextInput } from '/frontend/src/components/text-input.js'
-import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { ErrorMessage } from '/frontend/src/components/error-message.js'
-import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
-import { MultiSelect } from '/frontend/src/components/multi-select.js'
+import { Heading } from '/src/components/heading.js'
+import { SidebarAdmin } from '/src/pages/admin/components/sidebar-admin.js'
+import { Button } from '/src/components/button.js'
+import { TextInput } from '/src/components/text-input.js'
+import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/src/components/toaster.js'
+import { ErrorMessage } from '/src/components/error-message.js'
+import { openDialog, AlertDialog } from '/src/components/dialog.js'
+import { MultiSelect } from '/src/components/multi-select.js'
 
+function handleInput(event) {
+    const form = event.target.form
+    const nameInput = form.querySelector('#name')
+    const matriculaInput = form.querySelector('#matricula')
+    const emailInput = form.querySelector('#email')
+    const submitButton = form.querySelector('#submit')
+    const errorMessage = form.querySelectorAll('#error-message')
+    
+    if (errorMessage) {
+        nameInput.classList.remove('border-red-500')
+        matriculaInput.classList.remove('border-red-500')
+        emailInput.classList.remove('border-red-500')
+        errorMessage.forEach((error) => error.remove())
+        submitButton.disabled = false
+    }
+}
 
 async function handleSubmit(event) {
     event.preventDefault()
@@ -52,19 +68,19 @@ async function handleSubmit(event) {
         if (error.emailValidation) {
             emailInput.classList.add('border-red-500')
             emailInputContainer.appendChild(
-                ErrorMessage('Formato de email inválido.')
+                ErrorMessage('Insira um email valido.')
             )
         }
         if (error.matriculaValidation) {
             matriculaInput.classList.add('border-red-500')
             matriculaInputContainer.appendChild(
-                ErrorMessage('Matricula deve ter extamanete 6 números.')
+                ErrorMessage('Insira uma matricula de 6 números.')
             )
         }
         if (error.nameValidation) {
             nameInput.classList.add('border-red-500')
             nameInputContainer.appendChild(
-                ErrorMessage('O nome deve conter pelo menos 3 caracteres.')
+                ErrorMessage('Insira um nome valido.')
             )
         }
 
@@ -96,6 +112,8 @@ async function handleSubmit(event) {
         closeToaster()
         
     } catch (error) {
+        console.log(error);
+        
         if (error.status === 1409) { 
             openToaster(
                 ErrorToaster({ message: 'Professor já foi cadastrado!' })
@@ -116,31 +134,21 @@ async function handleSubmit(event) {
     }
 }
 
-function handleChange(event) {
-    const form = event.target.form
-    const nameInput = form.querySelector('#name')
-    const matriculaInput = form.querySelector('#matricula')
-    const emailInput = form.querySelector('#email')
-    const submitButton = form.querySelector('#submit')
-    const errorMessage = form.querySelectorAll('#error-message')
-    
-    if (errorMessage) {
-        nameInput.classList.remove('border-red-500')
-        matriculaInput.classList.remove('border-red-500')
-        emailInput.classList.remove('border-red-500')
-        errorMessage.forEach((error) => error.remove())
-        submitButton.disabled = false
-    }
-}
-
 async function CadastroProfessorPage() {
+try {
     verifyUserAccess('admin')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
-    const disciplinas = await getDisciplinas()
+    const accessToken = localStorage.getItem('accessToken')
+    const disciplinas = await makeRequest({ 
+        url: API_ENDPOINTS.GET_DISCIPLINAS_SEM_PROFESSOR, 
+        method:'GET', 
+        token: accessToken
+    })
     
     inputsContainer.className = 'grid md:grid-cols-2 gap-8 items-start mt-10'
     buttonContainer.className = 'mt-auto text-center'
@@ -197,18 +205,24 @@ async function CadastroProfessorPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => history.back()
+                            onConfirm: () => navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES)
                         })
                     )
                     return
                 }
-                history.back()
+                navigateTo(ROUTES.ADMIN.PAINEL.PROFESSORES)
             }
         }),
         form
     )
     
     form.onsubmit = handleSubmit
-    form.oninput = handleChange
+    form.oninput = handleInput
+    loader.classList.add('hidden')
+}
+catch(error) {
+    console.log(error)
+    alert('Algo deu errado...')
+}
 }
 CadastroProfessorPage()

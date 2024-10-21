@@ -1,20 +1,21 @@
 // Functions
-import { API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { cadastroUserValidation } from '/frontend/src/validations/cadastroUserValidation.js'
-import { getDisciplinas } from '/frontend/src/pages/admin/service/getDisciplinas.js'
-import { resetMultiselect } from '/frontend/src/functions/resetMultiselect.js'
+import { API_ENDPOINTS, ROUTES } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
+import { cadastroUserValidation } from '/src/validations/cadastroUserValidation.js'
+import { getDisciplinas } from '/src/pages/admin/service/getDisciplinas.js'
+import { resetMultiselect } from '/src/functions/resetMultiselect.js'
 
 // Components
-import { SidebarAdmin } from '/frontend/src/pages/admin/components/sidebar-admin.js'
-import { Heading } from '/frontend/src/components/heading.js'
-import { Button } from '/frontend/src/components/button.js'
-import { TextInput } from '/frontend/src/components/text-input.js'
-import { MultiSelect } from '/frontend/src/components/multi-select.js'
-import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/frontend/src/components/toaster.js'
-import { openDialog, AlertDialog } from '/frontend/src/components/dialog.js'
-import { ErrorMessage } from '/frontend/src/components/error-message.js'
+import { SidebarAdmin } from '/src/pages/admin/components/sidebar-admin.js'
+import { Heading } from '/src/components/heading.js'
+import { Button } from '/src/components/button.js'
+import { TextInput } from '/src/components/text-input.js'
+import { MultiSelect } from '/src/components/multi-select.js'
+import { SuccessToaster, ErrorToaster, openToaster, closeToaster } from '/src/components/toaster.js'
+import { openDialog, AlertDialog } from '/src/components/dialog.js'
+import { ErrorMessage } from '/src/components/error-message.js'
 
 function handleChange(event) {
     const form = event.target.form
@@ -69,19 +70,19 @@ async function handleSubmit(event) {
         if (error.emailValidation) {
             emailInput.classList.add('border-red-500')
             emailInputContainer.appendChild(
-                ErrorMessage('Formato de email inválido.')
+                ErrorMessage('Insira um email valido.')
             )
         }
         if (error.matriculaValidation) {
             matriculaInput.classList.add('border-red-500')
             matriculaInputContainer.appendChild(
-                ErrorMessage('Matricula deve ter extamanete 6 números.')
+                ErrorMessage('Insira uma matricula de 6 números.')
             )
         }
         if (error.nameValidation) {
             nameInput.classList.add('border-red-500')
             nameInputContainer.appendChild(
-                ErrorMessage('O nome deve conter pelo menos 3 caracteres.')
+                ErrorMessage('Insira um nome valido.')
             )
         }
 
@@ -132,6 +133,7 @@ async function CadastroAlunoPage() {
     verifyUserAccess('admin')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const form = document.createElement('form')
     const inputsContainer = document.createElement('div')
     const buttonContainer = document.createElement('div')
@@ -192,12 +194,12 @@ async function CadastroAlunoPage() {
                         AlertDialog({
                             message: 'O cadastro não será salvo.',
                             confirmarButtonName: 'Voltar',
-                            onConfirm: () => history.back()
+                            onConfirm: () => navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS)
                         })
                     )
                     return
                 }
-                history.back()
+                navigateTo(ROUTES.ADMIN.PAINEL.ALUNOS)
             }
         }),
         form
@@ -205,5 +207,7 @@ async function CadastroAlunoPage() {
     
     form.onsubmit = handleSubmit
     form.oninput = handleChange
+    loader.classList.add('hidden')
+    
 }
 CadastroAlunoPage()

@@ -4,10 +4,13 @@ export function PerguntaRespostaGabarito({
     number='num', pergunta='Esta é uma pergunta?', perguntaId='id', alternativas=[],
  }) {
     const container = document.createElement('div')
+    const questionContainer = document.createElement('div')
     const alternativasContainer = document.createElement('div')
 
     container.id = perguntaId
+    questionContainer.className = 'question-container mb-2 flex items-center gap-2'
     alternativasContainer.className = 'space-y-5'
+
 
     alternativas.forEach((alt, index) => {
         const bigContainer = document.createElement('div')
@@ -15,10 +18,10 @@ export function PerguntaRespostaGabarito({
         const icon = document.createElement('img')
         const content = document.createElement('p')
         const iconAlternativas = {
-            0: '/frontend/src/img/icones/a.svg',
-            1: '/frontend/src/img/icones/b.svg',
-            2: '/frontend/src/img/icones/c.svg',
-            3: '/frontend/src/img/icones/d.svg',
+            0: '/src/img/icones/a.svg',
+            1: '/src/img/icones/b.svg',
+            2: '/src/img/icones/c.svg',
+            3: '/src/img/icones/d.svg',
         }
         const letra = {
             0: 'a',
@@ -43,19 +46,20 @@ export function PerguntaRespostaGabarito({
         bigContainer.appendChild(container)
         alternativasContainer.appendChild(bigContainer)
     })
-
-    container.append(
+    questionContainer.appendChild(
         Title({
             title: `Pergunta ${number}`, 
             size: 'xl',
             tone: 's-700', 
             as: 'h3',
-            className: 'mb-2',
-        }),
+        })
+    )
+    container.append(
+        questionContainer,
         Text({
             text: pergunta,
             tone: 's-700',
-            size: 'text-lg',
+            size: 'lg',
             className: 'mb-5'
         }),
         alternativasContainer

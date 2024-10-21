@@ -1,20 +1,20 @@
 // Functions
-import { ROUTES, API_ENDPOINTS } from '/frontend/src/utils/routes.js'
-import { verifyUserAccess } from '/frontend/src/auth/verifyUserAccess.js'
-import { getUrlParam } from '/frontend/src/functions/getUrlParam.js'
-import { makeRequest } from '/frontend/src/functions/makeRequest.js'
-import { navigateTo } from '/frontend/src/functions/navigateTo.js'
+import { ROUTES, API_ENDPOINTS } from '/src/utils/routes.js'
+import { verifyUserAccess } from '/src/auth/verifyUserAccess.js'
+import { getUrlParam } from '/src/functions/getUrlParam.js'
+import { makeRequest } from '/src/functions/makeRequest.js'
+import { navigateTo } from '/src/functions/navigateTo.js'
 
 // Components
-import { Heading } from '/frontend/src/components/heading.js'
-import { SidebarProfessor } from '/frontend/src/pages/professor/components/sidebar-professor.js'
-import { AlertDialog, openDialog } from '/frontend/src/components/dialog.js'
-import { openToaster, closeToaster, SuccessToaster } from '/frontend/src/components/toaster.js'
-import { Empty } from '/frontend/src/components/empty.js'
-import { Button } from '/frontend/src/components/button.js'
-import { Title } from '/frontend/src/components/fonts.js'
-import { QuizInfo } from '/frontend/src/components/quiz-info.js'
-import { Text } from '/frontend/src/components/fonts.js'
+import { Heading } from '/src/components/heading.js'
+import { SidebarProfessor } from '/src/pages/professor/components/sidebar-professor.js'
+import { AlertDialog, openDialog } from '/src/components/dialog.js'
+import { openToaster, closeToaster, SuccessToaster } from '/src/components/toaster.js'
+import { Empty } from '/src/components/empty.js'
+import { Button } from '/src/components/button.js'
+import { Title } from '/src/components/fonts.js'
+import { QuizInfo } from '/src/components/quiz-info.js'
+import { Text } from '/src/components/fonts.js'
 import { StudentGradeListItem } from './components/student-grade-list.js'
 
 async function QuizInfoPage() {
@@ -23,6 +23,7 @@ try {
     const quizId = getUrlParam('id')
     const root = document.getElementById('root')
     const main = document.getElementById('main')
+    const loader = document.querySelector('.loader-container')
     const content = document.createElement('div')
     const alunosContainer = document.createElement('div')
     const headingContainer = document.createElement('div')
@@ -37,6 +38,7 @@ try {
     const navAlunosContainer = document.createElement('nav')
     const listaAlunosContainer = document.createElement('ul')
     const accessToken = localStorage.getItem('accessToken')
+
     const { alunos, data_fim, data_inicio, disciplina, orientacao, tempo, tentativas, titulo } = await makeRequest({ 
         url: API_ENDPOINTS.GET_QUIZ_INFO_FOR_PROFESSOR_BY_ID(quizId), 
         method: 'GET', 
@@ -172,8 +174,11 @@ try {
         )
         closeToaster()
     }
+    loader.classList.add('hidden')
 
 } catch (error) {
+    console.log(error);
+    alert('Algo deu errado...')
     
 }
 } QuizInfoPage()
