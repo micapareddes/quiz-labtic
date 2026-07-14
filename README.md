@@ -23,6 +23,12 @@
 
 O Polvo Quiz é uma plataforma universitária projetada para facilitar a interação acadêmica entre alunos e professores através do gerenciamento centralizado de quizzes e avaliações. A plataforma permite que alunos visualizem disciplinas, realizem quizzes e acessem suas notas e gabaritos, enquanto professores podem criar e gerenciar quizzes. Administradores são responsáveis por gerenciar alunos, professores e disciplinas, garantindo a organização e funcionamento da plataforma. O design do software visa escalabilidade futura, permitindo a adição de novas funcionalidades conforme necessário.
 
+O projeto está dividido em dois repositórios independentes:
+[polvo-front](https://github.com/micapareddes/polvo-front) e
+[polvo-back](https://github.com/micapareddes/polvo-back).
+A separação foi definida pela equipe porque os deploys de frontend
+e backend são independentes entre si.
+
 ## Tecnologias
 - **Backend:**
   - Node.js
