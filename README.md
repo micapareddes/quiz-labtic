@@ -244,13 +244,58 @@ The design aimed to balance simplicity, functionality and visual appeal, providi
 
 ## Project Structure
 
-(mesma estrutura do português)
+```bash
+backend/
+│
+├── constants/
+│
+├── controllers/
+│
+├── db/       
+│
+├── middleware/
+│
+├── models/ 
+│
+├── routes/
+│
+├── utils/     
+│
+├── servidor.js
+│
+└── ServidorError.js
+│
+frontend/
+│
+└── src/
+    │
+    ├── auth/
+    │
+    ├── components/
+    │
+    ├── functions/
+    │
+    ├── img/
+    │   └── icones/
+    │
+    ├── pages/  
+    │   ├── admin/
+    │   ├── aluno/    
+    │   ├── professor/
+    │   └── login/         
+    │   └── 404/           
+    │
+    │
+    ├── utils/ 
+    │
+    ├── validations/ 
+    │
+    └── styles/            
+```
+
 
 ---
 
 ## Links
 
-[Documentation](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) •  
-[Project Presentation](https://www.behance.net/gallery/202116443/Polvo) •  
-[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1) •  
-[Website](https://polvinho.netlify.app)
+[Documentation](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) • [Project Presentation](https://www.behance.net/gallery/202116443/Polvo) •  [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1) •  [Website](https://polvinho.netlify.app)
