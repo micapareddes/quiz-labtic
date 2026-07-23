@@ -1,301 +1,98 @@
+<div align="center">
+<img src="/frontend/src/img/logo-icon.svg" width=60px>
+
+# Polvo Quiz
+
+**A university platform for quizzes and assessments, built end to end.**
+
+[Live site](https://polvinho.netlify.app/src/pages/login/index.html) · [Documentation](https://micapareddes.notion.site/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) · [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC)
+
+[Português](README.pt-BR.md) · [Español](README.es.md)
 
 </div>
-    <div align=center>
-    <img src="/frontend/src/img/logo-icon.svg" width=60px>
-    <h1>Polvo Quiz</h1>
-</div>
-
-<p align="center">
-  🇧🇷 <a href="#-português">Português</a>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  🇺🇸 <a href="#-english">English</a>
-</p>
-
-## [🔗 Link de acesso | Access link](https://polvinho.netlify.app)
-
-![Polvo Capa](/frontend/src/img/capa.png)
-
-## Index
-
-🇧🇷 Português
-- [Sobre](#sobre)
-- [Tecnologias](#tecnologias)
-- [Funcinalidades](#funcionalidades)
-- [Restrições](#restrições)
-- [Design](#design)
-- [Organização do Projeto](#organização-do-projeto)
-- [Links](#links)
-
-🇺🇸 English
-- [About](#about)
-- [Technologies](#technologies)
-- [Features](#features)
-- [Restrictions](#restrictions)
-- [Design](#design-1)
-- [Project Structure](#project-structure)
-- [Links](#links-1)
-
-## 🇧🇷 Português
-## Sobre
-
-O Polvo Quiz é uma plataforma universitária projetada para facilitar a interação acadêmica entre alunos e professores através do gerenciamento centralizado de quizzes e avaliações. A plataforma permite que alunos visualizem disciplinas, realizem quizzes e acessem suas notas e gabaritos, enquanto professores podem criar e gerenciar quizzes. Administradores são responsáveis por gerenciar alunos, professores e disciplinas, garantindo a organização e funcionamento da plataforma. O design do software visa escalabilidade futura, permitindo a adição de novas funcionalidades conforme necessário.
-
-O projeto está dividido em dois repositórios independentes:
-[polvo-front](https://github.com/micapareddes/polvo-front) e
-[polvo-back](https://github.com/micapareddes/polvo-back).
-A separação foi definida pela equipe porque os deploys de frontend
-e backend são independentes entre si.
-
-## Tecnologias
-- **Backend:**
-  - Node.js
-  - MongoDB
-  - Mongoose
-- **Frontend:**
-  - HTML
-  - JavaScript Vanilla
-  - TailwindCSS
-- **Design:**
-  - Figma
-
-## Funcionalidades
-
-**Alunos**
-
-- Visualizar disciplinas do semestre.
-- Realizar quizzes postados pelos professores.
-- Visualizar notas e gabaritos de quizzes (se disponibilizados pelos professores).
-- Visualizar notas e gabaritos de cada tentativa em quizzes com múltiplas tentativas.
-- Alterar senha.
-
-**Professores**
-
-- Criar novos quizzes do tipo prova, exercício ou simulado.
-- Salvar quizzes como rascunho.
-- Editar quizzes.
-- Eliminar quizzes.
-- Visualizar quem respondeu aos quizzes.
-- Ver notas e gabaritos das respostas dos alunos.
-- Alterar senha.
-
-**Administradores**
-
-- Cadastrar e gerenciar alunos, professores e disciplinas (CRUD completo).
-- Editar ou eliminar quizzes criados por professores.
-
-## Restrições
-
-- O administrador não possui acesso à senha criada pelo aluno.
-- O administrador não cria a senha inicial do usuário, a mesma é gerada automaticamente após o cadastro.
-- Após o cadastro de um professor ou aluno, este não pode trocar de papel (um professor não pode virar aluno e vice-versa).
-- Caso seja necessário mudar de papel, deve ser criado um novo cadastro com o papel desejado.
-
-
-## Design
-
-O design deste projeto foi criado com o objetivo de desenvolver uma plataforma educacional simples, mas divertida, sem as complexidades que normalmente encontramos em soluções similares. Devido a ser um projeto para uma equipe de iniciantes, queria evitar o uso de CSS avançado ou bibliotecas externas, focando em uma experiência de aprendizado fácil e acessível.
-
-Escolhi as cores roxo e amarelo, inspirada na paleta da universidade (Polvo), mas fiz algumas adaptações para dar um toque mais leve e lúdico, alinhando com a identidade visual minimalista que eu buscava. O design foi pensado para ser funcional e visualmente atraente, sem sobrecarregar o usuário com elementos desnecessários.
-
-Durante o processo, enfrentei o desafio de equilibrar a simplicidade técnica com um design visualmente interessante. Evitei detalhes complexos e mantive o foco na clareza da navegação e no uso prático. O resultado final reflete essa busca por um equilíbrio entre a criatividade e a simplicidade, oferecendo uma experiência intuitiva e agradável para o usuário, sem comprometer o foco no aprendizado.
-
-#### [🔗 Link ao design no figma](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1)
-
-## Organização do Projeto
-
-```bash
-backend/
-│
-├── constants/
-│
-├── controllers/
-│
-├── db/       
-│
-├── middleware/
-│
-├── models/ 
-│
-├── routes/
-│
-├── utils/     
-│
-├── servidor.js
-│
-└── ServidorError.js
-│
-frontend/
-│
-└── src/
-    │
-    ├── auth/
-    │
-    ├── components/
-    │
-    ├── functions/
-    │
-    ├── img/
-    │   └── icones/
-    │
-    ├── pages/  
-    │   ├── admin/
-    │   ├── aluno/    
-    │   ├── professor/
-    │   └── login/         
-    │   └── 404/           
-    │
-    │
-    ├── utils/ 
-    │
-    ├── validations/ 
-    │
-    └── styles/            
-```
-
-## Links
-[Documentação](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) •
-[Presentação do projeto](https://www.behance.net/gallery/202116443/Polvo) • 
-[Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1) •
-[Site](https://polvinho.netlify.app)
-
-## 🇺🇸 English
-## About
-
-**Polvo Quiz** is a university platform designed to facilitate academic interaction between students and teachers through centralized quiz and assessment management.
-
-The platform allows students to view subjects, complete quizzes, and access their grades and answer keys, while teachers can create and manage quizzes. Administrators are responsible for managing students, teachers, and subjects, ensuring the organization and proper functioning of the platform.
-
-The software was designed with future scalability in mind, allowing new features to be added as needed.
-
-The project is divided into two independent repositories:
-
-[polvo-front](https://github.com/micapareddes/polvo-front) and  [polvo-back](https://github.com/micapareddes/polvo-back).
-
-The separation was defined by the team because frontend and backend deployments are independent.
 
 ---
+
+## About
+
+Polvo Quiz centralizes quiz and assessment management between students and teachers.
+Students see their subjects, take quizzes, and access grades and answer keys. Teachers
+create and manage quizzes. Admins manage students, teachers, and subjects.
+
+It was built at **LabTIC**, a research group of ESAG/UDESC professors registered with CNPq
+since 2002, as the lab's hands-on way of teaching software development: our leads acted as
+the client, and we ran the full cycle from requirement interviews through planning, data
+modeling, backend, frontend, and delivery.
+
+The architecture was designed for future scalability. Quizzes are the first feature, not the
+only one the system should ever support.
+
+The project lives in two independent repositories, `polvo-front` and `polvo-back`, because
+frontend and backend deploy independently.
 
 ## Technologies
 
-- **Backend:**
-  - Node.js
-  - MongoDB
-  - Mongoose
-
-- **Frontend:**
-  - HTML
-  - Vanilla JavaScript
-  - TailwindCSS
-
-- **Design:**
-  - Figma
-
----
+**Backend** Node.js · MongoDB · Mongoose
+**Frontend** HTML · Vanilla JavaScript · Tailwind CSS
+**Design** Figma
 
 ## Features
 
 **Students**
-
-- View semester subjects.
-- Take quizzes created by teachers.
-- View quiz grades and answer keys when available.
-- View grades and answer keys from each attempt in quizzes with multiple attempts.
-- Change password.
+- View the semester's subjects
+- Take quizzes posted by teachers
+- View grades and answer keys when released by the teacher
+- View grades and answer keys for each attempt on multi-attempt quizzes
+- Change password
 
 **Teachers**
+- Create quizzes as exams, exercises, or mock tests
+- Save quizzes as drafts and edit them
+- Delete quizzes
+- See who answered, with their grades and answer keys
+- Change password
 
-- Create new quizzes as exams, exercises, or simulations.
-- Save quizzes as drafts.
-- Edit quizzes.
-- Delete quizzes.
-- View students who answered quizzes.
-- View students' grades and answer keys.
-- Change password.
-
-**Administrators**
-
-- Register and manage students, teachers, and subjects (full CRUD).
-- Edit or delete quizzes created by teachers.
-
----
+**Admins**
+- Full CRUD over students, teachers, and subjects
+- Edit or delete quizzes created by teachers
 
 ## Restrictions
 
-- Administrators do not have access to student passwords.
-- Administrators do not create the user's initial password; it is automatically generated after registration.
-- Users cannot change their role after registration.
-- If a role change is needed, a new account with the desired role must be created.
+Enforced by the API, not just the interface:
 
----
+- Admins never have access to a user's password.
+- Admins don't create the initial password; it's generated automatically on registration.
+- A user's role is fixed after registration. A teacher cannot become a student, or vice versa.
+- Changing role means creating a new account with the desired role.
 
 ## Design
 
-The design of this project was created with the goal of developing a simple but engaging educational platform, avoiding unnecessary complexity found in similar solutions.
+The goal was a simple but engaging educational platform, without the complexity usually found
+in similar tools. Since the team were beginners, the design deliberately avoids advanced CSS
+and external libraries, keeping the focus on learning rather than on fighting the stylesheet.
 
-Since this was a project developed by a beginner team, the focus was to avoid advanced CSS or external libraries, prioritizing an accessible and easy-to-understand learning experience.
+The purple and yellow palette is drawn from the university's own platform, Polvo, adapted
+toward a lighter, more playful identity. The result aims at a balance between simplicity,
+function, and visual appeal, without overwhelming the user.
 
-The purple and yellow color palette was inspired by the university's identity (Polvo), with adaptations to create a lighter and more playful visual style.
+[View the design on Figma](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC)
 
-The design aimed to balance simplicity, functionality and visual appeal, providing an intuitive experience without overwhelming users.
+## Project structure
 
-#### [🔗 Figma design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1)
-
----
-
-## Project Structure
-
-```bash
-backend/
-│
-├── constants/
-│
-├── controllers/
-│
-├── db/       
-│
-├── middleware/
-│
-├── models/ 
-│
-├── routes/
-│
-├── utils/     
-│
-├── servidor.js
-│
-└── ServidorError.js
-│
-frontend/
-│
-└── src/
-    │
-    ├── auth/
-    │
-    ├── components/
-    │
-    ├── functions/
-    │
-    ├── img/
-    │   └── icones/
-    │
-    ├── pages/  
-    │   ├── admin/
-    │   ├── aluno/    
-    │   ├── professor/
-    │   └── login/         
-    │   └── 404/           
-    │
-    │
-    ├── utils/ 
-    │
-    ├── validations/ 
-    │
-    └── styles/            
 ```
-
-
----
+backend/                     frontend/src/
+├── constants/               ├── auth/
+├── controllers/             ├── components/
+├── db/                      ├── functions/
+├── middleware/              ├── img/
+├── models/                  ├── pages/
+├── routes/                  │   ├── admin/  aluno/
+├── utils/                   │   ├── professor/  login/  404/
+├── servidor.js              ├── utils/
+└── ServidorError.js         ├── validations/
+                             └── styles/
+```
 
 ## Links
 
-[Documentation](https://www.notion.so/micapareddes/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) • [Project Presentation](https://www.behance.net/gallery/202116443/Polvo) •  [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Polvo-Quiz-(LabTIC)?node-id=4174-8239&t=kWzpnkKfQa8pRwit-1) •  [Website](https://polvinho.netlify.app)
+[Documentation](https://micapareddes.notion.site/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) · [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC) · [Live site](https://polvinho.netlify.app/src/pages/login/index.html)
