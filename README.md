@@ -5,7 +5,7 @@
 
 **A university platform for quizzes and assessments, built end to end.**
 
-[Live site](https://polvinho.netlify.app/src/pages/login/index.html) · [Documentation](https://micapareddes.notion.site/Polvinho-Documentation-3a633e35d72a80d98451e31f24de9b20?source=copy_link) · [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC)
+[Live site](https://polvinho.netlify.app/src/pages/login/index.html) · [Documentation](https://micapareddes.notion.site/Polvinho-Documentation-3a633e35d72a80d98451e31f24de9b20?source=copy_link) · [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC)  · [Behance](https://www.behance.net/portfolio/editor?project_id=253210297) 
 
 [Português](README.pt-BR.md) · [Español](README.es.md)
 
@@ -93,6 +93,3 @@ backend/                     frontend/src/
                              └── styles/
 ```
 
-## Links
-
-[Documentation](https://micapareddes.notion.site/LabTIC-Quiz-f9cd710a7509405dbcb5d88ed7f7e56e) · [Design](https://www.figma.com/design/Cjde4ievoeXT9bD2eE9KF8/Quiz-LabTIC) · [Live site](https://polvinho.netlify.app/src/pages/login/index.html)
